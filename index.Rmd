@@ -1,0 +1,40 @@
+---
+title: "Urban redcedar analyses"
+author: "Joey Hulbert"
+date: "2023-04-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Methods
+
+## Data Wrangling
+
+Observations of western redcedar were downloaded from areas with urban heat data from studies following [Voelkel and Shandas (2017)](https://www.mdpi.com/2225-1154/5/2/41). 
+
+### iNaturalist
+
+* iNaturalist data from the following locations were downloaded from the Western Redcedar Dieback Map on 4.16.23:
+  + Tacoma (query: quality_grade=any&identifications=any&place_id=186123&projects%5B%5D=western-redcedar-dieback-map)
+  + Portland Metro Area (query: quality_grade=any&identifications=any&place_id=122420&projects%5B%5D=western-redcedar-dieback-map)
+  + King County (query: quality_grade=any&identifications=any&place_id=1282&projects%5B%5D=western-redcedar-dieback-map)
+
+Observations were downloaded from these areas by specifying the above criteria in the locations data.
+
+### Urban Heat
+
+* Urban Heat Island data were for the following locations
+  + Portland, OR (downloaded from https://osf.io/eb4tw/ accessed 4.16.22)
+  + King County, WA (downloaded from https://osf.io/mz79p/ accessed on 4.16.22)
+  + Tacoma, WA (received from City of Tacoma)
+
+
+# References
+
+ + Voelkel, J., and Shandas, V. (2017). Towards Systematic Prediction of Urban Heat Islands: Grounding Measurements, Assessing Modeling Techniques. Climate 5, 41. doi: 10.3390/cli5020041.
+
+
