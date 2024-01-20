@@ -1,0 +1,44 @@
+---
+title: "Discussion"
+author: "Joey Hulbert"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+|            |            |            |            |
+|:----------:|:----------:|:----------:|:----------:|
+|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[ Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redcedar/discussion)|
+|             |           |            |            |
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Purpose
+
+The purpose of this page is to share discussion points or feedback for approaches and interpretations. 
+
+
+* Aspects to consider
+  + Should we remove observations with very poor positional accuracy? 
+  + More investigation into the timing of heat?
+    + e.g. which temperatures (morning, afternoon, eve) are most important for determining tree health?
+  + Including dead trees?
+    + Current analysis does not include dead trees because
+      + there are a number of other factors that may have led to the dead of those trees
+    + Removing dead trees also removes the issue where we could not account for 1 inflation with glmmTMB package
+
+
+* How to handle outliers?
+  + Accounted for currently
+      + removed outliers of trees with < -8 dist.from.mean.af
+  + Not accounted for currently   
+    + check outliers for toxic release, whats up with those?
+    + check outliers with healthy trees with 100% dieback or with any % dieback values
+
+* Interactions?
+  + Heat and Pollution 
+    + Does dieback increase with increases in heat *pollution?*
+  + Heat and Poverty
+    + Are the impacts of urban heat on dieback worse for those in poverty?

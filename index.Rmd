@@ -5,14 +5,22 @@ date: "2023-04-16"
 output: html_document
 ---
 
+
+|            |            |            |            |
+|:----------:|:----------:|:----------:|:----------:|
+|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[ Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redcedar/discussion)|
+|             |           |            |            |
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
 # Intro
 
-The RedHot analysis was completed to compare the health of western redcedar across urban heat islands. Redcedar health data were collected by community scientists in the [Western Redcedar Dieback Map](https://www.inaturalist.org/projects/western-redcedar-dieback-map) project on iNaturalist. Urban heat data were commissioned by three cities in the northwest using methods described in [Voelkel and Shandas (2017)](https://www.mdpi.com/2225-1154/5/2/41). 
-
+* The RedHot analysis was completed to compare the health of western redcedar across urban heat islands. 
+  + Redcedar health data were collected by community scientists in the [Western Redcedar Dieback Map](https://www.inaturalist.org/projects/western-redcedar-dieback-map) project on iNaturalist. 
+  + Urban heat data were commissioned by three cities in the northwest using methods described in [Voelkel and Shandas (2017)](https://www.mdpi.com/2225-1154/5/2/41). 
 
 * What determines the health of urban trees
     + Urban Heat
@@ -23,59 +31,33 @@ The RedHot analysis was completed to compare the health of western redcedar acro
     + Tree Size
     + Tree Species
 
+# Data
+
+Data for the below metrics are included in the [data](https://jmhulbert.github.io/data/), but not all have been investigated in the [analyses](https://jmhulbert.github.io/analyses/) yet. 
+
 * Available data presently
     + Diesel exhaust
     + Ozone
     + Urban Heat
-    + Wealth
+    + Wealth - poverty
     + Tree size
     + Proximity to heavy traffic roadways
 
-Questions
-
-Are income and tree size important effects for the vulnerability of redcedar to urban heat? 
-
-Should dead trees be excluded
 
 
 
-Model comments
-ordinal vs ordinal - chi squared
-categorized as 0 or 1 - binomial categorical
-probablility of healthy vs unhealthy - does that increase with afternoon temperature
+# Approaches
 
-
-# Discussion
-
-* Aspects to consider
-  + Distance from avg is calculated based on daily average temperature
-    + More investigation into the importance of morning, afternoon, or evening temperature would be valuable. 
-    + check outliers for toxic release, whats up with those?
-    + check outliers with healthy trees with 100% dieback or with any % dieback values
-    + check outliers of trees with < -8 dist.from.mean.af
-  + Including dead trees?
-    + Current analysis does not include dead trees because
-      + there are a number of other factors that may have led to the dead of those trees
-      + could not account for 1 inflation with glmmTMB package
-  + should we remove observations with very poor positional accuracy? 
-
-## Most important temperature time
-
-**Which temperatures (morning, afternoon, eve) are most important for determining tree health?**
-
-
-## Dieback and Pollution
-
-**Does dieback increase with increases in pollution?**
-
-
-**Which pollution data are important for determining tree health?**
-
-
-## Are Temperatures higher for trees in urban areas of King County?
+The relationship between redcedar and urban metrics were investigated with generalized mixed effect models. [More information about the analyses is available](https://jmhulbert.github.io/analyses/)
 
 
 
+# Extra Questions
+
+* Possible additional questions to explore
+  + Which pollution data are important for determining tree health?
+  + Are Temperatures higher for trees in urban areas of King County?
+  + Are income and tree size important effects for the vulnerability of redcedar to urban heat? 
 
 
 

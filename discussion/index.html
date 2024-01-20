@@ -13,7 +13,7 @@
 
 <meta name="date" content="2024-01-19" />
 
-<title>Data Wrangling</title>
+<title>Discussion</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,7 +350,7 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Data Wrangling</h1>
+<h1 class="title toc-ignore">Discussion</h1>
 <h4 class="author">Joey Hulbert</h4>
 <h4 class="date">2024-01-19</h4>
 
@@ -379,437 +379,58 @@ display: none;
 </tr>
 </tbody>
 </table>
-<p>Data wrangle methods</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
 <div id="purpose" class="section level1">
 <h1>Purpose</h1>
-<p>The purpose of this page is to provide details on the methods of data
-wrangling.</p>
-</div>
-<div id="data-descriptions" class="section level1">
-<h1>Data Descriptions</h1>
-<p>Observations of western redcedar were downloaded from iNaturalist and
-urban heat data were downloaded from open data portals or provided by
-contacts in the City of Tacoma, King County (Washington) and Portland.
-Trees in WA were also evaluated based on EHD Ranks. HOLC data were also
-investigated for each city.</p>
-<div id="inaturalist" class="section level2">
-<h2>iNaturalist</h2>
+<p>The purpose of this page is to share discussion points or feedback
+for approaches and interpretations.</p>
 <ul>
-<li>iNaturalist data were downloaded from the Western Redcedar Dieback
-Map on 1.13.24:
+<li>Aspects to consider
 <ul>
-<li>full data (query:
-quality_grade=any&amp;identifications=any%projects%5B%5D=western-redcedar-dieback-map)
+<li>Should we remove observations with very poor positional
+accuracy?</li>
+<li>More investigation into the timing of heat?
 <ul>
-<li>Note we needed to specify all fields related to place and all fields
-related to the project</li>
+<li>e.g. which temperatures (morning, afternoon, eve) are most important
+for determining tree health?</li>
+</ul></li>
+<li>Including dead trees?
+<ul>
+<li>Current analysis does not include dead trees because
+<ul>
+<li>there are a number of other factors that may have led to the dead of
+those trees</li>
+</ul></li>
+<li>Removing dead trees also removes the issue where we could not
+account for 1 inflation with glmmTMB package</li>
+</ul></li>
+</ul></li>
+<li>How to handle outliers?
+<ul>
+<li>Accounted for currently
+<ul>
+<li>removed outliers of trees with &lt; -8 dist.from.mean.af</li>
+</ul></li>
+<li>Not accounted for currently
+<ul>
+<li>check outliers for toxic release, whats up with those?</li>
+<li>check outliers with healthy trees with 100% dieback or with any %
+dieback values</li>
+</ul></li>
+</ul></li>
+<li>Interactions?
+<ul>
+<li>Heat and Pollution
+<ul>
+<li>Does dieback increase with increases in heat
+<em>pollution?</em></li>
+</ul></li>
+<li>Heat and Poverty
+<ul>
+<li>Are the impacts of urban heat on dieback worse for those in
+poverty?</li>
 </ul></li>
 </ul></li>
 </ul>
-</div>
-<div id="urban-heat-data" class="section level2">
-<h2>Urban Heat Data</h2>
-<ul>
-<li>Urban Heat Island data were obtained for the following locations
-<ul>
-<li>Portland, OR (downloaded from <a href="https://osf.io/eb4tw/" class="uri">https://osf.io/eb4tw/</a> accessed 4.16.22)</li>
-<li>King County, WA (downloaded from <a href="https://osf.io/mz79p/" class="uri">https://osf.io/mz79p/</a> accessed on 4.16.22)</li>
-<li>Tacoma, WA (received from City of Tacoma)</li>
-</ul></li>
-</ul>
-<p>Note temperature data is different for each dataset and may have been
-collected slightly differently. Temperature data will need to be
-standardized (difference from mean) for each dataset, then temperatures
-can be compared region wide.</p>
-</div>
-<div id="environmental-health-disparity-data" class="section level2">
-<h2>Environmental Health Disparity Data</h2>
-<p>Environmental Health Disparity Rank Data (Full EHD Rank data (v2))
-was downloaded on 6.17.23 from <a href="https://geo.wa.govsets/WADOH" class="uri">https://geo.wa.govsets/WADOH</a>::full-environmental-health-disparities-version-2-extract/explore</p>
-<p>Metadata is available in this technical report: <a href="https://doh.wa.gov/sites/default/files/2022-07/311-011-EHD-Map-Tech-Report_0.pdf?uid=634dcf4aec2b5" class="uri">https://doh.wa.gov/sites/default/files/2022-07/311-011-EHD-Map-Tech-Report_0.pdf?uid=634dcf4aec2b5</a></p>
-<ul>
-<li>EHD
-<ul>
-<li>Environmental Exposures
-<ul>
-<li>“Diesel_PM2”</li>
-<li>“Ozone_Conc”</li>
-<li>“PM2_5”</li>
-<li>“Proximity_”</li>
-<li>“Toxic_Rele”</li>
-</ul></li>
-<li>Environmental Effects
-<ul>
-<li>“Lead_Risk_”</li>
-<li>“PTSDFs”</li>
-<li>“PNPL”</li>
-<li>“PRMP”</li>
-<li>“PWDIS”</li>
-</ul></li>
-<li>Socioeconomic Factors
-<ul>
-<li>“LEP”</li>
-<li>“No_HS_Dipl”</li>
-<li>“POC”</li>
-<li>“Poverty”</li>
-<li>“Transporta”</li>
-<li>“Unaffordab”</li>
-<li>“Unemployed”</li>
-</ul></li>
-<li>Sensitive Populations
-<ul>
-<li>“CVD”</li>
-<li>“LBW”</li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
-<div id="holc-data" class="section level2">
-<h2>HOLC Data</h2>
-<p>Home Owners Loan Corporation Maps were downloaded from the Mapping
-Inequality Project at the following links + <a href="https://dsl.richmond.edu/panorama/redlining/WA-Tacoma">Tacoma</a>
-+ <a href="https://dsl.richmond.edu/panorama/redlining/OR-Portland">Portland</a>
-+ <a href="https://dsl.richmond.edu/panorama/redlining/WA-Seattle">Seattle</a></p>
-</div>
-</div>
-<div id="pre-gis-data-wrangle-methods" class="section level1">
-<h1>Pre-GIS Data Wrangle Methods</h1>
-<p>City tree data were ‘joined by attribute’ separately so we have 3
-different tree datasets to work with or merge.</p>
-<p>Also, given the UHI data were extracted with shapefiles, the column
-names are limited to 10characters. Therefore, exported UHI data only
-include iNat ID numbers and UHI data. These were then re-merged (see
-below) with the iNat data to get the remaining columns with proper
-names.</p>
-<div id="import-data" class="section level2">
-<h2>Import Data</h2>
-<pre class="r"><code>inat.full &lt;- read.csv(&quot;./WRDM-full-data-1.13.24.csv&quot;)
-#tacoma.uhi &lt;- read.csv(&quot;./WRC-TAC-UHI-Values.csv&quot;)</code></pre>
-</div>
-<div id="prep-for-qgis-data-extracts" class="section level2">
-<h2>Prep for QGIS Data Extracts</h2>
-<p>Filter data to only include necessary columns</p>
-<p>[1] “id” [23] “latitude” [24] “longitude” [35] “place_town_name” [36]
-“place_county_name”</p>
-<pre class="r"><code>inat.full.qgis &lt;- inat.full[c(1,23,24,35,36)]</code></pre>
-</div>
-<div id="split-data-into-areas" class="section level2">
-<h2>Split Data into “Areas”</h2>
-<pre class="r"><code>kc.wrc.qgis &lt;- inat.full.qgis %&gt;% filter(place_county_name==&quot;King&quot;)
-port.wrc.qgis &lt;- inat.full.qgis %&gt;% filter(place_town_name==&quot;Portland&quot;)
-tac.wrc.qgis &lt;- inat.full.qgis %&gt;% filter(place_town_name==&quot;Tacoma&quot;)</code></pre>
-<ul>
-<li>Note: Alternative option is to export iNat observations in these
-locations rather than export all observations than filter to these
-locations
-<ul>
-<li>Tacoma (query:
-quality_grade=any&amp;identifications=any&amp;place_id=186123&amp;projects%5B%5D=western-redcedar-dieback-map)</li>
-<li>Portland Metro Area (query:
-quality_grade=any&amp;identifications=any&amp;place_id=122420&amp;projects%5B%5D=western-redcedar-dieback-map)</li>
-<li>King County (query:
-quality_grade=any&amp;identifications=any&amp;place_id=1282&amp;projects%5B%5D=western-redcedar-dieback-map)</li>
-</ul></li>
-</ul>
-<p>Export data for QGIS data joins</p>
-<pre class="r"><code>#write.csv(inat.full.qgis,file=&quot;./WRDM-full-data-1.13.24-qgis.csv&quot;)
-#write.csv(kc.wrc.qgis,file=&quot;./WRDM-King-County-1.13.24-qgis.csv&quot;)
-#write.csv(port.wrc.qgis,file=&quot;./WRDM-Portland-1.13.24-qgis.csv&quot;)
-#write.csv(tac.wrc.qgis,file=&quot;./WRDM-Tacoma-1.13.24-qgis.csv&quot;)</code></pre>
-<p>Tacoma - 357 Trees Portland - 465 Trees King County - 516 Trees</p>
-</div>
-</div>
-<div id="qgis-methods" class="section level1">
-<h1>QGIS Methods</h1>
-<ul>
-<li>Import into QGIS
-<ul>
-<li>Data Source Manager - Delimited Text - Browse to R working
-directory</li>
-</ul></li>
-</ul>
-<div id="extract-heat-data-for-trees" class="section level5">
-<h5>Extract Heat Data for Trees</h5>
-<ul>
-<li>QGIS - Extract heat data for each point
-<ul>
-<li>Add Heat Data
-<ul>
-<li>Tacoma
-<ul>
-<li>tac_pm.tif</li>
-<li>tac_am.tif</li>
-<li>tac_af.tif</li>
-</ul></li>
-<li>King County
-<ul>
-<li>pm_t_f_ranger.tiff</li>
-<li>af_t_f_ranger.tiff</li>
-<li>am_t_f_ranger.tiff</li>
-</ul></li>
-<li>Portland
-<ul>
-<li>825a_2 (am)</li>
-<li>825b_2 (af)</li>
-<li>825c_2 (pm)</li>
-</ul></li>
-</ul></li>
-<li>Open processing tools panel and search for ‘sample raster values’
-<ul>
-<li>(View &gt; Panels &gt; processing tools)</li>
-<li>Sample raster values for each temperature time series and each area
-(e.g. )</li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
-<div id="extract-holc-data" class="section level5">
-<h5>Extract HOLC Data</h5>
-<ul>
-<li>Add HOLC data to trees layers for each city
-<ul>
-<li>join attributes by location (Vector &gt; Data Management Tools &gt;
-Join Attributes By Location)</li>
-<li>e.g. Join features in Portland Trees that <em>Intersect</em> by
-comparing to Portland HOLC 1.13.24</li>
-<li>Advanced settings - do not filter (mark in in both layers) + May get
-warning: No spatial index exists.. + Right click each layer and click
-‘Create Spatial index’ in Source Tab</li>
-<li>Export temporary data for trees</li>
-</ul></li>
-</ul>
-</div>
-<div id="extract-ehd-rank-data-for-trees" class="section level5">
-<h5>Extract EHD Rank Data for Trees</h5>
-<ul>
-<li>Add EHD RAnk data downloaded on 6.17.23 from <a href="https://geo.wa.govsets/WADOH" class="uri">https://geo.wa.govsets/WADOH</a>::full-environmental-health-disparities-version-2-extract/explore<br />
-</li>
-<li>Add EHD Data to trees layer
-<ul>
-<li>join attributes by location (Vector &gt; Data Management Tools &gt;
-Join Attributes By Location)</li>
-<li>Advanced settings - do not filter (mark in in both layers)
-<ul>
-<li>May get warning: No spatial index exists..
-<ul>
-<li>Right click each layer and click ‘Create Spatial index’ in Source
-Tab</li>
-</ul></li>
-</ul></li>
-<li>Export temp data for trees</li>
-</ul></li>
-</ul>
-</div>
-<div id="community-hypothesis-test---tree-selection" class="section level4">
-<h4>Community Hypothesis Test - Tree Selection</h4>
-<ul>
-<li>Random Tree Selection for Portland Redhot Hypothesis Test.
-<ul>
-<li>Define Project CRS WGS 84 EPSG:4326</li>
-<li>Add Portland Urban Heat Data
-<ul>
-<li>GIS &gt; Urban Heat GIS Data &gt; Portland &gt; a, b,c tiffs</li>
-<li>Convert UHI Raster to shp files x 3</li>
-<li>Raster &gt; Conversion &gt; Polygonize &gt; Default Settings (DN_AM
-for morning temps (825a), DN_AF for afternoon etc.)</li>
-<li>Export temporary ‘vectorized’ layers to shp files with default crs
-Create Spatial Index for each layer (avoids warning in below joining
-steps)</li>
-<li>Right click each layer and click ‘Create Spatial index’ in Source
-Tab Extract temp data for trees</li>
-</ul></li>
-<li>Add Street Tree Data
-<ul>
-<li>Downloaded on 9/25/23 from <a href="https://gis-pdx.opendata.arcgis.comsets/street-trees/explore?location=45.536304%2C-122.653050%2C12.35" class="uri">https://gis-pdx.opendata.arcgis.comsets/street-trees/explore?location=45.536304%2C-122.653050%2C12.35</a>
-<ul>
-<li>Data was updated on 7/31/23</li>
-</ul></li>
-<li>Filter street trees to redcedar
-<ul>
-<li>“Scientific” = ‘Thuja plicata’</li>
-</ul></li>
-<li>Export to new shape file with default CRS (next steps process
-faster) ‘PortlandStreetRedcedar’</li>
-</ul></li>
-<li>Join attributs by location
-<ul>
-<li>Vector &gt; Data Management Tools &gt; Join Attributes by
-location</li>
-<li>Trees that intersect with vectorized rasters</li>
-<li>Advanced settings - do not filter (mark in both layers)</li>
-</ul></li>
-<li>Limit trees to “DBH” &gt; 30 and “DBH” &lt; 40? (leaves 160
-trees)</li>
-<li>Randomly select 100 (drops 60 trees)</li>
-</ul></li>
-</ul>
-<p>Export final .shp files as .csv</p>
-<p>Re-import Data after following QGIS Methods</p>
-<pre class="r"><code>tacoma.uhi.holc.ehd  &lt;- read.csv(&quot;./WRC.Tacoma.UHI.HOLC.EHD-1.13.24.csv&quot;)
-#king.county.uhi &lt;- read.csv(&quot;./WRC-KC-UHI-Values.csv&quot;)
-king.county.uhi.holc.ehd &lt;- read.csv(&quot;./WRC.KingCounty.UHI.HOLC.EHD-1.13.24.csv&quot;)
-portland.uhi.holc &lt;- read.csv(&quot;./WRC.Portland.UHI.HOLC-1.13.24.csv&quot;) # does not include ehd data because it is outside of WA</code></pre>
-</div>
-</div>
-<div id="post-gis-data-wrangle-methods" class="section level1">
-<h1>Post-GIS Data Wrangle Methods</h1>
-<div id="join-uhi-holc-and-ehd-data-with-inat-data" class="section level2">
-<h2>Join UHI, HOLC, and EHD data with iNat Data</h2>
-<pre class="r"><code>kc.wrc &lt;- left_join(king.county.uhi.holc.ehd,inat.full,by=&quot;id&quot;)
-tac.wrc &lt;- left_join(tacoma.uhi.holc.ehd,inat.full,by=&quot;id&quot;)
-pl.wrc &lt;- left_join(portland.uhi.holc,inat.full,by=&quot;id&quot;)</code></pre>
-</div>
-<div id="mutate-data-per-area" class="section level2">
-<h2>Mutate Data (Per Area)</h2>
-<blockquote>
-<p>Note we needed to convert Tacoma temps to F to match king county</p>
-</blockquote>
-<div id="daily-means" class="section level3">
-<h3>Daily Means</h3>
-<pre class="r"><code>tac.wrc &lt;- tac.wrc %&gt;% mutate(DN_AM1=((DN_AM1*1.8)+32),DN_AF1=((DN_AF1*1.8)+32),DN_PM1=((DN_PM1*1.8)+32)) %&gt;% mutate(mean.temp.daily=((DN_AM1+DN_AF1+DN_PM1)/3)) %&gt;% mutate(dist.from.mean.daily=mean.temp.daily-(mean(mean.temp.daily,na.rm=TRUE))) %&gt;% mutate(Area=&quot;Tacoma&quot;)
-
-kc.wrc &lt;- kc.wrc %&gt;% mutate(mean.temp.daily=((DN_AM1+DN_AF1+DN_PM1)/3)) %&gt;% mutate(dist.from.mean.daily=mean.temp.daily-(mean(mean.temp.daily,na.rm=TRUE))) %&gt;% mutate(Area=&quot;King County&quot;)
-
-pl.wrc &lt;- pl.wrc %&gt;% mutate(DN_AM1=((DN_AM1*1.8)+32),DN_AF1=((DN_AF1*1.8)+32),DN_PM1=((DN_PM1*1.8)+32)) %&gt;% mutate(mean.temp.daily=((DN_AM1+DN_AF1+DN_PM1)/3)) %&gt;% mutate(dist.from.mean.daily=mean.temp.daily-(mean(mean.temp.daily,na.rm=TRUE))) %&gt;% mutate(Area=&quot;Portland&quot;)</code></pre>
-</div>
-<div id="morning-means" class="section level3">
-<h3>Morning Means</h3>
-<pre class="r"><code>tac.wrc &lt;- tac.wrc %&gt;% mutate(dist.from.mean.am=DN_AM1-(mean(DN_AM1,na.rm=TRUE)))
-
-kc.wrc &lt;- kc.wrc %&gt;% mutate(dist.from.mean.am=DN_AM1-(mean(DN_AM1,na.rm=TRUE)))
-
-pl.wrc &lt;- pl.wrc %&gt;% mutate(dist.from.mean.am=DN_AM1-(mean(DN_AM1,na.rm=TRUE)))</code></pre>
-</div>
-<div id="afternoon-means" class="section level3">
-<h3>Afternoon Means</h3>
-<pre class="r"><code>tac.wrc &lt;- tac.wrc %&gt;% mutate(dist.from.mean.af=DN_AF1-(mean(DN_AF1,na.rm=TRUE)))
-
-kc.wrc &lt;- kc.wrc %&gt;% mutate(dist.from.mean.af=DN_AF1-(mean(DN_AF1,na.rm=TRUE)))
-
-pl.wrc &lt;- pl.wrc %&gt;% mutate(dist.from.mean.af=DN_AF1-(mean(DN_AF1,na.rm=TRUE)))</code></pre>
-</div>
-<div id="evening-means" class="section level3">
-<h3>Evening Means</h3>
-<pre class="r"><code>tac.wrc &lt;- tac.wrc %&gt;% mutate(dist.from.mean.pm=DN_PM1-(mean(DN_PM1,na.rm=TRUE)))
-
-kc.wrc &lt;- kc.wrc %&gt;% mutate(dist.from.mean.pm=DN_PM1-(mean(DN_PM1,na.rm=TRUE)))
-
-pl.wrc &lt;- pl.wrc %&gt;% mutate(dist.from.mean.pm=DN_PM1-(mean(DN_PM1,na.rm=TRUE)))</code></pre>
-</div>
-</div>
-<div id="merge-data-merge-areas" class="section level2">
-<h2>Merge Data (Merge Areas)</h2>
-<pre class="r"><code>data &lt;- bind_rows(pl.wrc,tac.wrc,kc.wrc)</code></pre>
-</div>
-<div id="clean-data" class="section level2">
-<h2>Clean Data</h2>
-<p>Some of the iNat project questions changed since it was created so
-some we need to adjust the answers to be more consistent throughout the
-project.</p>
-<div id="clean-inaturalist-fields" class="section level3">
-<h3>Clean iNaturalist Fields</h3>
-<pre class="r"><code>data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight. &lt;- as.factor(data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.)
-data$field.optional...what..other.factors..were.observed. &lt;- as.factor(data$field.optional...what..other.factors..were.observed.)
-data$field.tree.canopy.symptoms &lt;- as.factor(data$field.tree.canopy.symptoms)
-data$field.optional...slope.position &lt;- as.factor(data$field.optional...slope.position)
-data$field.optional...site.type &lt;- as.factor(data$field.optional...site.type)
-data$field.optional...site.location.description  &lt;- as.factor(data$field.optional...site.location.description )
-data$field.optional...tree.size &lt;-as.factor(data$field.optional...tree.size)</code></pre>
-<pre class="r"><code>data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.[data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.==&quot;4&quot;] &lt;- &quot;4-6&quot;
-data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.[data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.==&quot;5&quot;] &lt;- &quot;4-6&quot;
-data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.[data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.==&quot;2&quot;] &lt;- &quot;2-3&quot;</code></pre>
-<pre class="r"><code>data$field.tree.canopy.symptoms[data$field.tree.canopy.symptoms==&quot;Multiple Symptoms&quot;] &lt;-&quot;Multiple Symptoms (please list in Notes)&quot;
-data$field.tree.canopy.symptoms[data$field.tree.canopy.symptoms==&quot;multiple symptoms&quot;] &lt;-&quot;Multiple Symptoms (please list in Notes)&quot;
-data$field.tree.canopy.symptoms[data$field.tree.canopy.symptoms==&quot;thinning foliage&quot;] &lt;-&quot;Thinning Canopy&quot;
-data$field.tree.canopy.symptoms[data$field.tree.canopy.symptoms==&quot;healthy&quot;] &lt;-&quot;Healthy&quot;
-data$field.tree.canopy.symptoms[data$field.tree.canopy.symptoms==&quot;dead top&quot;] &lt;-&quot;Old Dead Top (needles already gone)&quot;</code></pre>
-<pre class="r"><code>data$field.optional...what..other.factors..were.observed.[data$field.optional...what..other.factors..were.observed.==&quot;Fungal Activitiy (mycelial fans, mushrooms at base, or conks on trunk)&quot;] &lt;-&quot;Fungal Activitiy (mycelial fans, bleeding cankers, mushrooms at base, or conks on trunk)&quot;
-data$field.optional...what..other.factors..were.observed.[data$field.optional...what..other.factors..were.observed.==&quot;Needle disease (dieback, checking, blight, etc.)&quot;] &lt;- &quot;Needle or leaf disease (dieback, checking, blight, etc.)&quot;</code></pre>
-<pre class="r"><code>data$field.optional...slope.position[data$field.optional...slope.position==&quot;Upper 1/3rd of a slope&quot;] &lt;-&quot;Top of slope&quot;</code></pre>
-<pre class="r"><code>data$field.optional...site.type[data$field.optional...site.type==&quot;Urban Natural&quot;] &lt;-&quot;Urban&quot;
-data$field.optional...site.type[data$field.optional...site.type==&quot;Urban Landscaped&quot;] &lt;-&quot;Urban&quot;
-data$field.optional...site.type[data$field.optional...site.type==&quot;Suburban Natural&quot;] &lt;-&quot;Suburban&quot;
-data$field.optional...site.type[data$field.optional...site.type==&quot;Suburban Lanscaped&quot;] &lt;-&quot;Suburban&quot;
-data$field.optional...site.type[data$field.optional...site.type==&quot;Natural Forest&quot;] &lt;-&quot;Rural&quot;</code></pre>
-<pre class="r"><code>data$field.optional...tree.size[data$field.optional...tree.size==&quot;Large&quot;] &lt;- &quot;Large (too big to wrap arms around trunk)&quot;
-data$field.optional...tree.size[data$field.optional...tree.size==&quot;Medium&quot;] &lt;- &quot;Medium (can wrap arms around trunk)&quot;
-data$field.optional...tree.size[data$field.optional...tree.size==&quot;Small&quot;] &lt;- &quot;Small (can wrap hands around trunk)&quot;
-data$field.optional...tree.size[data$field.optional...tree.size==&quot;Very Large&quot;] &lt;- &quot;Very Large (would take many people to wrap arms around trunk)&quot;</code></pre>
-<pre class="r"><code>data$field.optional...site.location.description [data$field.optional...site.location.description ==&quot;Yard or open park grounds&quot;] &lt;- &quot;Urban yard or open park grounds&quot;</code></pre>
-<pre class="r"><code>data$field.percent.canopy.affected.... &lt;- as.factor(data$field.percent.canopy.affected....)
-data$field.percent.canopy.affected....[data$field.percent.canopy.affected....==&quot;1-25% of the crown is unhealthy&quot;] &lt;- &quot;1-29% of the canopy is unhealthy&quot;
-data$field.percent.canopy.affected....[data$field.percent.canopy.affected....==&quot;Healthy (0%)&quot;] &lt;- &quot;Healthy, no dieback(0%)&quot;
-data$field.percent.canopy.affected....[data$field.percent.canopy.affected....==&quot;Healthy (0% is unhealthy)&quot;] &lt;- &quot;Healthy, no dieback(0%)&quot;
-data$field.percent.canopy.affected....[data$field.percent.canopy.affected....==&quot;more than 75% of the crown is unhealthy&quot;] &lt;- &quot;60-99% of the canopy is unhealthy&quot;
-data &lt;- data %&gt;% droplevels()
-
-data$Percent.Dieback.Modified[data$field.percent.canopy.affected....==&quot;Healthy, no dieback(0%)&quot;] &lt;- 0
-data$Percent.Dieback.Modified[data$field.percent.canopy.affected....==&quot;1-29% of the canopy is unhealthy&quot;] &lt;- 1
-data$Percent.Dieback.Modified[data$field.percent.canopy.affected....==&quot;30-59% of the canopy is unhealthy&quot;] &lt;- 30
-data$Percent.Dieback.Modified[data$field.percent.canopy.affected....==&quot;60-99% of the canopy is unhealthy&quot;] &lt;- 60
-data$Percent.Dieback.Modified[data$field.percent.canopy.affected....==&quot;tree is dead&quot;] &lt;- 100
-#data$field.dieback.percent[is.na(data$field.dieback.percent)] &lt;- data$Percent.Dieback.Modified
-
-data$field.percent.canopy.affected....[data$Percent.Dieback.Modified==100] &lt;- &quot;tree is dead&quot; #there were a couple healthy trees with 100 dieback somehow..
-
-has.dieback.percent &lt;- data %&gt;% filter(!is.na(field.dieback.percent))
-does.not.have.dieback.percent &lt;- data %&gt;% filter(is.na(field.dieback.percent)) 
-
-has.dieback.percent$user.estimated.dieback &lt;- &quot;Yes&quot;
-does.not.have.dieback.percent$user.estimated.dieback &lt;- &quot;No&quot;
-
-does.not.have.dieback.percent$field.dieback.percent &lt;- does.not.have.dieback.percent$Percent.Dieback.Modified
-
-data &lt;- rbind(has.dieback.percent,does.not.have.dieback.percent)
-
-data$field.dieback.percent[data$field.dieback.percent&lt;0] &lt;- 0 # not sure why but there was one -2 percent dieback value</code></pre>
-</div>
-<div id="reclassify-response-category-variables" class="section level3">
-<h3>Reclassify response category variables</h3>
-<pre class="r"><code>data &lt;- data %&gt;% filter(field.tree.canopy.symptoms!=&quot;Candelabra top or very old spike top (old growth)&quot;) %&gt;% mutate(binary.tree.canopy.symptoms=field.tree.canopy.symptoms) %&gt;% mutate(reclassified.tree.canopy.symptoms=field.tree.canopy.symptoms) %&gt;% droplevels()</code></pre>
-<pre class="r"><code>binary_level_key &lt;- c(&quot;Healthy&quot; = &quot;Healthy&quot;, &quot;Thinning Canopy&quot; = &quot;Unhealthy&quot;, &quot;New Dead Top (red or brown needles still attached)&quot; = &quot;Unhealthy&quot;, &quot;Old Dead Top (needles already gone)&quot; = &quot;Unhealthy&quot;, &quot;Tree is dead&quot; = &quot;Unhealthy&quot;, &quot;Multiple Symptoms (please list in Notes)&quot; = &quot;Unhealthy&quot;, &quot;Extra Cone Crop&quot; = &quot;Unhealthy&quot;, &quot;Browning Canopy&quot; = &quot;Unhealthy&quot;,&quot;Branch Dieback or &#39;Flagging&#39;&quot; = &quot;Unhealthy&quot;, &quot;Other (please describe in Notes)&quot; = &quot;Unhealthy&quot;, &quot;Yellowing Canopy&quot; = &quot;Unhealthy&quot;)
-
-data$binary.tree.canopy.symptoms &lt;- recode_factor(data$binary.tree.canopy.symptoms, !!!binary_level_key)
-#levels(binary$field.tree.canopy.symptoms)
-data$binary.tree.canopy.symptoms &lt;- as.factor(data$binary.tree.canopy.symptoms)</code></pre>
-<pre class="r"><code>reclassified_level_key &lt;- c(&quot;Healthy&quot; = &quot;Healthy&quot;, &quot;Thinning Canopy&quot; = &quot;Thinning Canopy&quot;, &quot;New Dead Top (red or brown needles still attached)&quot; = &quot;Dead Top&quot;, &quot;Old Dead Top (needles already gone)&quot; = &quot;Dead Top&quot;, &quot;Tree is dead&quot; = &quot;Tree is Dead&quot;, &quot;Multiple Symptoms (please list in Notes)&quot; = &quot;Other&quot;, &quot;Extra Cone Crop&quot; = &quot;Other&quot;, &quot;Browning Canopy&quot; = &quot;Other&quot;,&quot;Branch Dieback or &#39;Flagging&#39;&quot; = &quot;Other&quot;, &quot;Other (please describe in Notes)&quot; = &quot;Other&quot;, &quot;Yellowing Canopy&quot; = &quot;Other&quot;)
-
-data$reclassified.tree.canopy.symptoms &lt;- recode_factor(data$reclassified.tree.canopy.symptoms, !!!reclassified_level_key)
-#levels(binary$field.tree.canopy.symptoms)
-data$reclassified.tree.canopy.symptoms &lt;- as.factor(data$reclassified.tree.canopy.symptoms)</code></pre>
-</div>
-</div>
-<div id="mutate-merged-data" class="section level2">
-<h2>Mutate Merged Data</h2>
-<div id="convert-percent-to-proportion" class="section level3">
-<h3>Convert Percent to Proportion</h3>
-<pre class="r"><code>data &lt;- data %&gt;% mutate(field.dieback.prop = (field.dieback.percent/100))</code></pre>
-</div>
-</div>
-<div id="filter-merged-data" class="section level2">
-<h2>Filter Merged Data</h2>
-<div id="remove-outliers" class="section level3">
-<h3>Remove outliers</h3>
-<p>Afternoon temperature had a handful of weird observations with less
-than -8 degrees from mean.</p>
-<pre class="r"><code>#ggplot(data,aes(dist.from.mean.af,field.dieback.percent))+geom_point()+theme_bw()</code></pre>
-<pre class="r"><code>data &lt;- data %&gt;% filter(dist.from.mean.af&gt;(-8))</code></pre>
-</div>
-<div id="remove-dead-trees" class="section level3">
-<h3>Remove Dead Trees</h3>
-<pre class="r"><code>data.w.dead &lt;- data 
-data &lt;- data %&gt;% filter(field.tree.canopy.symptoms!=&quot;Tree is dead&quot;) %&gt;% filter(field.dieback.percent&lt;100) %&gt;% droplevels()</code></pre>
-</div>
-<div id="export-modified-data" class="section level3">
-<h3>Export Modified Data</h3>
-<pre class="r"><code>#write.csv(data,file=&quot;./urban-data-modified.csv&quot;)</code></pre>
-<p><a href="./urban-data-modified.csv">urban-data-modified.csv</a></p>
-<p>Please use this data in analyses. Please make any changes or
-corrections to the data in this R markdown so everyone is using the same
-dataset in the analyses.</p>
-</div>
-</div>
 </div>
 
 
