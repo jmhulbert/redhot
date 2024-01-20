@@ -1,40 +1,81 @@
 ---
-title: "Urban redcedar analyses"
+title: "Urban Redcedar Analyses - Welcome"
 author: "Joey Hulbert"
 date: "2023-04-16"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
+# Intro
 
-# Methods
-
-## Data Wrangling
-
-Observations of western redcedar were downloaded from areas with urban heat data from studies following [Voelkel and Shandas (2017)](https://www.mdpi.com/2225-1154/5/2/41). 
-
-### iNaturalist
-
-* iNaturalist data from the following locations were downloaded from the Western Redcedar Dieback Map on 4.16.23:
-  + Tacoma (query: quality_grade=any&identifications=any&place_id=186123&projects%5B%5D=western-redcedar-dieback-map)
-  + Portland Metro Area (query: quality_grade=any&identifications=any&place_id=122420&projects%5B%5D=western-redcedar-dieback-map)
-  + King County (query: quality_grade=any&identifications=any&place_id=1282&projects%5B%5D=western-redcedar-dieback-map)
-
-Observations were downloaded from these areas by specifying the above criteria in the locations data.
-
-### Urban Heat
-
-* Urban Heat Island data were for the following locations
-  + Portland, OR (downloaded from https://osf.io/eb4tw/ accessed 4.16.22)
-  + King County, WA (downloaded from https://osf.io/mz79p/ accessed on 4.16.22)
-  + Tacoma, WA (received from City of Tacoma)
+The RedHot analysis was completed to compare the health of western redcedar across urban heat islands. Redcedar health data were collected by community scientists in the [Western Redcedar Dieback Map](https://www.inaturalist.org/projects/western-redcedar-dieback-map) project on iNaturalist. Urban heat data were commissioned by three cities in the northwest using methods described in [Voelkel and Shandas (2017)](https://www.mdpi.com/2225-1154/5/2/41). 
 
 
-# References
+* What determines the health of urban trees
+    + Urban Heat
+    + Impermeable Surface
+    + Pollution
+    + Climate Variables
+    + Wealth
+    + Tree Size
+    + Tree Species
 
- + Voelkel, J., and Shandas, V. (2017). Towards Systematic Prediction of Urban Heat Islands: Grounding Measurements, Assessing Modeling Techniques. Climate 5, 41. doi: 10.3390/cli5020041.
+* Available data presently
+    + Diesel exhaust
+    + Ozone
+    + Urban Heat
+    + Wealth
+    + Tree size
+    + Proximity to heavy traffic roadways
+
+Questions
+
+Are income and tree size important effects for the vulnerability of redcedar to urban heat? 
+
+Should dead trees be excluded
+
+
+
+Model comments
+ordinal vs ordinal - chi squared
+categorized as 0 or 1 - binomial categorical
+probablility of healthy vs unhealthy - does that increase with afternoon temperature
+
+
+# Discussion
+
+* Aspects to consider
+  + Distance from avg is calculated based on daily average temperature
+    + More investigation into the importance of morning, afternoon, or evening temperature would be valuable. 
+    + check outliers for toxic release, whats up with those?
+    + check outliers with healthy trees with 100% dieback or with any % dieback values
+    + check outliers of trees with < -8 dist.from.mean.af
+  + Including dead trees?
+    + Current analysis does not include dead trees because
+      + there are a number of other factors that may have led to the dead of those trees
+      + could not account for 1 inflation with glmmTMB package
+  + should we remove observations with very poor positional accuracy? 
+
+## Most important temperature time
+
+**Which temperatures (morning, afternoon, eve) are most important for determining tree health?**
+
+
+## Dieback and Pollution
+
+**Does dieback increase with increases in pollution?**
+
+
+**Which pollution data are important for determining tree health?**
+
+
+## Are Temperatures higher for trees in urban areas of King County?
+
+
+
+
 
 

@@ -13,7 +13,7 @@
 
 <meta name="date" content="2023-04-16" />
 
-<title>Urban redcedar analyses</title>
+<title>Urban Redcedar Analyses - Welcome</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,57 +350,94 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Urban redcedar analyses</h1>
+<h1 class="title toc-ignore">Urban Redcedar Analyses - Welcome</h1>
 <h4 class="author">Joey Hulbert</h4>
 <h4 class="date">2023-04-16</h4>
 
 </div>
 
 
-<div id="methods" class="section level1">
-<h1>Methods</h1>
-<div id="data-wrangling" class="section level2">
-<h2>Data Wrangling</h2>
-<p>Observations of western redcedar were downloaded from areas with
-urban heat data from studies following <a href="https://www.mdpi.com/2225-1154/5/2/41">Voelkel and Shandas
+<div id="intro" class="section level1">
+<h1>Intro</h1>
+<p>The RedHot analysis was completed to compare the health of western
+redcedar across urban heat islands. Redcedar health data were collected
+by community scientists in the <a href="https://www.inaturalist.org/projects/western-redcedar-dieback-map">Western
+Redcedar Dieback Map</a> project on iNaturalist. Urban heat data were
+commissioned by three cities in the northwest using methods described in
+<a href="https://www.mdpi.com/2225-1154/5/2/41">Voelkel and Shandas
 (2017)</a>.</p>
-<div id="inaturalist" class="section level3">
-<h3>iNaturalist</h3>
 <ul>
-<li>iNaturalist data from the following locations were downloaded from
-the Western Redcedar Dieback Map on 4.16.23:
+<li>What determines the health of urban trees
 <ul>
-<li>Tacoma (query:
-quality_grade=any&amp;identifications=any&amp;place_id=186123&amp;projects%5B%5D=western-redcedar-dieback-map)</li>
-<li>Portland Metro Area (query:
-quality_grade=any&amp;identifications=any&amp;place_id=122420&amp;projects%5B%5D=western-redcedar-dieback-map)</li>
-<li>King County (query:
-quality_grade=any&amp;identifications=any&amp;place_id=1282&amp;projects%5B%5D=western-redcedar-dieback-map)</li>
+<li>Urban Heat</li>
+<li>Impermeable Surface</li>
+<li>Pollution</li>
+<li>Climate Variables</li>
+<li>Wealth</li>
+<li>Tree Size</li>
+<li>Tree Species</li>
+</ul></li>
+<li>Available data presently
+<ul>
+<li>Diesel exhaust</li>
+<li>Ozone</li>
+<li>Urban Heat</li>
+<li>Wealth</li>
+<li>Tree size</li>
+<li>Proximity to heavy traffic roadways</li>
 </ul></li>
 </ul>
-<p>Observations were downloaded from these areas by specifying the above
-criteria in the locations data.</p>
+<p>Questions</p>
+<p>Are income and tree size important effects for the vulnerability of
+redcedar to urban heat?</p>
+<p>Should dead trees be excluded</p>
+<p>Model comments ordinal vs ordinal - chi squared categorized as 0 or 1
+- binomial categorical probablility of healthy vs unhealthy - does that
+increase with afternoon temperature</p>
 </div>
-<div id="urban-heat" class="section level3">
-<h3>Urban Heat</h3>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
 <ul>
-<li>Urban Heat Island data were for the following locations
+<li>Aspects to consider
 <ul>
-<li>Portland, OR (downloaded from <a href="https://osf.io/eb4tw/" class="uri">https://osf.io/eb4tw/</a> accessed 4.16.22)</li>
-<li>King County, WA (downloaded from <a href="https://osf.io/mz79p/" class="uri">https://osf.io/mz79p/</a> accessed on 4.16.22)</li>
-<li>Tacoma, WA (received from City of Tacoma)</li>
+<li>Distance from avg is calculated based on daily average temperature
+<ul>
+<li>More investigation into the importance of morning, afternoon, or
+evening temperature would be valuable.</li>
+<li>check outliers for toxic release, whats up with those?</li>
+<li>check outliers with healthy trees with 100% dieback or with any %
+dieback values</li>
+<li>check outliers of trees with &lt; -8 dist.from.mean.af</li>
+</ul></li>
+<li>Including dead trees?
+<ul>
+<li>Current analysis does not include dead trees because
+<ul>
+<li>there are a number of other factors that may have led to the dead of
+those trees</li>
+<li>could not account for 1 inflation with glmmTMB package</li>
+</ul></li>
+</ul></li>
+<li>should we remove observations with very poor positional
+accuracy?</li>
 </ul></li>
 </ul>
+<div id="most-important-temperature-time" class="section level2">
+<h2>Most important temperature time</h2>
+<p><strong>Which temperatures (morning, afternoon, eve) are most
+important for determining tree health?</strong></p>
 </div>
+<div id="dieback-and-pollution" class="section level2">
+<h2>Dieback and Pollution</h2>
+<p><strong>Does dieback increase with increases in
+pollution?</strong></p>
+<p><strong>Which pollution data are important for determining tree
+health?</strong></p>
 </div>
+<div id="are-temperatures-higher-for-trees-in-urban-areas-of-king-county" class="section level2">
+<h2>Are Temperatures higher for trees in urban areas of King
+County?</h2>
 </div>
-<div id="references" class="section level1">
-<h1>References</h1>
-<ul>
-<li>Voelkel, J., and Shandas, V. (2017). Towards Systematic Prediction
-of Urban Heat Islands: Grounding Measurements, Assessing Modeling
-Techniques. Climate 5, 41. doi: 10.3390/cli5020041.</li>
-</ul>
 </div>
 
 

@@ -1,0 +1,81 @@
+---
+title: "Analyses"
+author: "Joey Hulbert"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Generalized linear mixed-effect models
+
+# Model Approaches Considered
+
+## Zero inflated beta regression
+
+Because the response variable is percent (we can consider it as proportion too) we can do regression using a beta distribution (comparing shapes) rather than a linear regression. We also need to use an distribution zero or one inflated rate. 
+
+* We referenced the following documents for guidance:
++ Websites
+  + [GLMM FAQ](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html)
++ Blog Posts
+  + [Andrew Heiss's blog post](https://www.andrewheiss.com/blog/2021/11/08/beta-regression-guide/#linear-probability-models) 
++ Vignettes
+  + ['Get Started'](https://glmmtmb.github.io/glmmTMB/articles/glmmTMB.html) guide from glmmTMB
++ Github/Stack Exchange Issue Posts
+  + [Ben Bolker discussion about zero inflated betas and zero-one inflated betas](https://github.com/glmmTMB/glmmTMB/issues/507)
++ Youtube Videos
+  + [Statistical Methods Series: Zero-Inflated GLM and GLMM](https://www.youtube.com/watch?v=ISN9SE__QOU&t=35s)
+    + [Supplementary example code useful for glmmTMB](https://github.com/eco4cast/Statistical-Methods-Seminar-Series/blob/main/zuur-ieno_zero-inflated-models/RCode/Owls_ESA.R)
++ Background Papers
+  + [Generalized linear mixed models: a practical guide for ecology and evolution](https://www.sciencedirect.com/science/article/abs/pii/S0169534709000196) 
+  + [Chapter 13 Linear and generalized linear mixed models](https://academic.oup.com/book/41052/chapter-abstract/349379451?redirectedFrom=fulltext&login=false).
+  + [glmmTMB Balances Speed and Flexibility
+Among Packages for Zero-inflated
+Generalized Linear Mixed Modeling](https://journal.r-project.org/archive/2017/RJ-2017-066/RJ-2017-066.pdf)
+
+### Confirm no co-linearity
+
+### Calculate proportion of obs that have zero dieback
+
+### Fit models
+
+> zibeta.daily <- glmmTMB(field.dieback.prop~DN_AF1 + (1|Area),data=data,ziformula=~1,family=beta_family())
+
+
+The original (above) model threw the following error because we had dead trees with proportions of 1.0. 
+
+> Error in eval(family$initialize) : y values must be 0 <= y < 1
+
+One way around is to change 1s to .99 as suggested by Ben Bolker [here](https://github.com/glmmTMB/glmmTMB/issues/507). However, another option, as noted in the [GLMM FAQ (Beta GLMMs section)](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#beta-glmms) is to use the brms package because it can handle zero-one inflated models. 
+
+Another, possibly more biologically relevant, option is to remove the dead trees from the analysis. This may make the most sense becuase we're not sure if why they died. 
+
+Dead trees were excluded from below models
+
+### Interpreting zi Model Outputs
+
+The conditional output is indicating that for all observations with greater than 0 dieback proportions, distance from mean am influences the proprtion of dieback. The zi model tells us which predictor increases the propability of non-zero. 
+> interesting that the distance from mean am has a negative estimate though - hard to know if it is observations higher than the mean or lower than the mean (ie as temp increases, distance from mean decreases (but higher or lower than mean))
+
+Including a predictor in the zi= bit of the model would test whether heat influences whether there is dieback at all. 
+
+Possible understanding from: https://stats.stackexchange.com/questions/466047/interpreting-output-for-glmmtmb-for-zero-inflated-count-data 
+
+Answers reference 'pages 382-383 explain all components of the model summary:'
+
+Brooks, M. E., Kristensen, K., van Benthem, K. J., Magnusson, A., Berg, C. W., Nielsen, A., Skaug, H. J., Machler, M., & Bolker, B. M. (2017). glmmTMB balances speed and flexibility among packages for Zero-inflated Generalized Linear Mixed Modeling. The R Journal, 9(2), 378-400. https://doi.org/10.32614/RJ-2017-066
+
+
+## Binary mixed-effect model
+
+
+
+
+
+# References
+
+ + Voelkel, J., and Shandas, V. (2017). Towards Systematic Prediction of Urban Heat Islands: Grounding Measurements, Assessing Modeling Techniques. Climate 5, 41. doi: 10.3390/cli5020041.
+
