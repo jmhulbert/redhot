@@ -8,7 +8,7 @@ output: html_document
 
 |            |            |            |            |
 |:----------:|:----------:|:----------:|:----------:|
-|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[ Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redcedar/discussion)|
+|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redcedar/discussion)|
 |             |           |            |            |
 
 
@@ -18,11 +18,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Intro
 
-* The RedHot analysis was completed to compare the health of western redcedar across urban heat islands. 
-  + Redcedar health data were collected by community scientists in the [Western Redcedar Dieback Map](https://www.inaturalist.org/projects/western-redcedar-dieback-map) project on iNaturalist. 
-  + Urban heat data were commissioned by three cities in the northwest using methods described in [Voelkel and Shandas (2017)](https://www.mdpi.com/2225-1154/5/2/41). 
+The RedHot analyses were completed to study relationships between the health of western redcedar and urban environmental factors.
 
-* What determines the health of urban trees
+* We were interested in the factors that affect urban tree health such as:
     + Urban Heat
     + Impermeable Surface
     + Pollution
@@ -32,6 +30,15 @@ knitr::opts_chunk$set(echo = FALSE)
     + Tree Species
 
 # Data
+
+* Analyses were completed with the following Data
+  + Redcedar health data were collected by community scientists in the [Western Redcedar Dieback Map](https://www.inaturalist.org/projects/western-redcedar-dieback-map) project on iNaturalist. 
+  + Urban heat data were commissioned by three cities in the northwest using methods described in [Voelkel and Shandas (2017)](https://www.mdpi.com/2225-1154/5/2/41). 
+  + Home Owners Loan Corporation Maps were downloaded from the Mapping Inequality Project at the following links
+    + [Tacoma](https://dsl.richmond.edu/panorama/redlining/WA-Tacoma)
+    + [Portland](https://dsl.richmond.edu/panorama/redlining/OR-Portland)
+    + [Seattle](https://dsl.richmond.edu/panorama/redlining/WA-Seattle)
+  + Environmental Health Disparity Data were downloaded from the [Washington Tracking Network](https://geo.wa.govsets/WADOH::full-environmental-health-disparities-version-2-extract/explore)
 
 Data for the below metrics are included in the [data](https://jmhulbert.github.io/data/), but not all have been investigated in the [analyses](https://jmhulbert.github.io/analyses/) yet. 
 
@@ -43,13 +50,9 @@ Data for the below metrics are included in the [data](https://jmhulbert.github.i
     + Tree size
     + Proximity to heavy traffic roadways
 
-
-
-
 # Approaches
 
 The relationship between redcedar and urban metrics were investigated with generalized mixed effect models. [More information about the analyses is available](https://jmhulbert.github.io/analyses/)
-
 
 
 # Extra Questions

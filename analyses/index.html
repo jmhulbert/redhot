@@ -11,7 +11,7 @@
 
 <meta name="author" content="Joey Hulbert" />
 
-<meta name="date" content="2024-01-19" />
+<meta name="date" content="2024-01-22" />
 
 <title>Analyses</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Analyses</h1>
 <h4 class="author">Joey Hulbert</h4>
-<h4 class="date">2024-01-19</h4>
+<h4 class="date">2024-01-22</h4>
 
 </div>
 
@@ -379,18 +379,83 @@ display: none;
 </tr>
 </tbody>
 </table>
+<div id="purpose" class="section level1">
+<h1>Purpose</h1>
+<p>The purpose of this page is to provide links to the approaches
+included in the RedHot analyses.</p>
+<p>Relationships between the health of redcedar and urban environmental
+metrics were explored with generalized linear mixed effect models.
+However, different approaches (and links) were used based on the
+questions of interest.</p>
+<p>See the <a href="https://jmhulbert.github.io/redcedar/discussion">Discussion
+page</a> for a list of questions of interest</p>
 <p>Generalized linear mixed-effect models</p>
+</div>
 <div id="model-approaches-considered" class="section level1">
 <h1>Model Approaches Considered</h1>
-<p>Model comments ordinal vs ordinal - chi squared categorized as 0 or 1
-- binomial categorical probablility of healthy vs unhealthy - does that
-increase with afternoon temperature</p>
-<div id="zero-inflated-beta-regression" class="section level2">
-<h2>Zero inflated beta regression</h2>
+<ul>
+<li>Approaches to consider
+<ul>
+<li>ordinal vs ordinal - chi squared
+<ul>
+<li>e.g. health category vs holc grade</li>
+</ul></li>
+<li>categorized as 0 or 1 - binomial categorical
+<ul>
+<li>e.g. probability of healthy vs unhealthy - does that increase with
+afternoon temperature</li>
+</ul></li>
+<li>categorized as healthy, unhealthy, dead - ordinal distribution</li>
+<li>Increases in percent (proportion) canopy dieback - beta distribution
+<ul>
+<li>likley need to account for zero inflation
+<ul>
+<li>e.g. does increases in urban heat increase likelyhood of having
+dieback (zi model) AND does increases in urban heat increase precent
+dieback proportion for trees with some dieback (conditional model).</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="urban-heat-analyses" class="section level1">
+<h1>Urban Heat Analyses</h1>
+<p>Initial analyses were completed to investigate the relationship with
+urban heat.</p>
+<div id="binomial-distribution" class="section level2">
+<h2>Binomial Distribution</h2>
+<p>Respones variable: <em>healthy, unhealthy</em></p>
+<p>Excluding dead trees might make sense biologically, because we’re not
+sure what factor actually killed the tree. Also the dead trees may have
+been dead for different lengths of time. Some may have been affected by
+heat, where others had not. There is good biological reasoning to exlude
+the dead trees.</p>
+</div>
+<div id="ordinal-distribution" class="section level2">
+<h2>Ordinal Distribution</h2>
+<p><a href="https://jmhulbert.github.io/redhot/analyses/heat/ordinal/">Ordinal
+Distribution Analysis</a></p>
+<p>Response variable: category: <em>healthy, unhealthy, dead</em></p>
+<p>If we want to include three categories in our response variable
+(healthy, unhealthy, dead), we may want to consider an ordinal
+distribution. An ordinal distribution would be most appropriate for
+these categories compared to a multinomial distribution because the
+categories have a natural order.</p>
+<p>Alternate response variable</p>
+<p>Response variable: category: <em>0% Dieback, 1-29% Dieback, 30-59%
+dieback, 60-99% dieback, dead</em></p>
+</div>
+<div id="beta-distribution" class="section level2">
+<h2>Beta Distribution</h2>
+<p><a href="https://jmhulbert.github.io/redhot/analyses/heat/beta/">Beta
+Distribution Analysis</a></p>
+<p>Response variable: <em>percent canopy dieback</em></p>
 <p>Because the response variable is percent (we can consider it as
 proportion too) we can do regression using a beta distribution
 (comparing shapes) rather than a linear regression. We also need to use
 an distribution zero or one inflated rate.</p>
+<div id="zero-inflated-beta-regression" class="section level3">
+<h3>Zero inflated beta regression</h3>
 <ul>
 <li>We referenced the following documents for guidance:</li>
 <li>Websites
@@ -435,35 +500,8 @@ Balances Speed and Flexibility Among Packages for Zero-inflated
 Generalized Linear Mixed Modeling</a></li>
 </ul></li>
 </ul>
-<div id="confirm-no-co-linearity" class="section level3">
-<h3>Confirm no co-linearity</h3>
-</div>
-<div id="calculate-proportion-of-obs-that-have-zero-dieback" class="section level3">
-<h3>Calculate proportion of obs that have zero dieback</h3>
-</div>
-<div id="fit-models" class="section level3">
-<h3>Fit models</h3>
-<blockquote>
-<p>zibeta.daily &lt;- glmmTMB(field.dieback.prop~DN_AF1 +
-(1|Area),data=data,ziformula=~1,family=beta_family())</p>
-</blockquote>
-<p>The original (above) model threw the following error because we had
-dead trees with proportions of 1.0.</p>
-<blockquote>
-<p>Error in eval(family$initialize) : y values must be 0 &lt;= y &lt;
-1</p>
-</blockquote>
-<p>One way around is to change 1s to .99 as suggested by Ben Bolker <a href="https://github.com/glmmTMB/glmmTMB/issues/507">here</a>. However,
-another option, as noted in the <a href="https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#beta-glmms">GLMM
-FAQ (Beta GLMMs section)</a> is to use the brms package because it can
-handle zero-one inflated models.</p>
-<p>Another, possibly more biologically relevant, option is to remove the
-dead trees from the analysis. This may make the most sense becuase we’re
-not sure if why they died.</p>
-<p>Dead trees were excluded from below models</p>
-</div>
-<div id="interpreting-zi-model-outputs" class="section level3">
-<h3>Interpreting zi Model Outputs</h3>
+<div id="interpreting-zi-model-outputs" class="section level4">
+<h4>Interpreting zi Model Outputs</h4>
 <p>The conditional output is indicating that for all observations with
 greater than 0 dieback proportions, distance from mean am influences the
 proprtion of dieback. The zi model tells us which predictor increases
@@ -475,22 +513,22 @@ mean))</p>
 <p>Including a predictor in the zi= bit of the model would test whether
 heat influences whether there is dieback at all.</p>
 <p>Possible understanding from: <a href="https://stats.stackexchange.com/questions/466047/interpreting-output-for-glmmtmb-for-zero-inflated-count-data" class="uri">https://stats.stackexchange.com/questions/466047/interpreting-output-for-glmmtmb-for-zero-inflated-count-data</a></p>
-<p>Answers reference ‘pages 382-383 explain all components of the model
-summary:’</p>
-<p>Brooks, M. E., Kristensen, K., van Benthem, K. J., Magnusson, A.,
-Berg, C. W., Nielsen, A., Skaug, H. J., Machler, M., &amp; Bolker, B. M.
-(2017). glmmTMB balances speed and flexibility among packages for
-Zero-inflated Generalized Linear Mixed Modeling. The R Journal, 9(2),
-378-400. <a href="https://doi.org/10.32614/RJ-2017-066" class="uri">https://doi.org/10.32614/RJ-2017-066</a></p>
 </div>
 </div>
-<div id="binary-mixed-effect-model" class="section level2">
-<h2>Binary mixed-effect model</h2>
 </div>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
 <ul>
+<li>Brooks, M. E., Kristensen, K., van Benthem, K. J., Magnusson, A.,
+Berg, C. W., Nielsen, A., Skaug, H. J., Machler, M., &amp; Bolker, B. M.
+(2017). glmmTMB balances speed and flexibility among packages for
+Zero-inflated Generalized Linear Mixed Modeling. The R Journal, 9(2),
+378-400. <a href="https://doi.org/10.32614/RJ-2017-066" class="uri">https://doi.org/10.32614/RJ-2017-066</a>
+<ul>
+<li>Answers reference ‘pages 382-383 explain all components of the model
+summary’</li>
+</ul></li>
 <li>Voelkel, J., and Shandas, V. (2017). Towards Systematic Prediction
 of Urban Heat Islands: Grounding Measurements, Assessing Modeling
 Techniques. Climate 5, 41. doi: 10.3390/cli5020041.</li>

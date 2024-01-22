@@ -8,7 +8,7 @@ output: html_document
 
 |            |            |            |            |
 |:----------:|:----------:|:----------:|:----------:|
-|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[ Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redcedar/discussion)|
+|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redcedar/discussion)|
 |             |           |            |            |
 
 ```{r setup, include=FALSE}
@@ -19,14 +19,26 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The purpose of this page is to share discussion points or feedback for approaches and interpretations. 
 
+# Questions of interest
+
+* Initial Questions of Interest
+  + Does urban heat increase the probability of trees being classified as unhealthy?
+    + which temperature time is most important (e.g. morning, afternoon, evening, daily avg?)
+  + Does urban heat increase the probability of trees being classified as dead?
+  + Are increases in urban heat associated with increases in percent canopy dieback?
+  + Does percent poverty, HOLC rating, or environmental health disparity rank associated with increases in probability of trees being classified as unhealthy? 
+  + Do urban trees have higher proportions of unhealthy trees than rural trees?
+  + Does tree size affect the tree's vulnerability to urban heat?
+
+
+# Approach Considerations
 
 * Aspects to consider
   + Should we remove observations with very poor positional accuracy? 
   + More investigation into the timing of heat?
     + e.g. which temperatures (morning, afternoon, eve) are most important for determining tree health?
   + Including dead trees?
-    + Current analysis does not include dead trees because
-      + there are a number of other factors that may have led to the dead of those trees
+  + Beta logistic regression analysis does not include dead trees because there are a number of other factors that may have led to the dead of those trees
     + Removing dead trees also removes the issue where we could not account for 1 inflation with glmmTMB package
 
 

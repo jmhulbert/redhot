@@ -11,7 +11,7 @@
 
 <meta name="author" content="Joey Hulbert" />
 
-<meta name="date" content="2024-01-19" />
+<meta name="date" content="2024-01-22" />
 
 <title>Discussion</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Discussion</h1>
 <h4 class="author">Joey Hulbert</h4>
-<h4 class="date">2024-01-19</h4>
+<h4 class="date">2024-01-22</h4>
 
 </div>
 
@@ -383,6 +383,33 @@ display: none;
 <h1>Purpose</h1>
 <p>The purpose of this page is to share discussion points or feedback
 for approaches and interpretations.</p>
+</div>
+<div id="questions-of-interest" class="section level1">
+<h1>Questions of interest</h1>
+<ul>
+<li>Initial Questions of Interest
+<ul>
+<li>Does urban heat increase the probability of trees being classified
+as unhealthy?
+<ul>
+<li>which temperature time is most important (e.g. morning, afternoon,
+evening, daily avg?)</li>
+</ul></li>
+<li>Does urban heat increase the probability of trees being classified
+as dead?</li>
+<li>Are increases in urban heat associated with increases in percent
+canopy dieback?</li>
+<li>Does percent poverty, HOLC rating, or environmental health disparity
+rank associated with increases in probability of trees being classified
+as unhealthy?</li>
+<li>Do urban trees have higher proportions of unhealthy trees than rural
+trees?</li>
+<li>Does tree size affect the tree’s vulnerability to urban heat?</li>
+</ul></li>
+</ul>
+</div>
+<div id="approach-considerations" class="section level1">
+<h1>Approach Considerations</h1>
 <ul>
 <li>Aspects to consider
 <ul>
@@ -393,13 +420,11 @@ accuracy?</li>
 <li>e.g. which temperatures (morning, afternoon, eve) are most important
 for determining tree health?</li>
 </ul></li>
-<li>Including dead trees?
+<li>Including dead trees?</li>
+<li>Beta logistic regression analysis does not include dead trees
+because there are a number of other factors that may have led to the
+dead of those trees
 <ul>
-<li>Current analysis does not include dead trees because
-<ul>
-<li>there are a number of other factors that may have led to the dead of
-those trees</li>
-</ul></li>
 <li>Removing dead trees also removes the issue where we could not
 account for 1 inflation with glmmTMB package</li>
 </ul></li>
