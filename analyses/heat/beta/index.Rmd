@@ -2,7 +2,12 @@
 title: "Beta Distribution Response to Urban Heat"
 author: "Joey Hulbert"
 date: "`r Sys.Date()`"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: true
+    toc_depth: 3
 ---
 
 

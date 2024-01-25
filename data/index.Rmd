@@ -2,7 +2,12 @@
 title: "Data Wrangling"
 author: "Joey Hulbert"
 date: "`r Sys.Date()`"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: true
+    toc_depth: 3
 ---
 
 |            |            |            |            |
@@ -510,6 +515,10 @@ data$field.dieback.percent[data$field.dieback.percent<0] <- 0 # not sure why but
 
 ```
 
+
+
+
+
 ### Reclassify response category variables
 
 ```{r}
@@ -541,6 +550,25 @@ data$reclassified.tree.canopy.symptoms <- recode_factor(data$reclassified.tree.c
 #levels(binary$field.tree.canopy.symptoms)
 data$reclassified.tree.canopy.symptoms <- as.factor(data$reclassified.tree.canopy.symptoms)
 ```
+
+Create Binary response for dead top
+
+```{r}
+data$top.dieback[data$reclassified.tree.canopy.symptoms=="Dead Top"] <- "Yes"
+data$top.dieback[data$reclassified.tree.canopy.symptoms!="Dead Top"] <- "No"
+data$top.dieback <- as.factor(data$top.dieback)
+levels(data$top.dieback)
+```
+
+Create Binary response for thinning
+
+```{r}
+data$thinning[data$reclassified.tree.canopy.symptoms=="Thinning Canopy"] <- "Yes"
+data$thinning[data$reclassified.tree.canopy.symptoms!="Thinning Canopy"] <- "No"
+data$thinning <- as.factor(data$thinning)
+levels(data$thinning)
+```
+
 
 ## Mutate Merged Data
 

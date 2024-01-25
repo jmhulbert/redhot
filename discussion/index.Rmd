@@ -2,7 +2,12 @@
 title: "Discussion"
 author: "Joey Hulbert"
 date: "`r Sys.Date()`"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: true
+    toc_depth: 3
 ---
 
 
@@ -40,6 +45,7 @@ The purpose of this page is to share discussion points or feedback for approache
   + Including dead trees?
   + Beta logistic regression analysis does not include dead trees because there are a number of other factors that may have led to the dead of those trees
     + Removing dead trees also removes the issue where we could not account for 1 inflation with glmmTMB package
+    + Are there other random effects we should account for (e.g site type or user?)
 
 
 * How to handle outliers?

@@ -2,7 +2,12 @@
 title: "Urban Redcedar Analyses - Welcome"
 author: "Joey Hulbert"
 date: "2023-04-16"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: true
+    toc_depth: 3
 ---
 
 

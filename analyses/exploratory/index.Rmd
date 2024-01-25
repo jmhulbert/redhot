@@ -28,29 +28,6 @@ library(DHARMa)
 
 The RedHot analysis was completed to compare the health of western redcedar across urban heat islands. Redcedar health data were collected by community scientists in the [Western Redcedar Dieback Map](https://www.inaturalist.org/projects/western-redcedar-dieback-map) project on iNaturalist. Urban heat data were commissioned by three cities in the northwest using methods described in [Voelkel and Shandas (2017)](https://www.mdpi.com/2225-1154/5/2/41). 
 
-
-* What determines the health of urban trees
-    + Urban Heat
-    + Impermeable Surface
-    + Pollution
-    + Climate Variables
-    + Wealth
-    + Tree Size
-    + Tree Species
-
-* Available data presently
-    + Diesel exhaust
-    + Ozone
-    + Urban Heat
-    + Wealth
-    + Tree size
-    + Proximity to heavy traffic roadways
-
-Questions
-
-Are income and tree size important effects for the vulnerability of redcedar to urban heat? 
-
-
 # Methods
 
 ## Data Descriptions
@@ -837,8 +814,6 @@ data %>% group_by(Area) %>% summarize()
 * Questions
   + Should we include random effect in zi formula?
     + It is [apparently possible](https://stats.stackexchange.com/questions/604045/glmmtmb-random-effects-on-zero-inflation-component), but adds model complexity and generally needs large data sets
-
-
 
 
 ## Dieback and Afternoon Heat

@@ -2,7 +2,12 @@
 title: "Ordinal Distribution Response to Urban Heat"
 author: "Joey Hulbert"
 date: "`r Sys.Date()`"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: true
+    toc_depth: 3
 ---
 
 |            |            |            |            |
@@ -43,4 +48,22 @@ data <- read.csv('https://raw.githubusercontent.com/jmhulbert/redhot/main/data/u
 ```
 
 
+```{r}
+data$ordinal.tree.canopy.symptoms <- as.factor(data$ordinal.tree.canopy.symptoms)
+levels(data$ordinal.tree.canopy.symptoms)
+```
+
+
+```{r}
+#ordinal.daily <- glmmTMB(ordinal.tree.canopy.symptoms ~ dist.from.mean.daily + (1|Area),family=list(family="cumulative", link="logit"),data=data)
+#ordinal.am <- glmmTMB(ordinal.tree.canopy.symptoms ~ dist.from.mean.am + (1|Area),data=data,family=list(family="cumulative", link="logit"))
+#ordinal.af <- glmmTMB(ordinal.tree.canopy.symptoms ~ dist.from.mean.af + (1|Area),data=data,family=list(family="cumulative", link="logit"))
+#ordinal.pm <- glmmTMB(ordinal.tree.canopy.symptoms ~ dist.from.mean.pm + (1|Area),data=data,family=list(family="cumulative", link="logit"))
+```
+
+> Error in getParameterOrder(data, parameters, new.env(), DLL = DLL) :
+Family not implemented!
+
+hmm, ordinal regression may not currently be supported by glmmTMB
+https://github.com/glmmTMB/glmmTMB/issues/514
 
