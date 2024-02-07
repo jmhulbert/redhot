@@ -13,7 +13,7 @@ output:
 
 |            |            |            |            |
 |:----------:|:----------:|:----------:|:----------:|
-|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redcedar/discussion)|
+|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redhot/discussion)|
 |             |           |            |            |
 
 
@@ -45,7 +45,7 @@ The RedHot analyses were completed to study relationships between the health of 
     + [Seattle](https://dsl.richmond.edu/panorama/redlining/WA-Seattle)
   + Environmental Health Disparity Data were downloaded from the [Washington Tracking Network](https://geo.wa.govsets/WADOH::full-environmental-health-disparities-version-2-extract/explore)
 
-Data for the below metrics are included in the [data](https://jmhulbert.github.io/data/), but not all have been investigated in the [analyses](https://jmhulbert.github.io/analyses/) yet. 
+Data for the below metrics are included in the [data]((https://jmhulbert.github.io/redhot/data)), but not all have been investigated in the [analyses](https://jmhulbert.github.io/redhot/analyses/) yet. 
 
 * Available data presently
     + Diesel exhaust

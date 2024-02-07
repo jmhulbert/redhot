@@ -1,0 +1,114 @@
+---
+title: "Binomial Distribution Response to EHD Metrics"
+author: "Joey Hulbert"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+---
+title: "Binomial Distribution Response to HOLC Ranks"
+author: "Joey Hulbert"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+|            |            |            |            |
+|:----------:|:----------:|:----------:|:----------:|
+|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redhot/discussion)|
+|             |           |            |            |
+
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(corrplot)
+library(knitr)
+library(kableExtra)
+library(gghalves)
+library(patchwork)
+library(scales)
+library(glmmTMB)
+library(bbmle)
+library(DHARMa)
+```
+
+
+# Purpose
+
+The purpose of this page is to summarize an investigation of **tree health categories** as a *categorical* response to EHD Metrics.
+
+Response variable: category: *healthy, unhealthy*
+
+
+# Read Data
+
+```{r}
+data <- read.csv('https://raw.githubusercontent.com/jmhulbert/redhot/main/data/urban-data-modified.csv')
+```
+
+# Wrangle Data
+
+## Remove dead trees
+
+```{r}
+# Remove Dead Trees
+data.w.dead <- data 
+data <- data %>% filter(field.tree.canopy.symptoms!="Tree is dead") %>% filter(field.dieback.percent<100) %>% droplevels()
+```
+
+```{r}
+data$binary.tree.canopy.symptoms <- as.factor(data$binary.tree.canopy.symptoms)
+levels(data$binary.tree.canopy.symptoms)
+```
+
+## Limit Data to data with EHD Data (Washington only)
+
+```{r}
+data <- data %>% filter(Environm_1!="")
+```
+
+# Analyses
+
+## Fit Models
+
+
+### Model 1 
+
+```{r}
+binomial.ehd <- glmmTMB(binary.tree.canopy.symptoms ~ Environm_1 + (1|Area),family=binomial,data=data)
+```
+
+
+#### Summary
+
+```{r}
+summary(binomial.ehd)
+```
+
+
+#### Interpretation
+
+
+The probability of the outcome does not change with changes in the environmental health disparity rank.
+
+
+### Model 2 
+
+```{r}
+binomial.poverty <- glmmTMB(binary.tree.canopy.symptoms ~ Poverty + (1|Area),family=binomial,data=data)
+```
+
+#### Summary
+
+```{r}
+summary(binomial.poverty)
+```
+
+
+The probability of the outcome does not change with changes in poverty.
+
+
+

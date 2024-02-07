@@ -1,5 +1,5 @@
 ---
-title: "Binomial Distribution Response to Urban Heat"
+title: "Binomial Distribution Response to Urban Heat in Portland"
 author: "Joey Hulbert"
 date: "`r Sys.Date()`"
 output: 
@@ -10,13 +10,14 @@ output:
     toc_depth: 3
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 |            |            |            |            |
 |:----------:|:----------:|:----------:|:----------:|
-|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redhot/discussion)|
+|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redcedar/discussion)|
 |             |           |            |            |
 
 
@@ -61,6 +62,34 @@ data <- data %>% filter(field.tree.canopy.symptoms!="Tree is dead") %>% filter(f
 data$binary.tree.canopy.symptoms <- as.factor(data$binary.tree.canopy.symptoms)
 levels(data$binary.tree.canopy.symptoms)
 ```
+
+
+## Filter to Portland Data
+
+
+```{r}
+ggplot(data,aes(Area))+geom_histogram(stat="count")+theme_bw()+coord_flip()
+```
+
+
+## Observations from Hoyt
+
+```{r}
+hoyt.data <- data %>% filter(str_detect(place_guess, "Hoyt") |str_detect(place_guess, "hoyt"))
+```
+
+
+## Remove observations from Hoyt
+
+```{r}
+data <- data %>% filter(!str_detect(place_guess, "Hoyt") & !str_detect(place_guess, "hoyt"))
+```
+
+
+```{r}
+data <- data %>% filter(Area=="Portland")
+```
+
 
 ```{r}
 ggplot(data,aes(binary.tree.canopy.symptoms))+geom_histogram(stat="count")+theme_bw()+coord_flip()
@@ -156,15 +185,12 @@ top.dieback.binomial.af <- glmmTMB(top.dieback ~ dist.from.mean.af + (1|Area),da
 summary(top.dieback.binomial.af)
 ```
 
-Tree health is associated with urban heat. The probability of success (tree categorized as unhealthy) increases with urban heat
-
-Unhealthy trees are considered success (1) because it is the second level. The probability of failure (0) is the first level (Healthy).
 
 ```{r}
 levels(data$top.dieback)
 ```
 
-The probability of a tree being classified as unhealthy increases with urban temperature. 
+The probability of a tree having top dieback increases with urban temperature. 
 
 ### Visualize effects of predictors
 
@@ -202,15 +228,12 @@ thinning.binomial.af <- glmmTMB(thinning ~ dist.from.mean.af + (1|Area),data=dat
 summary(thinning.binomial.af)
 ```
 
-Tree health is associated with urban heat. The probability of success (tree categorized as unhealthy) increases with urban heat
-
-Unhealthy trees are considered success (1) because it is the second level. The probability of failure (0) is the first level (Healthy).
 
 ```{r}
 levels(data$thinning)
 ```
 
-The probability of a tree being classified as unhealthy increases with urban temperature. 
+There is no evidence the probability of a tree being classified as thinning is not related to urban heat.  
 
 ### Visualize effects of predictors
 
@@ -246,7 +269,7 @@ Unhealthy Trees
 
 # Unhealthy Overall
 coef(binomial.af)
-exp(0.1487527)
+exp(0.1546759)
 ```
 
 Top Dieback
@@ -254,22 +277,8 @@ Top Dieback
 ```{r}
 # Top Dieback
 coef(top.dieback.binomial.af)
-exp(0.2046919)
+exp(0.3313664)
 ```
-
-
-Thinning
-
-```{r}
-# Thinning
-coef(thinning.binomial.af)
-exp(0.08554814)
-```
-
-
-> "An odds ratio greater than 1 implies that the predictor increases the odds of the outcome." 
-
-Heat had the largest effect on predicting if trees had top dieback
 
 
 

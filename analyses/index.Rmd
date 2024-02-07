@@ -12,7 +12,7 @@ output:
 
 |            |            |            |            |
 |:----------:|:----------:|:----------:|:----------:|
-|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redcedar/discussion)|
+|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redhot/discussion)|
 |             |           |            |            |
 
 
@@ -50,6 +50,12 @@ Initial analyses were completed to investigate the relationship with urban heat.
 
 
 ## Binomial Distribution
+
+* Binomial Distribution Analyses
+  + [Urban Heat Analysis](https://jmhulbert.github.io/redhot/analyses/heat/binomial/)
+  + [1930s Home Owner Loan Corporation Ranks Analysis](https://jmhulbert.github.io/redhot/analyses/holc/binomial/)
+  + [Environmental Health Disparity Data Analysis](https://jmhulbert.github.io/redhot/analyses/ehd/binomial/)
+  + [Portland Urban Heat Analysis](https://jmhulbert.github.io/redhot/analyses/portland/heat/binomial/)
 
 Respones variable: *healthy, unhealthy*
 
