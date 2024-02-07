@@ -41,8 +41,6 @@ Observations of western redcedar were downloaded from iNaturalist and urban heat
     + full data (query: quality_grade=any&identifications=any%projects%5B%5D=western-redcedar-dieback-map)
       + Note we needed to specify all fields related to place and all fields related to the project
 
-
-
 ```{r include=FALSE}
 # Full Queries
 # Query quality_grade=any&identifications=any&projects[]=western-redcedar-dieback-map 
@@ -354,6 +352,10 @@ tacoma.uhi.holc.ehd  <- read.csv("./WRC.Tacoma.UHI.HOLC.EHD-1.13.24.csv")
 king.county.uhi.holc.ehd <- read.csv("./WRC.KingCounty.UHI.HOLC.EHD-1.13.24.csv")
 portland.uhi.holc <- read.csv("./WRC.Portland.UHI.HOLC-1.13.24.csv") # does not include ehd data because it is outside of WA
 ```
+
+
+![]()
+
 
 # Post-GIS Data Wrangle Methods
 

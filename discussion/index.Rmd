@@ -43,9 +43,11 @@ The purpose of this page is to share discussion points or feedback for approache
   + More investigation into the timing of heat?
     + e.g. which temperatures (morning, afternoon, eve) are most important for determining tree health?
   + Including dead trees?
-  + Beta logistic regression analysis does not include dead trees because there are a number of other factors that may have led to the dead of those trees
-    + Removing dead trees also removes the issue where we could not account for 1 inflation with glmmTMB package
-    + Are there other random effects we should account for (e.g site type or user?)
+    + Beta logistic regression analysis does not include dead trees because there are a number of other factors that may have led to the dead of those trees
+      + Removing dead trees also removes the issue where we could not account for 1 inflation with glmmTMB package
+      + Are there other random effects we should account for (e.g site type or user?)
+  + Removing Hoyt Arboretum Trees? 
+    + Caclulating Distance from mean after removing Hoyt
 
 
 * How to handle outliers?
@@ -60,3 +62,8 @@ The purpose of this page is to share discussion points or feedback for approache
     + Does dieback increase with increases in heat *pollution?*
   + Heat and Poverty
     + Are the impacts of urban heat on dieback worse for those in poverty?
+    
+Analyses of Portland data only indicate there is a relationship between tree health and afternoon heat (DN_AF1) - non standardized. 
+The probability of a tree having top dieback increased with afternoon heat. However, no evidence was found for a relationship between crown thinning and afternoon heat. **Perhaps there is a relationship with morning or evening temperatures?**
+
+
