@@ -37,9 +37,11 @@ library(DHARMa)
 
 # Purpose
 
-The purpose of this page is to summarize an investigation of **tree health categories** as a *categorical* response to urban heat (temperatures).
+The purpose of this page is to summarize an investigation of **tree health categories** as a *binary* response to urban heat (temperatures).
 
 Response variable: category: *healthy, unhealthy*
+
+![](https://github.com/jmhulbert/redhot/blob/main/maps/index_files/figure-html/portland-map-1.png?raw=true)
 
 
 # Read Data
@@ -107,19 +109,17 @@ ggplot(data,aes(binary.tree.canopy.symptoms,DN_AF1))+geom_violin()+coord_flip()+
 
 
 ```r
-ggplot(data,aes(binary.tree.canopy.symptoms))+geom_histogram(stat="count")+theme_bw()+coord_flip()
+p1 <- ggplot(data,aes(binary.tree.canopy.symptoms))+geom_histogram(stat="count")+theme_bw()+coord_flip()
 ```
 
 ```
 ## Warning in geom_histogram(stat = "count"): Ignoring unknown parameters:
 ## `binwidth`, `bins`, and `pad`
 ```
-
-![](index_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 
 ```r
-ggplot(data,aes(reclassified.tree.canopy.symptoms))+geom_histogram(stat="count")+theme_bw()+coord_flip()
+p2 <- ggplot(data,aes(reclassified.tree.canopy.symptoms))+geom_histogram(stat="count")+theme_bw()+coord_flip()
 ```
 
 ```
@@ -127,7 +127,13 @@ ggplot(data,aes(reclassified.tree.canopy.symptoms))+geom_histogram(stat="count")
 ## `binwidth`, `bins`, and `pad`
 ```
 
-![](index_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+
+```r
+p1 + p2
+```
+
+![](index_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+
 
 
 ```r
@@ -242,9 +248,12 @@ ggplot(new.data, aes(x = DN_AF1, y = predicted_response)) +
   theme_minimal()
 ```
 
-![](index_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](index_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
 The probability of tree being classified as unhealthy increases with afternoon temperature
+
+
+---
 
 ## Model 2: top dieback and heat
 
@@ -315,9 +324,12 @@ ggplot(new.data.2, aes(x = DN_AF1, y = predicted_response)) +
   theme_minimal()
 ```
 
-![](index_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](index_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
 
 The probability of a tree having top dieback increases with afternoon temperature
+
+
+---
 
 ## Model 3: thinning and heat
 
@@ -362,6 +374,8 @@ levels(data$thinning)
 
 There is no evidence the probability of a tree being classified as thinning is related to afternoon heat.  
 
+
+
 ### Visualize effects of predictors
 
 First, generate predictions from model
@@ -388,52 +402,9 @@ ggplot(new.data.3, aes(x = DN_AF1, y = predicted_response)) +
   theme_minimal()
 ```
 
-![](index_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](index_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 
 
-## Compare Models
-
-### Odds Ratios
-
-Unhealthy Trees
-
-
-```r
-# Unhealthy Overall
-coef(binomial.af)
-```
-
-```
-## list()
-```
-
-```r
-exp(0.1546759)
-```
-
-```
-## [1] 1.16728
-```
-
-Top Dieback
-
-
-```r
-# Top Dieback
-coef(top.dieback.binomial.af)
-```
-
-```
-## list()
-```
-
-```r
-exp(0.3313664)
-```
-
-```
-## [1] 1.39287
-```
 
 
 

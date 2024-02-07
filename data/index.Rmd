@@ -354,7 +354,7 @@ portland.uhi.holc <- read.csv("./WRC.Portland.UHI.HOLC-1.13.24.csv") # does not 
 ```
 
 
-![]()
+![](https://github.com/jmhulbert/redhot/blob/main/maps/index_files/figure-html/all-areas-map-1.png?raw=true)
 
 
 # Post-GIS Data Wrangle Methods

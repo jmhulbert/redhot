@@ -54,6 +54,8 @@ Data for the below metrics are included in the [data]((https://jmhulbert.github.
     + Wealth - poverty
     + Tree size
     + Proximity to heavy traffic roadways
+    
+![](https://github.com/jmhulbert/redhot/blob/main/maps/index_files/figure-html/all-areas-map-1.png?raw=true)    
 
 # Approaches
 
