@@ -532,13 +532,12 @@ data$tree.size.simplified <- as.factor(data$tree.size.simplified)
 ```
 
 
-
-
 ### Reclassify response category variables
 
 ```{r}
 data <- data %>% filter(field.tree.canopy.symptoms!="Candelabra top or very old spike top (old growth)") %>% mutate(binary.tree.canopy.symptoms=field.tree.canopy.symptoms) %>% mutate(ordinal.tree.canopy.symptoms=field.tree.canopy.symptoms) %>% mutate(reclassified.tree.canopy.symptoms=field.tree.canopy.symptoms) %>% droplevels()
 ```
+
 
 ```{r}
 binary_level_key <- c("Healthy" = "Healthy", "Thinning Canopy" = "Unhealthy", "New Dead Top (red or brown needles still attached)" = "Unhealthy", "Old Dead Top (needles already gone)" = "Unhealthy", "Tree is dead" = "Unhealthy", "Multiple Symptoms (please list in Notes)" = "Unhealthy", "Extra Cone Crop" = "Unhealthy", "Browning Canopy" = "Unhealthy","Branch Dieback or 'Flagging'" = "Unhealthy", "Other (please describe in Notes)" = "Unhealthy", "Yellowing Canopy" = "Unhealthy")
