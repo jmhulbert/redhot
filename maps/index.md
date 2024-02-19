@@ -1,7 +1,7 @@
 ---
 title: "Maps"
 author: "Joey Hulbert"
-date: "2024-02-06"
+date: "2024-02-19"
 output: 
   html_document:
     toc: true
@@ -11,10 +11,10 @@ output:
     keep_md: yes
 ---
 
-|            |            |            |            |
-|:----------:|:----------:|:----------:|:----------:|
-|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redcedar/discussion)|
-|             |           |            |            |
+|            |            |            |            |            |
+|:----------:|:----------:|:----------:|:----------:|:----------:|
+|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redhot/discussion)|[Maps](https://jmhulbert.github.io/redhot/maps)
+|             |           |            |            |            |
 
 
 
