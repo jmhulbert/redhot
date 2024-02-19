@@ -272,5 +272,49 @@ exp(0.08554814)
 Heat had the largest effect on predicting if trees had top dieback
 
 
+## Adding co-variates
+
+### Site
+
+```{r}
+data.site.filter <- data %>% filter(field.optional...site.location.description!="" & field.optional...site.location.description!="No Selection" & field.optional...site.location.description!="Other") %>% droplevels()
+levels(as.factor(data.site.filter$field.optional...site.location.description))
+```
+
+
+```{r}
+ggplot(data.site.filter,aes(field.optional...site.location.description))+geom_histogram(stat="count")+coord_flip()+theme_bw()
+```
+
+
+### Size
+
+
+```{r}
+data.size.site.filter <- data.site.filter %>% filter(field.optional...tree.size!="" & field.optional...tree.size!="No selection")
+levels(as.factor(data.size.site.filter$field.optional...tree.size))
+```
+
+```{r}
+ggplot(data.size.site.filter,aes(field.optional...tree.size))+geom_histogram(stat="count")+coord_flip()+theme_bw()
+```
+
+
+
+
+
+
+## Model 4: health and heat - filtered data
+
+```{r}
+binomial.af.size.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + field.optional...site.location.description + field.optional...tree.size +(1|Area),data=data.size.site.filter,family=binomial)
+```
+
+
+### Summary
+
+```{r}
+summary(binomial.af)
+```
 
 

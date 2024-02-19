@@ -11,7 +11,7 @@
 
 <meta name="author" content="Joey Hulbert" />
 
-<meta name="date" content="2024-02-06" />
+<meta name="date" content="2024-02-19" />
 
 <title>Analyses</title>
 
@@ -1487,17 +1487,18 @@ border-radius: 0px;
 
 <h1 class="title toc-ignore">Analyses</h1>
 <h4 class="author">Joey Hulbert</h4>
-<h4 class="date">2024-02-06</h4>
+<h4 class="date">2024-02-19</h4>
 
 </div>
 
 
 <table>
 <colgroup>
-<col width="25%" />
-<col width="25%" />
-<col width="25%" />
-<col width="25%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
 </colgroup>
 <tbody>
 <tr class="odd">
@@ -1505,8 +1506,10 @@ border-radius: 0px;
 <td align="center"><a href="https://jmhulbert.github.io/redhot/data">Data</a></td>
 <td align="center"><a href="https://jmhulbert.github.io/redhot/analyses">Analyses</a></td>
 <td align="center"><a href="https://jmhulbert.github.io/redhot/discussion">Discussion</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/maps">Maps</a></td>
 </tr>
 <tr class="even">
+<td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -1572,12 +1575,12 @@ Health Disparity Data Analysis</a></li>
 Urban Heat Analysis</a></li>
 </ul></li>
 </ul>
-<p>Respones variable: <em>healthy, unhealthy</em></p>
+<p>Response variable: <em>healthy, unhealthy</em></p>
 <p>Excluding dead trees might make sense biologically, because we’re not
 sure what factor actually killed the tree. Also the dead trees may have
 been dead for different lengths of time. Some may have been affected by
-heat, where others had not. There is good biological reasoning to exlude
-the dead trees.</p>
+heat, where others had not. There is good biological reasoning to
+exclude the dead trees.</p>
 </div>
 <div id="ordinal-distribution" class="section level2">
 <h2>Ordinal Distribution</h2>
@@ -1664,6 +1667,30 @@ heat influences whether there is dieback at all.</p>
 </div>
 </div>
 </div>
+</div>
+<div id="possible-co-factors" class="section level1">
+<h1>Possible co-factors</h1>
+<p>It may be possible to include more detail in recommendations if we
+explore the relationship between tree health and urban heat while
+accounting for co-factors.</p>
+<p>Most of these co-factors are categorical so including 2 co-factors
+with 4 levels would include 16 different combinations.. we likely do not
+enough data for that.</p>
+<ul>
+<li>Co-factors
+<ul>
+<li>Tree Size (small, medium, large)</li>
+<li>Site Type (urban, suburban, rural)</li>
+<li>Location Description (In a forest, in a field, along a road)</li>
+<li>Water availability, water in summer?</li>
+<li>equity
+<ul>
+<li>not sure if there is a good metric in the data for this, but maybe
+income would be related to expenses for tree care</li>
+<li>however, it may be correlated with urban heat</li>
+</ul></li>
+</ul></li>
+</ul>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>

@@ -477,6 +477,7 @@ data$field.optional...tree.size[data$field.optional...tree.size=="Large"] <- "La
 data$field.optional...tree.size[data$field.optional...tree.size=="Medium"] <- "Medium (can wrap arms around trunk)"
 data$field.optional...tree.size[data$field.optional...tree.size=="Small"] <- "Small (can wrap hands around trunk)"
 data$field.optional...tree.size[data$field.optional...tree.size=="Very Large"] <- "Very Large (would take many people to wrap arms around trunk)"
+data$field.optional...tree.size[data$field.optional...tree.size=="Very small (can wrap a single hand around stem)"] <- "Very Small (can wrap a single hand around stem)"
 ```
 
 
@@ -517,6 +518,18 @@ data$field.dieback.percent[data$field.dieback.percent<0] <- 0 # not sure why but
 
 ```
 
+### Reclassify co-factors
+
+```{r}
+data <- data %>% mutate(tree.size.simplified=field.optional...tree.size) 
+```
+
+```{r}
+tree_size_level_key <- c("Very Small (can wrap a single hand around stem)" = "Small", "Small (can wrap hands around trunk)" = "Small", "Medium (can wrap arms around trunk)" = "Medium", "Large (too big to wrap arms around trunk)" = "Large", "Very Large (would take many people to wrap arms around trunk)" = "Large","Other"="Other","No selection"="No Selection")
+
+data$tree.size.simplified <- recode_factor(data$tree.size.simplified, !!!tree_size_level_key)
+data$tree.size.simplified <- as.factor(data$tree.size.simplified)
+```
 
 
 

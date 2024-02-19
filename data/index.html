@@ -11,7 +11,7 @@
 
 <meta name="author" content="Joey Hulbert" />
 
-<meta name="date" content="2024-02-06" />
+<meta name="date" content="2024-02-19" />
 
 <title>Data Wrangling</title>
 
@@ -1487,7 +1487,7 @@ border-radius: 0px;
 
 <h1 class="title toc-ignore">Data Wrangling</h1>
 <h4 class="author">Joey Hulbert</h4>
-<h4 class="date">2024-02-06</h4>
+<h4 class="date">2024-02-19</h4>
 
 </div>
 
@@ -1871,7 +1871,10 @@ data$field.optional...site.type[data$field.optional...site.type==&quot;Natural F
 <pre class="r"><code>data$field.optional...tree.size[data$field.optional...tree.size==&quot;Large&quot;] &lt;- &quot;Large (too big to wrap arms around trunk)&quot;
 data$field.optional...tree.size[data$field.optional...tree.size==&quot;Medium&quot;] &lt;- &quot;Medium (can wrap arms around trunk)&quot;
 data$field.optional...tree.size[data$field.optional...tree.size==&quot;Small&quot;] &lt;- &quot;Small (can wrap hands around trunk)&quot;
-data$field.optional...tree.size[data$field.optional...tree.size==&quot;Very Large&quot;] &lt;- &quot;Very Large (would take many people to wrap arms around trunk)&quot;</code></pre>
+data$field.optional...tree.size[data$field.optional...tree.size==&quot;Very Large&quot;] &lt;- &quot;Very Large (would take many people to wrap arms around trunk)&quot;
+data$field.optional...tree.size[data$field.optional...tree.size==&quot;Very small (can wrap a single hand around stem)&quot;] &lt;- &quot;Very Small (can wrap a single hand around stem)&quot;</code></pre>
+<pre><code>## Warning in `[&lt;-.factor`(`*tmp*`, data$field.optional...tree.size == &quot;Very small
+## (can wrap a single hand around stem)&quot;, : invalid factor level, NA generated</code></pre>
 <pre class="r"><code>data$field.optional...site.location.description [data$field.optional...site.location.description ==&quot;Yard or open park grounds&quot;] &lt;- &quot;Urban yard or open park grounds&quot;</code></pre>
 <pre class="r"><code>data$field.percent.canopy.affected.... &lt;- as.factor(data$field.percent.canopy.affected....)
 data$field.percent.canopy.affected....[data$field.percent.canopy.affected....==&quot;1-25% of the crown is unhealthy&quot;] &lt;- &quot;1-29% of the canopy is unhealthy&quot;
@@ -1900,6 +1903,14 @@ does.not.have.dieback.percent$field.dieback.percent &lt;- does.not.have.dieback.
 data &lt;- rbind(has.dieback.percent,does.not.have.dieback.percent)
 
 data$field.dieback.percent[data$field.dieback.percent&lt;0] &lt;- 0 # not sure why but there was one -2 percent dieback value</code></pre>
+</div>
+<div id="reclassify-co-factors" class="section level3">
+<h3>Reclassify co-factors</h3>
+<pre class="r"><code>data &lt;- data %&gt;% mutate(tree.size.simplified=field.optional...tree.size) </code></pre>
+<pre class="r"><code>tree_size_level_key &lt;- c(&quot;Very Small (can wrap a single hand around stem)&quot; = &quot;Small&quot;, &quot;Small (can wrap hands around trunk)&quot; = &quot;Small&quot;, &quot;Medium (can wrap arms around trunk)&quot; = &quot;Medium&quot;, &quot;Large (too big to wrap arms around trunk)&quot; = &quot;Large&quot;, &quot;Very Large (would take many people to wrap arms around trunk)&quot; = &quot;Large&quot;,&quot;Other&quot;=&quot;Other&quot;,&quot;No selection&quot;=&quot;No Selection&quot;)
+
+data$tree.size.simplified &lt;- recode_factor(data$tree.size.simplified, !!!tree_size_level_key)
+data$tree.size.simplified &lt;- as.factor(data$tree.size.simplified)</code></pre>
 </div>
 <div id="reclassify-response-category-variables" class="section level3">
 <h3>Reclassify response category variables</h3>

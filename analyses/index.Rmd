@@ -10,10 +10,10 @@ output:
     toc_depth: 3
 ---
 
-|            |            |            |            |
-|:----------:|:----------:|:----------:|:----------:|
-|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redhot/discussion)|
-|             |           |            |            |
+|            |            |            |            |            |
+|:----------:|:----------:|:----------:|:----------:|:----------:|
+|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redhot/discussion)|[Maps](https://jmhulbert.github.io/redhot/maps)
+|             |           |            |            |            |
 
 
 ```{r setup, include=FALSE}
@@ -57,9 +57,9 @@ Initial analyses were completed to investigate the relationship with urban heat.
   + [Environmental Health Disparity Data Analysis](https://jmhulbert.github.io/redhot/analyses/ehd/binomial/)
   + [Portland Urban Heat Analysis](https://jmhulbert.github.io/redhot/analyses/portland/heat/binomial/)
 
-Respones variable: *healthy, unhealthy*
+Response variable: *healthy, unhealthy*
 
-Excluding dead trees might make sense biologically, because we're not sure what factor actually killed the tree. Also the dead trees may have been dead for different lengths of time. Some may have been affected by heat, where others had not. There is good biological reasoning to exlude the dead trees. 
+Excluding dead trees might make sense biologically, because we're not sure what factor actually killed the tree. Also the dead trees may have been dead for different lengths of time. Some may have been affected by heat, where others had not. There is good biological reasoning to exclude the dead trees. 
 
 
 ## Ordinal Distribution
@@ -114,6 +114,22 @@ The conditional output is indicating that for all observations with greater than
 Including a predictor in the zi= bit of the model would test whether heat influences whether there is dieback at all. 
 
 Possible understanding from: https://stats.stackexchange.com/questions/466047/interpreting-output-for-glmmtmb-for-zero-inflated-count-data 
+
+# Possible co-factors
+
+It may be possible to include more detail in recommendations if we explore the relationship between tree health and urban heat while accounting for co-factors. 
+
+Most of these co-factors are categorical so including 2 co-factors with 4 levels would include 16 different combinations.. we likely do not enough data for that. 
+
++ Co-factors
+  + Tree Size (small, medium, large)
+  + Site Type (urban, suburban, rural)
+  + Location Description (In a forest, in a field, along a road)
+  + Water availability, water in summer? 
+  + equity 
+    + not sure if there is a good metric in the data for this, but maybe income would be related to expenses for tree care
+    + however, it may be correlated with urban heat
+
 
 # References
 
