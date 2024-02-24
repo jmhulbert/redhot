@@ -36,6 +36,35 @@ The purpose of this page is to summarize an investigation of **tree health categ
 
 Response variable: category: *healthy, unhealthy*
 
+Possible explanitory variables to explore: 
+
++ EHD Data (see [V2.0 Report](https://doh.wa.gov/sites/default/files/2022-07/311-011-EHD-Map-Tech-Report_0.pdf?uid=62e46bbc98fad) for more details)
+  + Indicators in Pollution Burden
+    + Environmental Exposures
+      + Diesel exhaust
+      + Ozone
+      + PM2.5
+      + Toxic Release
+      + Proximity to heavy traffic roadways
+    + Environmental Effects
+      + Lead risk from housing
+      + Proximity to hazardous waste treatment storage
+      + Proximity to superfund sites
+      + wastewater discharge
+  + Indicators of Population Characteristics
+    + Sensitive Populations
+      + Death from cardiovascular disease
+      + Low birth weight
+    + Socioeconomic Factors
+      + No high school diploma
+      + Unaffordable housing
+      + Transportation expense
+      + Limited English
+      + People living in poverty
+      + Race (people of color)
+      + Unemployment
+
+
 
 # Read Data
 
@@ -64,12 +93,9 @@ levels(data$binary.tree.canopy.symptoms)
 data <- data %>% filter(Environm_1!="")
 ```
 
-Only 787 observations were included in the analyses of ehd ranks in urban areas. 
+Only 787 observations were included in the analyses of ehd ranks in urban areas because the data was limited to washington observations.
 
-```{r}
-names(data)
-```
-
+Note there are more observations available in the [WRDM](https://www.inaturalist.org/projects/western-redcedar-dieback-map) for these analyses, but this study only includes trees from areas where urban heat data were available.
 
 
 # Analyses

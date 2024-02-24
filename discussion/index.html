@@ -11,7 +11,6 @@
 
 <meta name="author" content="Joey Hulbert" />
 
-<meta name="date" content="2024-02-23" />
 
 <title>Discussion</title>
 
@@ -1487,7 +1486,7 @@ border-radius: 0px;
 
 <h1 class="title toc-ignore">Discussion</h1>
 <h4 class="author">Joey Hulbert</h4>
-<h4 class="date">2024-02-23</h4>
+<h4 class="date">Last Update: 2024-02-24</h4>
 
 </div>
 
@@ -1522,6 +1521,23 @@ border-radius: 0px;
 <p>The purpose of this page is to share discussion points or feedback
 for approaches and interpretations.</p>
 </div>
+<div id="findings" class="section level1">
+<h1>Findings</h1>
+<ul>
+<li>General results
+<ul>
+<li>probability a tree was classified as unhealthy increased with urban
+heat</li>
+<li>After noon temperature best fit
+<ul>
+<li>More investigation into the importance of morning, afternoon, or
+evening temperature would be valuable.</li>
+</ul></li>
+<li>No evidence for effect of co-factors</li>
+<li>Rural temps were higher than urban temps in king county</li>
+</ul></li>
+</ul>
+</div>
 <div id="questions-of-interest" class="section level1">
 <h1>Questions of interest</h1>
 <ul>
@@ -1537,8 +1553,8 @@ evening, daily avg?)</li>
 as dead?</li>
 <li>Are increases in urban heat associated with increases in percent
 canopy dieback?</li>
-<li>Does percent poverty, HOLC rating, or environmental health disparity
-rank associated with increases in probability of trees being classified
+<li>Are percent poverty, HOLC rating, or environmental health disparity
+ranks associated with increases in probability of trees being classified
 as unhealthy?</li>
 <li>Do urban trees have higher proportions of unhealthy trees than rural
 trees?</li>
@@ -1557,9 +1573,17 @@ accuracy?</li>
 <ul>
 <li>e.g. which temperatures (morning, afternoon, eve) are most important
 for determining tree health?</li>
+<li>Check how dist from avg is calculated based on daily average
+temperature</li>
 </ul></li>
 <li>Including dead trees?
 <ul>
+<li>Current analysis does not include dead trees because
+<ul>
+<li>there are a number of other factors that may have led to the dead of
+those trees</li>
+<li>could not account for 1 inflation with glmmTMB package</li>
+</ul></li>
 <li>Beta logistic regression analysis does not include dead trees
 because there are a number of other factors that may have led to the
 dead of those trees
@@ -1574,6 +1598,8 @@ or user?)</li>
 <ul>
 <li>Caclulating Distance from mean after removing Hoyt</li>
 </ul></li>
+<li>should we remove observations with very poor positional
+accuracy?</li>
 </ul></li>
 <li>How to handle outliers?
 <ul>
@@ -1602,12 +1628,14 @@ poverty?</li>
 </ul></li>
 </ul></li>
 </ul>
-<p>Analyses of Portland data only indicate there is a relationship
-between tree health and afternoon heat (DN_AF1) - non standardized. The
-probability of a tree having top dieback increased with afternoon heat.
-However, no evidence was found for a relationship between crown thinning
-and afternoon heat. <strong>Perhaps there is a relationship with morning
-or evening temperatures?</strong></p>
+<p><a href="https://jmhulbert.github.io/redhot/analyses/portland/heat/binomial/">Analyses
+of Portland data only</a> indicate there is a relationship between tree
+health and afternoon heat (DN_AF1) - non standardized. The probability
+of a tree having top dieback increased with afternoon heat. However, no
+evidence was found for a relationship between crown thinning and
+afternoon heat. <em>Perhaps there is a relationship with morning or
+evening temperatures?</em> However, it could also be that the observers
+are not as confident in recognizing trees as thinning.</p>
 <div id="data-limitations" class="section level2">
 <h2>Data limitations</h2>
 <p>Preliminary analyses of data limited to those with <a href="https://jmhulbert.github.io/redhot/analyses/holc/binomial/">HOLC
@@ -1619,6 +1647,68 @@ analyses limited to observations with EHD data (n=787). Testing
 hypotheses with EHD data may be best accomplished by including the full
 dataset, rather than those shared only from King County or Tacoma.</p>
 </div>
+<div id="data-qa-qc" class="section level2">
+<h2>Data QA QC</h2>
+<p>Eight other tree species were added to the project, but the
+iNaturalist community helped id the trees correctly.</p>
+<p>How many identifiers were there? How many observers were there?</p>
+</div>
+</div>
+<div id="extra-questions" class="section level1">
+<h1>Extra Questions</h1>
+<ul>
+<li>Possible additional questions to explore
+<ul>
+<li>Which pollution data are affect the probability of tree health
+classification?</li>
+<li>Are Temperatures higher for trees in urban areas of King
+County?</li>
+<li>Are income and tree size important co-factors to the relationship
+between redcedar health and urban heat?</li>
+</ul></li>
+<li>Additional Factors to consider as impacts to urban tree health.
+<ul>
+<li>Impermeable Surface (could be calculated for buffers around Tacoma
+trees at least)</li>
+<li>Pollution</li>
+<li>Climate Variables</li>
+<li>Wealth</li>
+<li>Tree Size</li>
+</ul></li>
+</ul>
+<div id="jims-study" class="section level2">
+<h2>Jim’s study</h2>
+<p>143 trees in tacoma were revisited during the fall season in 2023.
+These trees were previously added to the WRDM. Trees were tagged in a
+second project, Data for 2023 fall percent canopy dieback, seasonal
+branch browning percent, and relative cone crop were added.</p>
+<ul>
+<li>Questions
+<ul>
+<li>change in dieback in relation to access to summer water</li>
+<li>relative cone crop in relation to access to summer water</li>
+<li>persent seasonal browning in relation to access to summer water</li>
+</ul></li>
+</ul>
+</div>
+<div id="dieback-and-pollution" class="section level2">
+<h2>Dieback and Pollution</h2>
+<ul>
+<li>Questions
+<ul>
+<li>Which pollution data are important for determining tree health?</li>
+<li>Does dieback increase with increases in pollution?</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<ul>
+<li>Voelkel, J., and Shandas, V. (2017). Towards Systematic Prediction
+of Urban Heat Islands: Grounding Measurements, Assessing Modeling
+Techniques. Climate 5, 41. doi: 10.3390/cli5020041.</li>
+</ul>
 </div>
 
 

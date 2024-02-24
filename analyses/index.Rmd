@@ -44,6 +44,11 @@ Generalized linear mixed-effect models
     + likley need to account for zero inflation
       + e.g. does increases in urban heat increase likelyhood of having dieback (zi model) AND does increases in urban heat increase precent dieback proportion for trees with some dieback (conditional model).
 
+
+# iNaturalist Data Summaries
+
+Check the [iNat Data Summaries](https://jmhulbert.github.io/redhot/analyses/inaturalist/) for general information about the observations from the [WRDM project](https://www.inaturalist.org/projects/western-redcedar-dieback-map) included in this study.
+
 # Urban Heat Analyses
 
 Initial analyses were completed to investigate the relationship with urban heat. 
@@ -82,6 +87,10 @@ Response variable: category: *0% Dieback, 1-29% Dieback, 30-59% dieback, 60-99% 
 Response variable: *percent canopy dieback*
 
 Because the response variable is percent (we can consider it as proportion too) we can do regression using a beta distribution (comparing shapes) rather than a linear regression. We also need to use an distribution zero or one inflated rate. 
+
+Note, beta distribution analyses only included observations where community scientists estimated the percent canopy dieback (which was optional). 
+
+We considered converting the categorical variable for percent canopy affected (e.g. 1-30% is affected, 31-60% is affected, etc), but determined it was too awkward and innacurate. 
 
 
 ### Zero inflated beta regression

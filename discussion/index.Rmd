@@ -24,6 +24,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The purpose of this page is to share discussion points or feedback for approaches and interpretations. 
 
+
+
+# Findings
+
+* General results
+  + probability a tree was classified as unhealthy increased with urban heat
+  + After noon temperature best fit
+    + More investigation into the importance of morning, afternoon, or evening temperature would be valuable. 
+  + No evidence for effect of co-factors
+  + Rural temps were higher than urban temps in king county
+
 # Questions of interest
 
 * Initial Questions of Interest
@@ -31,10 +42,9 @@ The purpose of this page is to share discussion points or feedback for approache
     + which temperature time is most important (e.g. morning, afternoon, evening, daily avg?)
   + Does urban heat increase the probability of trees being classified as dead?
   + Are increases in urban heat associated with increases in percent canopy dieback?
-  + Does percent poverty, HOLC rating, or environmental health disparity rank associated with increases in probability of trees being classified as unhealthy? 
+  + Are percent poverty, HOLC rating, or environmental health disparity ranks associated with increases in probability of trees being classified as unhealthy? 
   + Do urban trees have higher proportions of unhealthy trees than rural trees?
   + Does tree size affect the tree's vulnerability to urban heat?
-
 
 # Approach Considerations
 
@@ -42,13 +52,17 @@ The purpose of this page is to share discussion points or feedback for approache
   + Should we remove observations with very poor positional accuracy? 
   + More investigation into the timing of heat?
     + e.g. which temperatures (morning, afternoon, eve) are most important for determining tree health?
+    + Check how dist from avg is calculated based on daily average temperature
   + Including dead trees?
+    + Current analysis does not include dead trees because
+      + there are a number of other factors that may have led to the dead of those trees
+      + could not account for 1 inflation with glmmTMB package
     + Beta logistic regression analysis does not include dead trees because there are a number of other factors that may have led to the dead of those trees
       + Removing dead trees also removes the issue where we could not account for 1 inflation with glmmTMB package
       + Are there other random effects we should account for (e.g site type or user?)
   + Removing Hoyt Arboretum Trees? 
     + Caclulating Distance from mean after removing Hoyt
-
+  + should we remove observations with very poor positional accuracy?  
 
 * How to handle outliers?
   + Accounted for currently
@@ -62,7 +76,7 @@ The purpose of this page is to share discussion points or feedback for approache
     + Does dieback increase with increases in heat *pollution?*
   + Heat and Poverty
     + Are the impacts of urban heat on dieback worse for those in poverty?
-    
+
 [Analyses of Portland data only](https://jmhulbert.github.io/redhot/analyses/portland/heat/binomial/) indicate there is a relationship between tree health and afternoon heat (DN_AF1) - non standardized. 
 The probability of a tree having top dieback increased with afternoon heat. However, no evidence was found for a relationship between crown thinning and afternoon heat. *Perhaps there is a relationship with morning or evening temperatures?* However, it could also be that the observers are not as confident in recognizing trees as thinning. 
 
@@ -72,27 +86,44 @@ Preliminary analyses of data limited to those with [HOLC grades](https://jmhulbe
 
 Similarly, about 500 observations (oregon's) were dropped for analyses limited to observations with EHD data (n=787). Testing hypotheses with EHD data may be best accomplished by including the full dataset, rather than those shared only from King County or Tacoma. 
 
-
 ## Data QA QC
 
 Eight other tree species were added to the project, but the iNaturalist community helped id the trees correctly. 
 
+How many identifiers were there? How many observers were there? 
 
-
-    
 # Extra Questions
 
 * Possible additional questions to explore
-  + Which pollution data are important for determining tree health?
+  + Which pollution data are affect the probability of tree health classification?
   + Are Temperatures higher for trees in urban areas of King County?
   + Are income and tree size important co-factors to the relationship between redcedar health and urban heat? 
 
-
-* We were interested in the factors that affect urban tree health such as:
-    + Urban Heat
-    + Impermeable Surface
+* Additional Factors to consider as impacts to urban tree health. 
+    + Impermeable Surface (could be calculated for buffers around Tacoma trees at least)
     + Pollution
     + Climate Variables
     + Wealth
     + Tree Size
-    + Tree Species
+
+## Jim's study
+
+143 trees in tacoma were revisited during the fall season in 2023. These trees were previously added to the WRDM. Trees were tagged in a second project,  Data for 2023 fall percent canopy dieback, seasonal branch browning percent, and relative cone crop were added. 
+
+* Questions
+  + change in dieback in relation to access to summer water
+  + relative cone crop in relation to access to summer water
+  + persent seasonal browning in relation to access to summer water
+
+## Dieback and Pollution
+
+* Questions
+  + Which pollution data are important for determining tree health?
+  + Does dieback increase with increases in pollution?
+    
+
+
+
+# References
+
+ + Voelkel, J., and Shandas, V. (2017). Towards Systematic Prediction of Urban Heat Islands: Grounding Measurements, Assessing Modeling Techniques. Climate 5, 41. doi: 10.3390/cli5020041.

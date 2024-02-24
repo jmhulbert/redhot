@@ -572,6 +572,7 @@ data$top.dieback[data$reclassified.tree.canopy.symptoms=="Dead Top"] <- "Yes"
 data$top.dieback[data$reclassified.tree.canopy.symptoms!="Dead Top"] <- "No"
 data$top.dieback <- as.factor(data$top.dieback)
 levels(data$top.dieback)
+summary(data$top.dieback)
 ```
 
 Create Binary response for thinning
@@ -581,6 +582,17 @@ data$thinning[data$reclassified.tree.canopy.symptoms=="Thinning Canopy"] <- "Yes
 data$thinning[data$reclassified.tree.canopy.symptoms!="Thinning Canopy"] <- "No"
 data$thinning <- as.factor(data$thinning)
 levels(data$thinning)
+summary(data$thinning)
+```
+
+Create Binary response for dead
+
+```{r}
+data$dead[data$reclassified.tree.canopy.symptoms=="Tree is Dead"] <- "Yes"
+data$dead[data$reclassified.tree.canopy.symptoms!="Tree is Dead"] <- "No"
+data$dead <- as.factor(data$dead)
+levels(data$dead)
+summary(data$dead)
 ```
 
 
@@ -626,7 +638,7 @@ data <- data %>% filter(dist.from.mean.af>(-8))
 ### Export Modified Data
 
 ```{r}
-#write.csv(data,file="./urban-data-modified.csv")
+write.csv(data,file="./urban-data-modified.csv")
 ```
 
 [urban-data-modified.csv](./urban-data-modified.csv)

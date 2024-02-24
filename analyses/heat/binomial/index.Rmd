@@ -66,7 +66,6 @@ levels(data$binary.tree.canopy.symptoms)
 
 ## Binary Tree Condition Categories
 
-
 ```{r}
 ggplot(data,aes(binary.tree.canopy.symptoms))+geom_histogram(stat="count")+theme_bw()+coord_flip()
 ```
@@ -85,7 +84,6 @@ p1 / p2
 
 ## Reclassified Tree Condition Categories
 
-
 ```{r}
 ggplot(data,aes(reclassified.tree.canopy.symptoms))+geom_histogram(stat="count")+theme_bw()+coord_flip()
 ```
@@ -98,7 +96,6 @@ data$thinning <- as.factor(data$thinning)
 ```{r}
 ggplot(data,aes(reclassified.tree.canopy.symptoms,dist.from.mean.af ))+geom_boxplot()+theme_bw()+coord_flip()
 ```
-
 
 ## Temp and Site Type
 
@@ -113,6 +110,7 @@ king <- king %>% filter(field.optional...site.type=="Urban"|field.optional...sit
 ```{r}
 ggplot(king,aes(field.optional...site.type,dist.from.mean.af ))+geom_boxplot()+theme_bw()+coord_flip()
 ```
+
 
 # Analyses
 
