@@ -62,9 +62,29 @@ data$binary.tree.canopy.symptoms <- as.factor(data$binary.tree.canopy.symptoms)
 levels(data$binary.tree.canopy.symptoms)
 ```
 
+# Data Visualization
+
+## Binary Tree Condition Categories
+
+
 ```{r}
 ggplot(data,aes(binary.tree.canopy.symptoms))+geom_histogram(stat="count")+theme_bw()+coord_flip()
 ```
+
+```{r}
+p1 <-ggplot(data,aes(binary.tree.canopy.symptoms,dist.from.mean.af, fill=binary.tree.canopy.symptoms ))+geom_boxplot(alpha=0.5)+theme_bw()+coord_flip() + scale_fill_manual(name="Tree Condition",values=c("#7fcdbb","#fe9929"))+guides(fill=FALSE) +labs(x="Tree Condition",y=NULL)
+```
+
+```{r}
+p2 <-ggplot(data,aes(dist.from.mean.af,fill=binary.tree.canopy.symptoms))+geom_density(alpha=0.5) + scale_fill_manual(name="Tree Condition",values=c("#7fcdbb","#fe9929")) +theme_bw() +labs(x="Distance from Mean Afternoon Temperature") +guides(fill=FALSE)
+```
+
+```{r}
+p1 / p2
+```
+
+## Reclassified Tree Condition Categories
+
 
 ```{r}
 ggplot(data,aes(reclassified.tree.canopy.symptoms))+geom_histogram(stat="count")+theme_bw()+coord_flip()
@@ -75,6 +95,24 @@ data$top.dieback <- as.factor(data$top.dieback)
 data$thinning <- as.factor(data$thinning)
 ```
 
+```{r}
+ggplot(data,aes(reclassified.tree.canopy.symptoms,dist.from.mean.af ))+geom_boxplot()+theme_bw()+coord_flip()
+```
+
+
+## Temp and Site Type
+
+```{r}
+king <- data %>% filter(Area=="King County")
+```
+
+```{r}
+king <- king %>% filter(field.optional...site.type=="Urban"|field.optional...site.type=="Suburban"|field.optional...site.type=="Rural")
+```
+
+```{r}
+ggplot(king,aes(field.optional...site.type,dist.from.mean.af ))+geom_boxplot()+theme_bw()+coord_flip()
+```
 
 # Analyses
 
@@ -164,7 +202,19 @@ Unhealthy trees are considered success (1) because it is the second level. The p
 levels(data$top.dieback)
 ```
 
-The probability of a tree being classified as unhealthy increases with urban temperature. 
+```{r}
+p3 <-ggplot(data,aes(top.dieback,dist.from.mean.af, fill=top.dieback ))+geom_boxplot(alpha=0.5)+theme_bw()+coord_flip() + scale_fill_manual(name="Top Dieback",values=c("#7fcdbb","#fe9929"))+guides(fill=FALSE) +labs(x="Top Dieback",y=NULL)
+```
+
+```{r}
+p4 <-ggplot(data,aes(dist.from.mean.af,fill=top.dieback))+geom_density(alpha=0.5) + scale_fill_manual(name="Top Dieback",values=c("#7fcdbb","#fe9929")) +theme_bw() +labs(x="Distance from Mean Afternoon Temperature") +guides(fill=FALSE)
+```
+
+```{r}
+p3 / p4
+```
+
+The probability of a tree having top dieback increases with urban temperature. 
 
 ### Visualize effects of predictors
 
@@ -289,32 +339,49 @@ ggplot(data.site.filter,aes(field.optional...site.location.description))+geom_hi
 
 ### Size
 
-
 ```{r}
-data.size.site.filter <- data.site.filter %>% filter(field.optional...tree.size!="" & field.optional...tree.size!="No selection")
-levels(as.factor(data.size.site.filter$field.optional...tree.size))
+data.size.site.filter <- data.site.filter %>% filter(tree.size.simplified!="" & tree.size.simplified!="No Selection")
+levels(as.factor(data.size.site.filter$tree.size.simplified))
 ```
 
 ```{r}
-ggplot(data.size.site.filter,aes(field.optional...tree.size))+geom_histogram(stat="count")+coord_flip()+theme_bw()
+ggplot(data.size.site.filter,aes(tree.size.simplified))+geom_histogram(stat="count")+coord_flip()+theme_bw()
 ```
 
 
-
-
-
-
-## Model 4: health and heat - filtered data
+## Model 4: health, heat, size, and location - filtered data
 
 ```{r}
-binomial.af.size.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + field.optional...site.location.description + field.optional...tree.size +(1|Area),data=data.size.site.filter,family=binomial)
+binomial.af.size.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + field.optional...site.location.description + tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
 ```
-
-
-### Summary
 
 ```{r}
-summary(binomial.af)
+summary(binomial.af.size.site)
 ```
 
+With the data we have available and above model, there is no evidence size or site location have a significant effect on the probability of a tree having dieback.
+
+Generally there is a lack of statistical evidence for a relationship between size or site location on tree health. However, we should revisit it with the larger (urban and non urban dataset). 
+
+
+## Model 5: health, heat and size
+
+```{r}
+binomial.af.size <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af +  tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
+```
+
+```{r}
+summary(binomial.af.size)
+```
+
+
+## Model 6: health, heat and location
+
+```{r}
+binomial.af.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af +  tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
+```
+
+```{r}
+summary(binomial.af.site)
+```
 

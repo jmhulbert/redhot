@@ -63,7 +63,14 @@ The purpose of this page is to share discussion points or feedback for approache
   + Heat and Poverty
     + Are the impacts of urban heat on dieback worse for those in poverty?
     
-Analyses of Portland data only indicate there is a relationship between tree health and afternoon heat (DN_AF1) - non standardized. 
-The probability of a tree having top dieback increased with afternoon heat. However, no evidence was found for a relationship between crown thinning and afternoon heat. **Perhaps there is a relationship with morning or evening temperatures?**
+[Analyses of Portland data only](https://jmhulbert.github.io/redhot/analyses/portland/heat/binomial/) indicate there is a relationship between tree health and afternoon heat (DN_AF1) - non standardized. 
+The probability of a tree having top dieback increased with afternoon heat. However, no evidence was found for a relationship between crown thinning and afternoon heat. *Perhaps there is a relationship with morning or evening temperatures?* However, it could also be that the observers are not as confident in recognizing trees as thinning. 
+
+## Data limitations
+
+Preliminary analyses of data limited to those with [HOLC grades](https://jmhulbert.github.io/redhot/analyses/holc/binomial/) (n=395) may not have enough observations. For example, even when distance from mean afternoon temp was included as a co-factor, there was no evidence of a realtionship with heat. 
+
+Similarly, about 500 observations (oregon's) were dropped for analyses limited to observations with EHD data (n=787). Testing hypotheses with EHD data may be best accomplished by including the full dataset, rather than those shared only from King County or Tacoma. 
+
 
 

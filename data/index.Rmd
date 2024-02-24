@@ -485,7 +485,7 @@ data$field.optional...tree.size[data$field.optional...tree.size=="Very small (ca
 data$field.optional...site.location.description [data$field.optional...site.location.description =="Yard or open park grounds"] <- "Urban yard or open park grounds"
 ```
 
-
+### Reclassify co-factors
 
 ```{r}
 data$field.percent.canopy.affected.... <- as.factor(data$field.percent.canopy.affected....)
@@ -518,7 +518,7 @@ data$field.dieback.percent[data$field.dieback.percent<0] <- 0 # not sure why but
 
 ```
 
-### Reclassify co-factors
+
 
 ```{r}
 data <- data %>% mutate(tree.size.simplified=field.optional...tree.size) 

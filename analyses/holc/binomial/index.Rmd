@@ -63,24 +63,28 @@ levels(data$binary.tree.canopy.symptoms)
 data <- data %>% filter(grade!="")
 ```
 
+Only 395 observations remained after filtering to those with HOLC grades. 
 
 # Analyses
 
 ## Fit Models
+
+### Model 1: HOLC grade only
 
 ```{r}
 binomial.holc <- glmmTMB(binary.tree.canopy.symptoms ~ grade + (1|Area),family=binomial,data=data)
 ```
 
 
-## Summary
+#### Summary
 
 ```{r}
 summary(binomial.holc)
 ```
 
 
-## Interpretation
+#### Interpretation
+
 ```{r}
 levels(as.factor(data$grade))
 ```
@@ -91,5 +95,18 @@ When accounting for cities as a random effect and when limiting data to the 395 
 
 Interesting
 
+### Model 2: Heat and HOLC Grade
 
+```{r}
+binomial.heat.holc <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + grade + (1|Area),family=binomial,data=data)
+```
 
+#### Summary
+
+```{r}
+summary(binomial.heat.holc)
+```
+
+#### Interpretation
+
+When data are filtered to those from HOLC grades (n=395 trees), no evidence for a relationship between tree health and urban heat or HOLC grade was found. 

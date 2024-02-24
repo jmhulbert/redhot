@@ -36,26 +36,62 @@ The RedHot analyses were completed to study relationships between the health of 
 
 # Data
 
+## Maps
+
+Maps of the observations included in these analyses are available at https://jmhulbert.github.io/redhot/maps 
+
+![](https://github.com/jmhulbert/redhot/blob/main/maps/index_files/figure-html/all-areas-map-1.png?raw=true)   
+
+## Metrics Included
+
 * Analyses were completed with the following Data
   + Redcedar health data were collected by community scientists in the [Western Redcedar Dieback Map](https://www.inaturalist.org/projects/western-redcedar-dieback-map) project on iNaturalist. 
   + Urban heat data were commissioned by three cities in the northwest using methods described in [Voelkel and Shandas (2017)](https://www.mdpi.com/2225-1154/5/2/41). 
-  + Home Owners Loan Corporation Maps were downloaded from the Mapping Inequality Project at the following links
+  + Home Owners Loan Corporation Maps were downloaded from the Mapping Inequality Project at the following links:
     + [Tacoma](https://dsl.richmond.edu/panorama/redlining/WA-Tacoma)
     + [Portland](https://dsl.richmond.edu/panorama/redlining/OR-Portland)
     + [Seattle](https://dsl.richmond.edu/panorama/redlining/WA-Seattle)
-  + Environmental Health Disparity Data were downloaded from the [Washington Tracking Network](https://geo.wa.govsets/WADOH::full-environmental-health-disparities-version-2-extract/explore)
+  + Environmental Health Disparity Data were downloaded from the [Washington Tracking Network](https://fortress.wa.gov/doh/wtnibl/WTNIBL/).
+
 
 Data for the below metrics are included in the [data]((https://jmhulbert.github.io/redhot/data)), but not all have been investigated in the [analyses](https://jmhulbert.github.io/redhot/analyses/) yet. 
 
 * Available data presently
-    + Diesel exhaust
-    + Ozone
-    + Urban Heat
-    + Wealth - poverty
-    + Tree size
-    + Proximity to heavy traffic roadways
-    
-![](https://github.com/jmhulbert/redhot/blob/main/maps/index_files/figure-html/all-areas-map-1.png?raw=true)    
+    + iNaturalist Data
+      + Tree health conditions
+      + Percent Dieback
+      + Number of additional unhealthy trees
+      + Tree size
+      + Site type (urban, suburban, rural)
+      + Location description (roadside, park or yard, forest edge, inside forest)
+      + Summer access to water
+    + Urban heat
+    + HOLC Grade
+    + EHD Data (see [V2.0 Report](https://doh.wa.gov/sites/default/files/2022-07/311-011-EHD-Map-Tech-Report_0.pdf?uid=62e46bbc98fad) for more details)
+      + Indicators in Pollution Burden
+        + Environmental Exposures
+          + Diesel exhaust
+          + Ozone
+          + PM2.5
+          + Toxic Release
+          + Proximity to heavy traffic roadways
+        + Environmental Effects
+          + Lead risk from housing
+          + Proximity to hazardous waste treatment storage
+          + Proximity to superfund sites
+          + wastewater discharge
+      + Indicators of Population Characteristics
+        + Sensitive Populations
+          + Death from cardiovascular disease
+          + Low birth weight
+        + Socioeconomic Factors
+          + No high school diploma
+          + Unaffordable housing
+          + Transportation expense
+          + Limited English
+          + People living in poverty
+          + Race (people of color)
+          + Unemployment
 
 # Approaches
 
@@ -67,7 +103,7 @@ The relationship between redcedar and urban metrics were investigated with gener
 * Possible additional questions to explore
   + Which pollution data are important for determining tree health?
   + Are Temperatures higher for trees in urban areas of King County?
-  + Are income and tree size important effects for the vulnerability of redcedar to urban heat? 
+  + Are income and tree size important co-factors to the relationship between redcedar health and urban heat? 
 
 
 

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Joey Hulbert" />
 
-<meta name="date" content="2024-02-19" />
+<meta name="date" content="2024-02-23" />
 
 <title>Binomial Distribution Response to HOLC Ranks</title>
 
@@ -353,7 +353,7 @@ display: none;
 <h1 class="title toc-ignore">Binomial Distribution Response to HOLC
 Ranks</h1>
 <h4 class="author">Joey Hulbert</h4>
-<h4 class="date">2024-02-19</h4>
+<h4 class="date">2024-02-23</h4>
 
 </div>
 
@@ -418,16 +418,19 @@ levels(data$binary.tree.canopy.symptoms)</code></pre>
 <div id="limit-data-to-data-with-holc-ranks" class="section level2">
 <h2>Limit Data to data with HOLC ranks</h2>
 <pre class="r"><code>data &lt;- data %&gt;% filter(grade!=&quot;&quot;)</code></pre>
+<p>Only 395 observations remained after filtering to those with HOLC
+grades.</p>
 </div>
 </div>
 <div id="analyses" class="section level1">
 <h1>Analyses</h1>
 <div id="fit-models" class="section level2">
 <h2>Fit Models</h2>
+<div id="model-1-holc-grade-only" class="section level3">
+<h3>Model 1: HOLC grade only</h3>
 <pre class="r"><code>binomial.holc &lt;- glmmTMB(binary.tree.canopy.symptoms ~ grade + (1|Area),family=binomial,data=data)</code></pre>
-</div>
-<div id="summary" class="section level2">
-<h2>Summary</h2>
+<div id="summary" class="section level4">
+<h4>Summary</h4>
 <pre class="r"><code>summary(binomial.holc)</code></pre>
 <pre><code>##  Family: binomial  ( logit )
 ## Formula:          binary.tree.canopy.symptoms ~ grade + (1 | Area)
@@ -450,8 +453,8 @@ levels(data$binary.tree.canopy.symptoms)</code></pre>
 ## gradeC       0.10751    0.41464   0.259    0.795
 ## gradeD      -0.01768    0.51794  -0.034    0.973</code></pre>
 </div>
-<div id="interpretation" class="section level2">
-<h2>Interpretation</h2>
+<div id="interpretation" class="section level4">
+<h4>Interpretation</h4>
 <pre class="r"><code>levels(as.factor(data$grade))</code></pre>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot;</code></pre>
 <p>The probability of the outcome does not change when changing HOLC
@@ -459,6 +462,44 @@ grades from A to B, C or D.</p>
 <p>When accounting for cities as a random effect and when limiting data
 to the 395 observations with HOLC data.</p>
 <p>Interesting</p>
+</div>
+</div>
+<div id="model-2-heat-and-holc-grade" class="section level3">
+<h3>Model 2: Heat and HOLC Grade</h3>
+<pre class="r"><code>binomial.heat.holc &lt;- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + grade + (1|Area),family=binomial,data=data)</code></pre>
+<div id="summary-1" class="section level4">
+<h4>Summary</h4>
+<pre class="r"><code>summary(binomial.heat.holc)</code></pre>
+<pre><code>##  Family: binomial  ( logit )
+## Formula:          
+## binary.tree.canopy.symptoms ~ dist.from.mean.af + grade + (1 |      Area)
+## Data: data
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    509.1    533.0   -248.5    497.1      389 
+## 
+## Random effects:
+## 
+## Conditional model:
+##  Groups Name        Variance Std.Dev.
+##  Area   (Intercept) 0.0164   0.1281  
+## Number of obs: 395, groups:  Area, 3
+## 
+## Conditional model:
+##                     Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept)       -0.5962609  0.4092016  -1.457    0.145
+## dist.from.mean.af  0.0007917  0.1083364   0.007    0.994
+## gradeB            -0.4896873  0.4332146  -1.130    0.258
+## gradeC             0.1064793  0.4378684   0.243    0.808
+## gradeD            -0.0180765  0.5206902  -0.035    0.972</code></pre>
+</div>
+<div id="interpretation-1" class="section level4">
+<h4>Interpretation</h4>
+<p>When data are filtered to those from HOLC grades (n=395 trees), no
+evidence for a relationship between tree health and urban heat or HOLC
+grade was found.</p>
+</div>
+</div>
 </div>
 </div>
 

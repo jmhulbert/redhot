@@ -63,6 +63,6 @@ levels(data$ordinal.tree.canopy.symptoms)
 > Error in getParameterOrder(data, parameters, new.env(), DLL = DLL) :
 Family not implemented!
 
-hmm, ordinal regression may not currently be supported by glmmTMB
+Apparently ordinal regression is not currently be supported by glmmTMB
 https://github.com/glmmTMB/glmmTMB/issues/514
 
