@@ -1,7 +1,7 @@
 ---
 title: "Urban Redcedar Analyses - Welcome"
 author: "Joey Hulbert"
-date: "2023-04-16"
+date: "Last Update: `r Sys.Date()`"
 output: 
   html_document:
     toc: true
@@ -25,16 +25,12 @@ knitr::opts_chunk$set(echo = FALSE)
 
 The RedHot analyses were completed to study relationships between the health of western redcedar and urban environmental factors.
 
-* We were interested in the factors that affect urban tree health such as:
-    + Urban Heat
-    + Impermeable Surface
-    + Pollution
-    + Climate Variables
-    + Wealth
-    + Tree Size
-    + Tree Species
 
 # Data
+
+Tacoma - 357 Trees
+Portland - 465 Trees
+King County - 516 Trees
 
 ## Maps
 
@@ -54,9 +50,9 @@ Maps of the observations included in these analyses are available at https://jmh
   + Environmental Health Disparity Data were downloaded from the [Washington Tracking Network](https://fortress.wa.gov/doh/wtnibl/WTNIBL/).
 
 
-Data for the below metrics are included in the [data]((https://jmhulbert.github.io/redhot/data)), but not all have been investigated in the [analyses](https://jmhulbert.github.io/redhot/analyses/) yet. 
+Data for the below metrics were included in the [data]((https://jmhulbert.github.io/redhot/data)), but not all were investigated in the [analyses](https://jmhulbert.github.io/redhot/analyses/) yet. 
 
-* Available data presently
+* Available data 
     + iNaturalist Data
       + Tree health conditions
       + Percent Dieback
@@ -95,15 +91,10 @@ Data for the below metrics are included in the [data]((https://jmhulbert.github.
 
 # Approaches
 
-The relationship between redcedar and urban metrics were investigated with generalized mixed effect models. [More information about the analyses is available](https://jmhulbert.github.io/analyses/)
+The relationship between redcedar and urban metrics were investigated with generalized mixed effect models with these [data](https://jmhulbert.github.io/data/) and [analyses](https://jmhulbert.github.io/analyses/).
 
 
-# Extra Questions
 
-* Possible additional questions to explore
-  + Which pollution data are important for determining tree health?
-  + Are Temperatures higher for trees in urban areas of King County?
-  + Are income and tree size important co-factors to the relationship between redcedar health and urban heat? 
 
 
 

@@ -11,7 +11,6 @@
 
 <meta name="author" content="Joey Hulbert" />
 
-<meta name="date" content="2024-02-19" />
 
 <title>Data Wrangling</title>
 
@@ -1487,7 +1486,7 @@ border-radius: 0px;
 
 <h1 class="title toc-ignore">Data Wrangling</h1>
 <h4 class="author">Joey Hulbert</h4>
-<h4 class="date">2024-02-19</h4>
+<h4 class="date">Latest Update: 2024-02-24</h4>
 
 </div>
 
@@ -1879,6 +1878,9 @@ data$field.optional...tree.size[data$field.optional...tree.size==&quot;Very smal
 <pre><code>## Warning in `[&lt;-.factor`(`*tmp*`, data$field.optional...tree.size == &quot;Very small
 ## (can wrap a single hand around stem)&quot;, : invalid factor level, NA generated</code></pre>
 <pre class="r"><code>data$field.optional...site.location.description [data$field.optional...site.location.description ==&quot;Yard or open park grounds&quot;] &lt;- &quot;Urban yard or open park grounds&quot;</code></pre>
+</div>
+<div id="reclassify-co-factors" class="section level3">
+<h3>Reclassify co-factors</h3>
 <pre class="r"><code>data$field.percent.canopy.affected.... &lt;- as.factor(data$field.percent.canopy.affected....)
 data$field.percent.canopy.affected....[data$field.percent.canopy.affected....==&quot;1-25% of the crown is unhealthy&quot;] &lt;- &quot;1-29% of the canopy is unhealthy&quot;
 data$field.percent.canopy.affected....[data$field.percent.canopy.affected....==&quot;Healthy (0%)&quot;] &lt;- &quot;Healthy, no dieback(0%)&quot;
@@ -1906,9 +1908,6 @@ does.not.have.dieback.percent$field.dieback.percent &lt;- does.not.have.dieback.
 data &lt;- rbind(has.dieback.percent,does.not.have.dieback.percent)
 
 data$field.dieback.percent[data$field.dieback.percent&lt;0] &lt;- 0 # not sure why but there was one -2 percent dieback value</code></pre>
-</div>
-<div id="reclassify-co-factors" class="section level3">
-<h3>Reclassify co-factors</h3>
 <pre class="r"><code>data &lt;- data %&gt;% mutate(tree.size.simplified=field.optional...tree.size) </code></pre>
 <pre class="r"><code>tree_size_level_key &lt;- c(&quot;Very Small (can wrap a single hand around stem)&quot; = &quot;Small&quot;, &quot;Small (can wrap hands around trunk)&quot; = &quot;Small&quot;, &quot;Medium (can wrap arms around trunk)&quot; = &quot;Medium&quot;, &quot;Large (too big to wrap arms around trunk)&quot; = &quot;Large&quot;, &quot;Very Large (would take many people to wrap arms around trunk)&quot; = &quot;Large&quot;,&quot;Other&quot;=&quot;Other&quot;,&quot;No selection&quot;=&quot;No Selection&quot;)
 
@@ -1956,6 +1955,24 @@ levels(data$thinning)</code></pre>
 </div>
 <div id="filter-merged-data" class="section level2">
 <h2>Filter Merged Data</h2>
+<div id="remove-other-species" class="section level3">
+<h3>Remove other species</h3>
+<p>A few observations were not identified to species or were determined
+to be other species by the iNat community.</p>
+<pre class="r"><code>levels(as.factor(data$scientific_name))</code></pre>
+<pre><code>##  [1] &quot;&quot;                          &quot;Callitropsis nootkatensis&quot;
+##  [3] &quot;Chamaecyparis lawsoniana&quot;  &quot;Cupressaceae&quot;             
+##  [5] &quot;Cupressoideae&quot;             &quot;Pinales&quot;                  
+##  [7] &quot;Plantae&quot;                   &quot;Pseudotsuga menziesii&quot;    
+##  [9] &quot;Sequoia sempervirens&quot;      &quot;Thuja plicata&quot;            
+## [11] &quot;Tracheophyta&quot;</code></pre>
+<pre class="r"><code>other.species &lt;- data %&gt;% filter(scientific_name!=&quot;Thuja plicata&quot;) %&gt;% droplevels()
+data &lt;- data %&gt;% filter(scientific_name==&quot;Thuja plicata&quot;) %&gt;% droplevels()</code></pre>
+<blockquote>
+<p><strong>41</strong> observations were identified as other species by
+the iNaturalist community or were not identified to species.</p>
+</blockquote>
+</div>
 <div id="remove-outliers" class="section level3">
 <h3>Remove outliers</h3>
 <p>Afternoon temperature had a handful of weird observations with less
