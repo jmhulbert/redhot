@@ -155,9 +155,10 @@ Export data for QGIS data joins
 #write.csv(tac.wrc.qgis,file="./WRDM-Tacoma-1.13.24-qgis.csv")
 ```
 
-Tacoma - 357 Trees
-Portland - 465 Trees
-King County - 516 Trees
+* Sample Sizes
+  + Tacoma - 357 Trees
+  + Portland - 465 Trees
+  + King County - 516 Trees
 
 # QGIS Methods
 

@@ -108,6 +108,19 @@ p1 + p2
 
 
 ```{r}
+p3 <-ggplot(data,aes(binary.tree.canopy.symptoms,DN_AF1, fill=binary.tree.canopy.symptoms ))+geom_boxplot(alpha=0.5)+theme_bw()+coord_flip() + scale_fill_manual(name="Tree Condition",values=c("#7fcdbb","#fe9929"))+guides(fill=FALSE) +labs(x="Tree Condition",y=NULL)
+```
+
+```{r}
+p4 <-ggplot(data,aes(DN_AF1,fill=binary.tree.canopy.symptoms))+geom_density(alpha=0.5) + scale_fill_manual(name="Tree Condition",values=c("#7fcdbb","#fe9929")) +theme_bw() +labs(x="Afternoon Temperature") +guides(fill=FALSE)
+```
+
+```{r}
+p3 / p4
+```
+
+
+```{r}
 data$top.dieback <- as.factor(data$top.dieback)
 data$thinning <- as.factor(data$thinning)
 ```
@@ -117,7 +130,7 @@ data$thinning <- as.factor(data$thinning)
 
 ## Fit Models
  
-### Portland data with heat values cacluated before removing hoyt
+### Portland data with heat values cacluated after removing hoyt
 
 ```{r}
 binomial.daily <- glmmTMB(binary.tree.canopy.symptoms ~ mean.temp.daily ,family=binomial,data=data)
@@ -138,7 +151,7 @@ Afternoon heat was the best fit
 ## Model 1: health and heat
 
 ```{r}
-#binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af,data=data,family=binomial)
+binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ DN_AF1 ,data=data,family=binomial)
 ```
 
 
@@ -278,9 +291,5 @@ ggplot(new.data.3, aes(x = DN_AF1, y = predicted_response)) +
   labs(x = "Distance from Mean Temperature", y = "Predicted Response") +
   theme_minimal()
 ```
-
-
-
-
 
 
