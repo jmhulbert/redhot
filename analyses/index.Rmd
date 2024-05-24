@@ -25,16 +25,91 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The purpose of this page is to provide links to the approaches included in the RedHot analyses. 
 
-Relationships between the health of redcedar and urban environmental metrics were explored with generalized linear mixed effect models. However, different approaches (and links) were used based on the questions of interest. 
+Relationships between the health of redcedar and urban environmental metrics were explored with generalized linear mixed effect models. 
 
-See the [Discussion page](https://jmhulbert.github.io/redcedar/discussion) for a list of questions of interest
+# Background
 
+The [iNat Data Summaries](https://jmhulbert.github.io/redhot/analyses/inaturalist/) has general information about the observations from the [WRDM project](https://www.inaturalist.org/projects/western-redcedar-dieback-map) included in this study.
+
+# Discussion
+
+See the [Discussion page](https://jmhulbert.github.io/redhot/discussion) for a list of topics to revisit in analyses and more questions of interest
+
+
+# Analyses
+
++ Current Analyses
+  + [iNaturalist Data Summaries](https://jmhulbert.github.io/redhot/analyses/inaturalist/)
+  + Urban Heat
+    + [All Areas GLMMs](https://jmhulbert.github.io/redhot/analyses/all-areas)
+    + [Portland GLM](https://jmhulbert.github.io/redhot/analyses/portland)
+    + [Tacoma GLM](https://jmhulbert.github.io/redhot/analyses/tacoma)
+    + [King County GLM](https://jmhulbert.github.io/redhot/analyses/king-county)
+
+
++ List of Models
+  + [All Areas Analyses](https://jmhulbert.github.io/redhot/analyses/all-areas)
+    + Temperature Time Series Comparison
+      + binomial.daily <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.daily + (1|Area),family=binomial,data=data)
+      + binomial.am <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.am + (1|Area),data=data,family=binomial)
+      + binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + (1|Area),data=data,family=binomial)
+      + binomial.pm <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.pm + (1|Area),data=data,family=binomial)
+    + Model 1 - Binary Health Response (healthy, unhealthy)
+      + binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + (1|Area),data=data,family=binomial)
+    + Model 2 - Binary Top Dieback (no dead top, dead top)
+      + top.dieback.binomial.af <- glmmTMB(top.dieback ~ dist.from.mean.af + (1|Area),data=data,family=binomial)
+    + Model 3 - Binary Thinning Response (no thinning, thinning)
+      + thinning.binomial.af <- glmmTMB(thinning ~ dist.from.mean.af + (1|Area),data=data,family=binomial)
+    + Co-Factors
+      + Model 4 - including size and location
+        + binomial.af.size.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + field.optional...site.location.description + tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
+      + Model 5 - including size only
+        + binomial.af.size <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af +  tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
+      + Model 6 - including location only
+        + binomial.af.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af +  tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
+  + [Portland Analyses](https://jmhulbert.github.io/redhot/analyses/portland)
+    + Temperature Time Series Comparison
+      + binomial.daily <- glmmTMB(binary.tree.canopy.symptoms ~ mean.temp.daily ,family=binomial,data=data)
+      + binomial.am <- glmmTMB(binary.tree.canopy.symptoms ~ DN_AM1 ,data=data,family=binomial)
+      + binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ DN_AF1 ,data=data,family=binomial)
+      + binomial.pm <- glmmTMB(binary.tree.canopy.symptoms ~ DN_PM1,data=data,family=binomial)
+    + Model 1 - Binary Health Response (healthy, unhealthy)
+      + binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ DN_AF1 ,data=data,family=binomial)
+    + Model 2 - Binary Top Dieback (no dead top, dead top)
+      + top.dieback.binomial.af <- glmmTMB(top.dieback ~ DN_AF1,data=data,family=binomial)
+    + Model 3 - Binary Thinning Response (no thinning, thinning)
+      + thinning.binomial.af <- glmmTMB(thinning ~ DN_AF1,data=data,family=binomial)
+  + [Tacoma Analyses](https://jmhulbert.github.io/redhot/analyses/tacoma)
+    + Model 2 - Binary Top Dieback (no dead top, dead top)
+      + top.dieback.binomial.af <- glmmTMB(top.dieback ~ DN_AF1,data=data,family=binomial)
+  + [King County Analyses](https://jmhulbert.github.io/redhot/analyses/tacoma)
+    + Model 2 - Binary Top Dieback (no dead top, dead top)
+      + top.dieback.binomial.af <- glmmTMB(top.dieback ~ DN_AF1,data=data,family=binomial)
+    
   
-Generalized linear mixed-effect models
+      
+
+
+## Possible co-factors
+
+It may be possible to include more detail in recommendations if we explore the relationship between tree health and urban heat while accounting for co-factors. 
+
+Most of these co-factors are categorical so including 2 co-factors with 4 levels would include 16 different combinations.. we likely do not enough data for that. 
+
++ Possible co-factors to consider
+  + Tree Size (small, medium, large)
+  + Site Type (urban, suburban, rural)
+  + Location Description (In a forest, in a field, along a road)
+  + Water availability, water in summer? 
+  + equity 
+    + not sure if there is a good metric in the data for this, but maybe income would be related to expenses for tree care
+    + however, it may be correlated with urban heat
+
+
 
 # Model Approaches Considered
 
-* Approaches to consider 
+* Approaches considered
   + ordinal vs ordinal - chi squared 
     + e.g. health category vs holc grade
   + categorized as 0 or 1 - binomial categorical
@@ -43,16 +118,6 @@ Generalized linear mixed-effect models
   + Increases in percent (proportion) canopy dieback - beta distribution 
     + likley need to account for zero inflation
       + e.g. does increases in urban heat increase likelyhood of having dieback (zi model) AND does increases in urban heat increase precent dieback proportion for trees with some dieback (conditional model).
-
-
-# iNaturalist Data Summaries
-
-Check the [iNat Data Summaries](https://jmhulbert.github.io/redhot/analyses/inaturalist/) for general information about the observations from the [WRDM project](https://www.inaturalist.org/projects/western-redcedar-dieback-map) included in this study.
-
-# Urban Heat Analyses
-
-Initial analyses were completed to investigate the relationship with urban heat. 
-
 
 ## Binomial Distribution
 
@@ -123,21 +188,6 @@ The conditional output is indicating that for all observations with greater than
 Including a predictor in the zi= bit of the model would test whether heat influences whether there is dieback at all. 
 
 Possible understanding from: https://stats.stackexchange.com/questions/466047/interpreting-output-for-glmmtmb-for-zero-inflated-count-data 
-
-# Possible co-factors
-
-It may be possible to include more detail in recommendations if we explore the relationship between tree health and urban heat while accounting for co-factors. 
-
-Most of these co-factors are categorical so including 2 co-factors with 4 levels would include 16 different combinations.. we likely do not enough data for that. 
-
-+ Co-factors
-  + Tree Size (small, medium, large)
-  + Site Type (urban, suburban, rural)
-  + Location Description (In a forest, in a field, along a road)
-  + Water availability, water in summer? 
-  + equity 
-    + not sure if there is a good metric in the data for this, but maybe income would be related to expenses for tree care
-    + however, it may be correlated with urban heat
 
 
 # References

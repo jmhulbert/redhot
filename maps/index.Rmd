@@ -131,5 +131,138 @@ portland.map + tacoma.map + king.map
 ```
 
 
+# Trees with Dead Tops
+
+```{r}
+portland.dead.top <- portland %>% filter(top.dieback=="Yes")
+tacoma.dead.top <- tacoma %>% filter(top.dieback=="Yes")
+king.dead.top <- king %>% filter(top.dieback=="Yes")
+```
+
+
+
+## Portland
+
+```{r}
+portland.dead.top.map <- ggmap(portmap) + geom_point(data = portland.dead.top, aes(x = longitude.x, y = latitude.x,fill=DN_AF1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_viridis_c(option = "inferno")+labs(title="Portland",x="Longitude",y="Latitude",fill="Afternoon\nTemp (F)") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+```{r}
+portland.dead.top.map
+```
+
+## King County
+
+```{r}
+king.dead.top.map <- ggmap(kingmap) + geom_point(data = king.dead.top, aes(x = longitude.x, y = latitude.x,fill=DN_AF1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_viridis_c(option = "inferno")+labs(title="King County",x="Longitude",y="Latitude",fill="Afternoon\nTemp (F)") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+```{r}
+king.dead.top.map
+```
+
+## Tacoma
+
+```{r}
+tacoma.dead.top.map <- ggmap(tacomamap) + geom_point(data = tacoma.dead.top, aes(x = longitude.x, y = latitude.x,fill=DN_AF1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_viridis_c(option = "inferno")+labs(title="Tacoma",x="Longitude",y="Latitude",fill="Afternoon\nTemp (F)") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+```{r}
+tacoma.dead.top.map
+```
+
+
+```{r}
+portland.dead.top.map <- portland.dead.top.map + theme(legend.position = "none")
+tacoma.dead.top.map <- tacoma.dead.top.map + theme(legend.position = "none")
+king.dead.top.map <- king.dead.top.map
+```
+
+
+
+```{r}
+portland.dead.top.map + tacoma.dead.top.map + king.dead.top.map
+```
+
+
+# Trees with Thinning Canopies
+
+```{r}
+portland.thinning <- portland %>% filter(thinning=="Yes")
+tacoma.thinning <- tacoma %>% filter(thinning=="Yes")
+king.thinning <- king %>% filter(thinning=="Yes")
+```
+
+
+
+## Portland
+
+```{r}
+portland.thinning.map <- ggmap(portmap) + geom_point(data = portland.thinning, aes(x = longitude.x, y = latitude.x,fill=DN_AF1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_viridis_c(option = "inferno")+labs(title="Portland",x="Longitude",y="Latitude",fill="Afternoon\nTemp (F)") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+```{r}
+portland.thinning.map
+```
+
+## King County
+
+```{r}
+king.thinning.map <- ggmap(kingmap) + geom_point(data = king.thinning, aes(x = longitude.x, y = latitude.x,fill=DN_AF1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_viridis_c(option = "inferno")+labs(title="King County",x="Longitude",y="Latitude",fill="Afternoon\nTemp (F)") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+```{r}
+king.thinning.map
+```
+
+## Tacoma
+
+```{r}
+tacoma.thinning.map <- ggmap(tacomamap) + geom_point(data = tacoma.thinning, aes(x = longitude.x, y = latitude.x,fill=DN_AF1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_viridis_c(option = "inferno")+labs(title="Tacoma",x="Longitude",y="Latitude",fill="Afternoon\nTemp (F)") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+```{r}
+tacoma.thinning.map
+```
+
+
+```{r}
+portland.thinning.map <- portland.thinning.map + theme(legend.position = "none")
+tacoma.thinning.map <- tacoma.thinning.map + theme(legend.position = "none")
+king.thinning.map <- king.thinning.map
+```
+
+
+```{r}
+portland.thinning.map + tacoma.thinning.map + king.thinning.map
+```
+
+
+```{r}
+king.map <- king.map + theme(axis.title.x = element_blank(),axis.title.y = element_blank())
+tacoma.map <- tacoma.map +theme(axis.title.y = element_blank(),axis.title.x = element_blank())
+portland.map <- portland.map +theme(axis.title.x = element_blank())
+portland.dead.top.map <- portland.dead.top.map + theme(plot.title = element_blank(),axis.title.x = element_blank()) 
+portland.thinning.map <- portland.thinning.map + theme(legend.position = "none",plot.title = element_blank())
+tacoma.dead.top.map <- tacoma.dead.top.map + theme(legend.position = "none",plot.title = element_blank(),axis.title.x = element_blank(),axis.title.y = element_blank())
+tacoma.thinning.map <- tacoma.thinning.map + theme(legend.position = "none",plot.title = element_blank(),axis.title.y = element_blank())
+king.dead.top.map <- king.dead.top.map + theme(plot.title = element_blank(),axis.title.x = element_blank(),axis.title.y = element_blank())
+king.thinning.map <- king.thinning.map + theme(plot.title = element_blank(),axis.title.y = element_blank())
+```
+
+```{r}
+all.trees <- (portland.map + tacoma.map + king.map) + plot_annotation(title = 'All Trees') & theme(plot.title = element_text(hjust = 0.5))
+dead.tops <- (portland.dead.top.map + tacoma.dead.top.map + king.dead.top.map) + plot_annotation(title = 'Trees with Dead Tops') & theme(plot.title = element_text(hjust = 0.5))
+thin.trees <- (portland.thinning.map + tacoma.thinning.map + king.thinning.map) + plot_annotation(title = 'Trees with Thinning Canopies') & theme(plot.title = element_text(hjust = 0.5))
+```
+
+```{r all-nine-areas-map,fig.height=10, fig.width=10}
+wrap_elements(all.trees) / wrap_elements(dead.tops) / wrap_elements(thin.trees)
+```
+
+
+```{r}
+(portland.map + tacoma.map + king.map) / (portland.dead.top.map + tacoma.dead.top.map + king.dead.top.map) / (portland.thinning.map + tacoma.thinning.map + king.thinning.map)
+```
 
 

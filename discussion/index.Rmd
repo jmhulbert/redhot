@@ -63,6 +63,14 @@ The purpose of this page is to share discussion points or feedback for approache
   + Removing Hoyt Arboretum Trees? 
     + Caclulating Distance from mean after removing Hoyt
   + should we remove observations with very poor positional accuracy?  
+  
+  
+Eish, the portland dataset as is, only includes 15 trees with dead tops. 
+  
+Should we remove other tree health categories (e.g. other or thinning) in analyses? for example, should we only include 'dead top' and 'healthy' trees when doing a dead top analysis?
+
+Filtering trees to dead tops or healthy did not improve the significance of the tacoma dead top model. 
+
 
 * How to handle outliers?
   + Accounted for currently
@@ -85,6 +93,9 @@ The probability of a tree having top dieback increased with afternoon heat. Howe
 Preliminary analyses of data limited to those with [HOLC grades](https://jmhulbert.github.io/redhot/analyses/holc/binomial/) (n=395) may not have enough observations. For example, even when distance from mean afternoon temp was included as a co-factor, there was no evidence of a realtionship with heat. 
 
 Similarly, about 500 observations (oregon's) were dropped for analyses limited to observations with EHD data (n=787). Testing hypotheses with EHD data may be best accomplished by including the full dataset, rather than those shared only from King County or Tacoma. 
+
+Removal of Hoyt Trees
+Removal of Dead Trees
 
 ## Data QA QC
 

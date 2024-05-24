@@ -66,44 +66,10 @@ Observations of western redcedar were downloaded from iNaturalist and urban heat
 
 Note temperature data is different for each dataset and may have been collected slightly differently. Temperature data will need to be standardized (difference from mean) for each dataset, then temperatures can be compared region wide. 
 
-## Environmental Health Disparity Data
 
-Environmental Health Disparity Rank Data (Full EHD Rank data (v2)) was downloaded on 6.17.23 from https://geo.wa.govsets/WADOH::full-environmental-health-disparities-version-2-extract/explore
+## EHD and HOLC Data
 
-Metadata is available in this technical report: https://doh.wa.gov/sites/default/files/2022-07/311-011-EHD-Map-Tech-Report_0.pdf?uid=634dcf4aec2b5
-
-
-* EHD
-  + Environmental Exposures
-    + "Diesel_PM2"
-    + "Ozone_Conc" 
-    + "PM2_5"
-    + "Proximity_"
-    + "Toxic_Rele"
-  + Environmental Effects
-    + "Lead_Risk_"
-    + "PTSDFs"
-    + "PNPL"
-    + "PRMP"
-    + "PWDIS"
-  + Socioeconomic Factors
-    + "LEP"
-    + "No_HS_Dipl"
-    + "POC"
-    + "Poverty"
-    + "Transporta"
-    + "Unaffordab"
-    + "Unemployed"
-  + Sensitive Populations
-    + "CVD"
-    + "LBW"
-
-## HOLC Data    
-
-Home Owners Loan Corporation Maps were downloaded from the Mapping Inequality Project at the following links
-+ [Tacoma](https://dsl.richmond.edu/panorama/redlining/WA-Tacoma)
-+ [Portland](https://dsl.richmond.edu/panorama/redlining/OR-Portland)
-+ [Seattle](https://dsl.richmond.edu/panorama/redlining/WA-Seattle)
+Note the below qGIS methods also join Washington Environmental Health Disparities Data and Home Owner Loan Corporation Data. However, these data were not analyzed in this present study. 
 
 # Pre-GIS Data Wrangle Methods
 
@@ -155,10 +121,16 @@ Export data for QGIS data joins
 #write.csv(tac.wrc.qgis,file="./WRDM-Tacoma-1.13.24-qgis.csv")
 ```
 
-* Sample Sizes
++ Sample Sizes (note these numbers are much different after removing Hoyt trees and dead trees. Not sure what happens to all the king county trees though)
   + Tacoma - 357 Trees
   + Portland - 465 Trees
   + King County - 516 Trees
+  
++ After all filters 
+  + Tacoma - 343 Trees
+  + Portland - 341 Trees
+  + King County - 420 Trees
+
 
 # QGIS Methods
 
@@ -360,7 +332,7 @@ portland.uhi.holc <- read.csv("./WRC.Portland.UHI.HOLC-1.13.24.csv") # does not 
 
 # Post-GIS Data Wrangle Methods
 
-## Join UHI, HOLC, and EHD data with iNat Data
+## Join UHI data with iNat Data
 
 ```{r}
 kc.wrc <- left_join(king.county.uhi.holc.ehd,inat.full,by="id")
@@ -381,6 +353,7 @@ kc.wrc <- kc.wrc %>% mutate(mean.temp.daily=((DN_AM1+DN_AF1+DN_PM1)/3)) %>% muta
 
 pl.wrc <- pl.wrc %>% mutate(DN_AM1=((DN_AM1*1.8)+32),DN_AF1=((DN_AF1*1.8)+32),DN_PM1=((DN_PM1*1.8)+32)) %>% mutate(mean.temp.daily=((DN_AM1+DN_AF1+DN_PM1)/3)) %>% mutate(dist.from.mean.daily=mean.temp.daily-(mean(mean.temp.daily,na.rm=TRUE))) %>% mutate(Area="Portland")
 ```
+
 
 ### Morning Means
 
@@ -608,6 +581,15 @@ data <- data %>% mutate(field.dieback.prop = (field.dieback.percent/100))
 
 ## Filter Merged Data
 
+### Filter trees wihtout temperature data
+
+```{r}
+daily.error <- data %>% filter(is.na(data$mean.temp.daily))
+```
+
+33 trees did not have temperature data and were filtered out. 
+
+
 ### Remove other species
 
 A few observations were not identified to species or were determined to be other species by the iNat community. 
@@ -628,8 +610,10 @@ data <- data %>% filter(scientific_name=="Thuja plicata") %>% droplevels()
 Afternoon temperature had a handful of weird observations with less than -8 degrees from mean. 
 
 ```{r}
-#ggplot(data,aes(dist.from.mean.af,field.dieback.percent))+geom_point()+theme_bw()
+ggplot(data,aes(dist.from.mean.af,field.dieback.percent))+geom_point()+theme_bw()
 ```
+
+Three trees were removed becasue they came from areas at less than 8 degrees F lower than the mean. Perhaps the geo-references were off. 
 
 ```{r}
 data <- data %>% filter(dist.from.mean.af>(-8))
