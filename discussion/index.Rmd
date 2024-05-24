@@ -25,8 +25,16 @@ knitr::opts_chunk$set(echo = TRUE)
 The purpose of this page is to share discussion points or feedback for approaches and interpretations. 
 
 
+# Approaches
+
+The relationship between redcedar and urban heat were investigated with generalized mixed effect models with these [data](https://jmhulbert.github.io/data/) and [analyses](https://jmhulbert.github.io/analyses/).
+
 
 # Findings
+
+Overall, the probability of a tree having top dieback or being classified as unhealthy increased with increases in temperatures above average, but there was no evidence the probability of a tree being classified as thinning is related to afternoon heat. 
+
+Evidence for increases in the probability of having top dieback with increases in afternoon temperatures was found in Portland and King County datasets, but not Tacoma.
 
 * General results
   + probability a tree was classified as unhealthy increased with urban heat
@@ -71,6 +79,7 @@ Should we remove other tree health categories (e.g. other or thinning) in analys
 
 Filtering trees to dead tops or healthy did not improve the significance of the tacoma dead top model. 
 
+Why was there no evidence of a relationship in Tacoma?
 
 * How to handle outliers?
   + Accounted for currently
@@ -132,6 +141,56 @@ How many identifiers were there? How many observers were there?
   + Which pollution data are important for determining tree health?
   + Does dieback increase with increases in pollution?
     
+# Additional Data
+
++ Home Owners Loan Corporation Maps were downloaded from the Mapping Inequality Project at the following links:
+    + [Tacoma](https://dsl.richmond.edu/panorama/redlining/WA-Tacoma)
+    + [Portland](https://dsl.richmond.edu/panorama/redlining/OR-Portland)
+    + [Seattle](https://dsl.richmond.edu/panorama/redlining/WA-Seattle)
+  + Environmental Health Disparity Data were downloaded from the [Washington Tracking Network](https://fortress.wa.gov/doh/wtnibl/WTNIBL/).
+
+
+Data for the below metrics were included in the [data]((https://jmhulbert.github.io/redhot/data)), but not all were investigated in the [analyses](https://jmhulbert.github.io/redhot/analyses/) yet. 
+
+* Available data 
+    + iNaturalist Data
+      + Tree health conditions
+      + Percent Dieback
+      + Number of additional unhealthy trees
+      + Tree size
+      + Site type (urban, suburban, rural)
+      + Location description (roadside, park or yard, forest edge, inside forest)
+      + Summer access to water
+    + Urban heat
+    + HOLC Grade
+    + EHD Data (see [V2.0 Report](https://doh.wa.gov/sites/default/files/2022-07/311-011-EHD-Map-Tech-Report_0.pdf?uid=62e46bbc98fad) for more details)
+      + Indicators in Pollution Burden
+        + Environmental Exposures
+          + Diesel exhaust
+          + Ozone
+          + PM2.5
+          + Toxic Release
+          + Proximity to heavy traffic roadways
+        + Environmental Effects
+          + Lead risk from housing
+          + Proximity to hazardous waste treatment storage
+          + Proximity to superfund sites
+          + wastewater discharge
+      + Indicators of Population Characteristics
+        + Sensitive Populations
+          + Death from cardiovascular disease
+          + Low birth weight
+        + Socioeconomic Factors
+          + No high school diploma
+          + Unaffordable housing
+          + Transportation expense
+          + Limited English
+          + People living in poverty
+          + Race (people of color)
+          + Unemployment
+
+
+
 
 
 
