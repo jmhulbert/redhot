@@ -107,37 +107,75 @@ p3 / p4
 
 ## Fit Models
 
-## Model 1: top dieback and heat
-
 ```{r}
 data$top.dieback <- as.factor(data$top.dieback)
+data$thinning <- as.factor(data$thinning)
+```
+
+
+```{r}
+binomial.daily <- glmmTMB(binary.tree.canopy.symptoms ~ mean.temp.daily ,family=binomial,data=data)
+binomial.am <- glmmTMB(binary.tree.canopy.symptoms ~ DN_AM1 ,data=data,family=binomial)
+binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ DN_AF1 ,data=data,family=binomial)
+binomial.pm <- glmmTMB(binary.tree.canopy.symptoms ~ DN_PM1,data=data,family=binomial)
+```
+
+#### Best Fit Comparison
+
+```{r}
+AICtab(binomial.daily,binomial.am,binomial.af,binomial.pm)
+```
+
+Afternoon temperature was the best fit model
+
+
+## Afternoon Temperatures
+
+### Response 1.0: healthy / unhealthy
+
+```{r}
+binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ DN_AF1,data=data,family=binomial)
+```
+
+#### Summary
+
+```{r}
+summary(binomial.af)
 ```
 
 ```{r}
-top.dieback.binomial.af <- glmmTMB(top.dieback ~ DN_AF1,data=data,family=binomial)
+levels(data$binary.tree.canopy.symptoms)
 ```
 
-### Summary
+
+### Response 2.0: healthy / top-dieback
+```{r}
+data.top <- data %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Dead Top") %>% droplevels()
+```
+
+
+```{r}
+top.dieback.binomial.af <- glmmTMB(top.dieback ~ DN_AF1,data=data.top,family=binomial)
+```
+
+#### Summary
 
 ```{r}
 summary(top.dieback.binomial.af)
 ```
 
-
 ```{r}
 levels(data$top.dieback)
 ```
 
-There is no evidence for a relationship between top dieback and afternoon temperature in Tacoma.
-
-### Visualize effects of predictors
+#### Visualize effects of predictors
 
 First, generate predictions from model
 
 ```{r}
 # Create a data frame for predictions
 new.data.2 <- expand.grid(
-  DN_AF1 = seq(min(data$DN_AF1), max(data$DN_AF1), length.out = 1000)  # keeping predictor2 constant at its mean
+  DN_AF1 = seq(min(80), max(150), length.out = 1000)  # keeping predictor2 constant at its mean
 )
 ```
 
@@ -154,7 +192,7 @@ new.data.2$predicted_response <- predict(top.dieback.binomial.af, newdata = new.
 ```{r}
 # Create a data frame for predictions
 new.data.2.inf <- expand.grid(
-  DN_AF1 = seq(min(data$DN_AF1), max(150), length.out = 1000)  # keeping predictor2 constant at its mean
+  DN_AF1 = seq(min(80), max(150), length.out = 1000)  # keeping predictor2 constant at its mean
 )
 ```
 
@@ -176,16 +214,41 @@ p
 
 
 ```{r}
-p <- ggplot(new.data.2, aes(x = DN_AF1, y = predicted_response)) + geom_line() + labs(x = "Afternoon temperature (F)", y = "Dieback Probability") + scale_x_continuous(limits = c(80, 92)) +theme_minimal()
+p <- ggplot(new.data.2, aes(x = DN_AF1, y = predicted_response)) + geom_line() + labs(x = "Afternoon temperature (F)", y = "Dieback Probability") + scale_x_continuous(limits = c(80, 92)) + scale_y_continuous(limits = c(0, .3)) +theme_minimal()
 
 p2 <- p + annotate(geom="rect",ymin = -Inf, ymax = Inf, 
               xmin = -Inf, xmax = 85, fill = alpha('#7fcdbb',0.5)) +
     annotate(geom="rect",ymin = -Inf, ymax = Inf, 
-              xmin = 85, xmax = 88.35, fill = alpha('#fe9929',0.5)) + 
+              xmin = 85, xmax = 87.8, fill = alpha('#fe9929',0.5)) + 
     annotate(geom="rect",ymin = -Inf, ymax = Inf, 
-          xmin = 88.35, xmax = Inf, fill = alpha('red',0.5))
-p2 + annotate("text", x=82, y=.125, label= "Protect from\nDevelopment") + annotate("text", x=86.6, y=.125, label= "Provide\nExtra Care") + annotate("text", x=90.6, y=.125, label= "Most\nConcern")
+          xmin = 87.8, xmax = Inf, fill = alpha('red',0.5))
+p2 + annotate("text", x=82, y=.125, label= "Protect from\nDevelopment") + annotate("text", x=86.6, y=.125, label= "Provide\nExtra Care") + annotate("text", x=90.2, y=.125, label= "Most\nConcern")
 ```
+
+
+
+### Response 3.0: healthy / thinning
+
+```{r}
+data.thin <- data %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning Canopy") %>% droplevels()
+```
+
+
+```{r}
+thinning.binomial.af <- glmmTMB(thinning ~ DN_AF1,data=data.thin,family=binomial)
+```
+
+#### Summary
+
+```{r}
+summary(thinning.binomial.af)
+```
+
+```{r}
+levels(data$thinning)
+```
+
+
 
 # Summary
 

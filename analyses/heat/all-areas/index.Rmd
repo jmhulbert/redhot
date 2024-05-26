@@ -249,7 +249,7 @@ ggplot(new.data.2, aes(x = dist.from.mean.af, y = predicted_response)) +
 ## Response 3.0: healthy / thinning
 
 ```{r}
-data.thin <- data %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning") %>% droplevels()
+data.thin <- data %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning Canopy") %>% droplevels()
 ```
 
 ```{r}
@@ -401,7 +401,7 @@ summary(top.dieback.binomial.af.size)
 #### Response 3.1 healthy / thinning
 
 ```{r}
-data.thin.size <- data.size.filter %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning") %>% droplevels()
+data.thin.size <- data.size.filter %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning Canopy") %>% droplevels()
 ```
 
 ```{r}
@@ -476,11 +476,11 @@ summary(top.dieback.binomial.af.site)
 #### Response 3.2 healthy / thinning
 
 ```{r}
-data.thin.site <- data.size.filter %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning") %>% droplevels()
+data.thin.site <- data.size.filter %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning Canopy") %>% droplevels()
 ```
 
 ```{r}
-thinning.binomial.af.site <- glmmTMB(top.dieback ~ dist.from.mean.af + field.optional...site.location.description + (1|Area),data=data.thin.site,family=binomial)
+thinning.binomial.af.site <- glmmTMB(thinning ~ dist.from.mean.af + field.optional...site.location.description + (1|Area),data=data.thin.site,family=binomial)
 ```
 
 ```{r}

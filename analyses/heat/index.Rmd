@@ -106,8 +106,8 @@ Relationships between the health of redcedar and urban heat were explored with g
 
 + Response variables: 
   + *healthy, unhealthy*
-  + *no dead top, dead top*
-  + *no thinning, thinning*
+  + *healthy, dead top*
+  + *healthy, thinning*
   
 Excluding dead trees might make sense biologically, because we're not sure what factor actually killed the tree. Also the dead trees may have been dead for different lengths of time. Some may have been affected by heat, where others had not. There is good biological reasoning to exclude the dead trees. 
 

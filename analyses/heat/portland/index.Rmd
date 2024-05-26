@@ -153,9 +153,9 @@ data$thinning <- as.factor(data$thinning)
 
 # Analyses
 
-## Fit Models
+Models were created with data after removing hoyt 
  
-### Portland data with heat values cacluated after removing hoyt
+## Temperature Time Periods
 
 ```{r}
 binomial.daily <- glmmTMB(binary.tree.canopy.symptoms ~ mean.temp.daily ,family=binomial,data=data)
@@ -164,7 +164,7 @@ binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ DN_AF1 ,data=data,family=bi
 binomial.pm <- glmmTMB(binary.tree.canopy.symptoms ~ DN_PM1,data=data,family=binomial)
 ```
 
-## Compare Models
+### Best Fit Comparison
 
 ```{r}
 AICtab(binomial.daily,binomial.am,binomial.af,binomial.pm)
@@ -173,7 +173,7 @@ AICtab(binomial.daily,binomial.am,binomial.af,binomial.pm)
 Afternoon heat was the best fit
 
 
-## Model 1: health and heat
+## Response 1.0: healthy / unhealthy
 
 ```{r}
 binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ DN_AF1 ,data=data,family=binomial)
@@ -232,10 +232,15 @@ The probability of tree being classified as unhealthy increases with afternoon t
 
 ---
 
-## Model 2: top dieback and heat
+## Response 2.0: healthy / top-dieback
 
 ```{r}
-top.dieback.binomial.af <- glmmTMB(top.dieback ~ DN_AF1,data=data,family=binomial)
+data.top <- data %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Dead Top") %>% droplevels()
+```
+
+
+```{r}
+top.dieback.binomial.af <- glmmTMB(top.dieback ~ DN_AF1,data=data.top,family=binomial)
 ```
 
 ### Summary
@@ -258,7 +263,7 @@ First, generate predictions from model
 ```{r}
 # Create a data frame for predictions
 new.data.2 <- expand.grid(
-  DN_AF1 = seq(min(data$DN_AF1), max(data$DN_AF1), length.out = 1000)  # keeping predictor2 constant at its mean
+  DN_AF1 = seq(min(80), max(150), length.out = 1000)  # keeping predictor2 constant at its mean
 )
 ```
 
@@ -275,7 +280,7 @@ new.data.2$predicted_response <- predict(top.dieback.binomial.af, newdata = new.
 ```{r}
 # Create a data frame for predictions
 new.data.2.inf <- expand.grid(
-  DN_AF1 = seq(min(data$DN_AF1), max(150), length.out = 1000)  # keeping predictor2 constant at its mean
+  DN_AF1 = seq(min(data.top$DN_AF1), max(150), length.out = 1000)  # keeping predictor2 constant at its mean
 )
 ```
 
@@ -297,15 +302,15 @@ p
 
 
 ```{r}
-p <- ggplot(new.data.2, aes(x = DN_AF1, y = predicted_response)) + geom_line() + labs(x = "Afternoon temperature (F)", y = "Dieback Probability") + scale_x_continuous(limits = c(80, 92)) +theme_minimal()
+p <- ggplot(new.data.2, aes(x = DN_AF1, y = predicted_response)) + geom_line() + labs(x = "Afternoon temperature (F)", y = "Dieback Probability") + scale_x_continuous(limits = c(80, 92.5),breaks=c(80,82.5,85,87.5,90,92.5)) + scale_y_continuous(limits = c(0, .3)) +theme_minimal()
 
 p2 <- p + annotate(geom="rect",ymin = -Inf, ymax = Inf, 
               xmin = -Inf, xmax = 85, fill = alpha('#7fcdbb',0.5)) +
     annotate(geom="rect",ymin = -Inf, ymax = Inf, 
-              xmin = 85, xmax = 89.4, fill = alpha('#fe9929',0.5)) + 
+              xmin = 85, xmax = 88.55, fill = alpha('#fe9929',0.5)) + 
     annotate(geom="rect",ymin = -Inf, ymax = Inf, 
-          xmin = 89.4, xmax = Inf, fill = alpha('red',0.5))
-p2 + annotate("text", x=82, y=.125, label= "Protect from\nDevelopment") + annotate("text", x=87.3, y=.125, label= "Provide\nExtra Care") + annotate("text", x=91.3, y=.125, label= "Most\nConcern")
+          xmin = 88.55, xmax = Inf, fill = alpha('red',0.5))
+p2 + annotate("text", x=82, y=.125, label= "Protect from\nDevelopment") + annotate("text", x=86.8, y=.125, label= "Provide\nExtra Care") + annotate("text", x=90.8, y=.125, label= "Most\nConcern")
 ```
 
 The probability of a tree having top dieback increases with afternoon temperature
@@ -313,10 +318,14 @@ The probability of a tree having top dieback increases with afternoon temperatur
 
 ---
 
-## Model 3: thinning and heat
+## Response 3.0: healthy / thinning
 
 ```{r}
-thinning.binomial.af <- glmmTMB(thinning ~ DN_AF1,data=data,family=binomial)
+data.thin <- data %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning Canopy") %>% droplevels()
+```
+
+```{r}
+thinning.binomial.af <- glmmTMB(thinning ~ DN_AF1,data=data.thin,family=binomial)
 ```
 
 ### Summary
@@ -327,7 +336,8 @@ summary(thinning.binomial.af)
 
 
 ```{r}
-levels(data$thinning)
+levels(data.thin$thinning)
+str(data.thin$thinning)
 ```
 
 There was no evidence the probability of a tree being classified as thinning is related to afternoon heat.  
@@ -341,7 +351,7 @@ First, generate predictions from model
 ```{r}
 # Create a data frame for predictions
 new.data.3 <- expand.grid(
-  DN_AF1 = seq(min(data$DN_AF1), max(data$DN_AF1), length.out = 100),  # keeping predictor2 constant at its mean
+  DN_AF1 = seq(min(data.thin$DN_AF1), max(data.thin$DN_AF1), length.out = 100),  # keeping predictor2 constant at its mean
   Area = 0  # assuming random effect is zero for prediction
 )
 ```
