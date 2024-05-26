@@ -25,174 +25,31 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The purpose of this page is to provide links to the approaches included in the RedHot analyses. 
 
-Relationships between the health of redcedar and urban environmental metrics were explored with generalized linear mixed effect models. 
+Relationships between the health of redcedar and urban heat were explored with generalized linear mixed effect models. 
 
 # Background
 
 The [iNat Data Summaries](https://jmhulbert.github.io/redhot/analyses/inaturalist/) has general information about the observations from the [WRDM project](https://www.inaturalist.org/projects/western-redcedar-dieback-map) included in this study.
 
+# Analyses
+
+iNaturalist data were downloaded and urban heat data were extracted and merged for each iNaturalist observation. Analyses were completed to explore the relationship between urban heat and three binary response variables representing tree health. Analyses were completed for three areas individually and combined. In the combined area analyses, relationships with two categorical co-factors in addition to urban heat were also explored.  
+
++ Binary response variables
+  + Tree categorized as *healthy* or *unhealthy*
+  + *Tree did not have a dead-top* or *tree had a dead-top*
+  + *Tree was not thinning* or *tree was thinning*
+  
++ Analyses
+  + [Urban Heat](https://jmhulbert.github.io/redhot/analyses/heat/)
+    + [All Areas GLMMs](https://jmhulbert.github.io/redhot/analyses/heat/all-areas)
+    + [Portland GLMs](https://jmhulbert.github.io/redhot/analyses/heat/portland)
+    + [Tacoma GLMs](https://jmhulbert.github.io/redhot/analyses/heat/tacoma)
+    + [King County GLMs](https://jmhulbert.github.io/redhot/analyses/heat/king-county)
+
+Summaries of the community scientist participation or trends in observations shared are available in the [iNaturalist Data Summaries analyses](https://jmhulbert.github.io/redhot/analyses/inaturalist/). 
+
 # Discussion
 
 See the [Discussion page](https://jmhulbert.github.io/redhot/discussion) for a list of topics to revisit in analyses and more questions of interest
-
-
-# Analyses
-
-+ Current Analyses
-  + [iNaturalist Data Summaries](https://jmhulbert.github.io/redhot/analyses/inaturalist/)
-  + Urban Heat
-    + [All Areas GLMMs](https://jmhulbert.github.io/redhot/analyses/all-areas)
-    + [Portland GLM](https://jmhulbert.github.io/redhot/analyses/portland)
-    + [Tacoma GLM](https://jmhulbert.github.io/redhot/analyses/tacoma)
-    + [King County GLM](https://jmhulbert.github.io/redhot/analyses/king-county)
-
-
-+ List of Models
-  + [All Areas Analyses](https://jmhulbert.github.io/redhot/analyses/all-areas)
-    + Temperature Time Series Comparison
-      + binomial.daily <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.daily + (1|Area),family=binomial,data=data)
-      + binomial.am <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.am + (1|Area),data=data,family=binomial)
-      + binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + (1|Area),data=data,family=binomial)
-      + binomial.pm <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.pm + (1|Area),data=data,family=binomial)
-    + Model 1 - Binary Health Response (healthy, unhealthy)
-      + binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + (1|Area),data=data,family=binomial)
-    + Model 2 - Binary Top Dieback (no dead top, dead top)
-      + top.dieback.binomial.af <- glmmTMB(top.dieback ~ dist.from.mean.af + (1|Area),data=data,family=binomial)
-    + Model 3 - Binary Thinning Response (no thinning, thinning)
-      + thinning.binomial.af <- glmmTMB(thinning ~ dist.from.mean.af + (1|Area),data=data,family=binomial)
-    + Co-Factors
-      + Model 4 - including size and location
-        + binomial.af.size.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + field.optional...site.location.description + tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
-      + Model 5 - including size only
-        + binomial.af.size <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af +  tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
-      + Model 6 - including location only
-        + binomial.af.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af +  tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
-  + [Portland Analyses](https://jmhulbert.github.io/redhot/analyses/portland)
-    + Temperature Time Series Comparison
-      + binomial.daily <- glmmTMB(binary.tree.canopy.symptoms ~ mean.temp.daily ,family=binomial,data=data)
-      + binomial.am <- glmmTMB(binary.tree.canopy.symptoms ~ DN_AM1 ,data=data,family=binomial)
-      + binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ DN_AF1 ,data=data,family=binomial)
-      + binomial.pm <- glmmTMB(binary.tree.canopy.symptoms ~ DN_PM1,data=data,family=binomial)
-    + Model 1 - Binary Health Response (healthy, unhealthy)
-      + binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ DN_AF1 ,data=data,family=binomial)
-    + Model 2 - Binary Top Dieback (no dead top, dead top)
-      + top.dieback.binomial.af <- glmmTMB(top.dieback ~ DN_AF1,data=data,family=binomial)
-    + Model 3 - Binary Thinning Response (no thinning, thinning)
-      + thinning.binomial.af <- glmmTMB(thinning ~ DN_AF1,data=data,family=binomial)
-  + [Tacoma Analyses](https://jmhulbert.github.io/redhot/analyses/tacoma)
-    + Model 2 - Binary Top Dieback (no dead top, dead top)
-      + top.dieback.binomial.af <- glmmTMB(top.dieback ~ DN_AF1,data=data,family=binomial)
-  + [King County Analyses](https://jmhulbert.github.io/redhot/analyses/tacoma)
-    + Model 2 - Binary Top Dieback (no dead top, dead top)
-      + top.dieback.binomial.af <- glmmTMB(top.dieback ~ DN_AF1,data=data,family=binomial)
-    
-  
-      
-
-
-## Possible co-factors
-
-It may be possible to include more detail in recommendations if we explore the relationship between tree health and urban heat while accounting for co-factors. 
-
-Most of these co-factors are categorical so including 2 co-factors with 4 levels would include 16 different combinations.. we likely do not enough data for that. 
-
-+ Possible co-factors to consider
-  + Tree Size (small, medium, large)
-  + Site Type (urban, suburban, rural)
-  + Location Description (In a forest, in a field, along a road)
-  + Water availability, water in summer? 
-  + equity 
-    + not sure if there is a good metric in the data for this, but maybe income would be related to expenses for tree care
-    + however, it may be correlated with urban heat
-
-
-
-# Model Approaches Considered
-
-* Approaches considered
-  + ordinal vs ordinal - chi squared 
-    + e.g. health category vs holc grade
-  + categorized as 0 or 1 - binomial categorical
-    + e.g. probability of healthy vs unhealthy - does that increase with afternoon temperature
-  + categorized as healthy, unhealthy, dead - ordinal distribution
-  + Increases in percent (proportion) canopy dieback - beta distribution 
-    + likley need to account for zero inflation
-      + e.g. does increases in urban heat increase likelyhood of having dieback (zi model) AND does increases in urban heat increase precent dieback proportion for trees with some dieback (conditional model).
-
-## Binomial Distribution
-
-* Binomial Distribution Analyses
-  + [Urban Heat Analysis](https://jmhulbert.github.io/redhot/analyses/heat/binomial/)
-  + [1930s Home Owner Loan Corporation Ranks Analysis](https://jmhulbert.github.io/redhot/analyses/holc/binomial/)
-  + [Environmental Health Disparity Data Analysis](https://jmhulbert.github.io/redhot/analyses/ehd/binomial/)
-  + [Portland Urban Heat Analysis](https://jmhulbert.github.io/redhot/analyses/portland/heat/binomial/)
-
-Response variable: *healthy, unhealthy*
-
-Excluding dead trees might make sense biologically, because we're not sure what factor actually killed the tree. Also the dead trees may have been dead for different lengths of time. Some may have been affected by heat, where others had not. There is good biological reasoning to exclude the dead trees. 
-
-
-## Ordinal Distribution
-
-[Ordinal Distribution Analysis](https://jmhulbert.github.io/redhot/analyses/heat/ordinal/)
-
-Response variable: category: *healthy, unhealthy, dead*
-
-If we want to include three categories in our response variable (healthy, unhealthy, dead), we may want to consider an ordinal distribution. An ordinal distribution would be most appropriate for these categories compared to a multinomial distribution because the categories have a natural order. 
-
-Alternate response variable
-
-Response variable: category: *0% Dieback, 1-29% Dieback, 30-59% dieback, 60-99% dieback, dead*
-
-
-## Beta Distribution
-
-[Beta Distribution Analysis](https://jmhulbert.github.io/redhot/analyses/heat/beta/)
-
-Response variable: *percent canopy dieback*
-
-Because the response variable is percent (we can consider it as proportion too) we can do regression using a beta distribution (comparing shapes) rather than a linear regression. We also need to use an distribution zero or one inflated rate. 
-
-Note, beta distribution analyses only included observations where community scientists estimated the percent canopy dieback (which was optional). 
-
-We considered converting the categorical variable for percent canopy affected (e.g. 1-30% is affected, 31-60% is affected, etc), but determined it was too awkward and innacurate. 
-
-
-### Zero inflated beta regression
-
-* We referenced the following documents for guidance:
-+ Websites
-  + [GLMM FAQ](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html)
-+ Blog Posts
-  + [Andrew Heiss's blog post](https://www.andrewheiss.com/blog/2021/11/08/beta-regression-guide/#linear-probability-models) 
-+ Vignettes
-  + ['Get Started'](https://glmmtmb.github.io/glmmTMB/articles/glmmTMB.html) guide from glmmTMB
-+ Github/Stack Exchange Issue Posts
-  + [Ben Bolker discussion about zero inflated betas and zero-one inflated betas](https://github.com/glmmTMB/glmmTMB/issues/507)
-+ Youtube Videos
-  + [Statistical Methods Series: Zero-Inflated GLM and GLMM](https://www.youtube.com/watch?v=ISN9SE__QOU&t=35s)
-    + [Supplementary example code useful for glmmTMB](https://github.com/eco4cast/Statistical-Methods-Seminar-Series/blob/main/zuur-ieno_zero-inflated-models/RCode/Owls_ESA.R)
-+ Background Papers
-  + [Generalized linear mixed models: a practical guide for ecology and evolution](https://www.sciencedirect.com/science/article/abs/pii/S0169534709000196) 
-  + [Chapter 13 Linear and generalized linear mixed models](https://academic.oup.com/book/41052/chapter-abstract/349379451?redirectedFrom=fulltext&login=false).
-  + [glmmTMB Balances Speed and Flexibility
-Among Packages for Zero-inflated
-Generalized Linear Mixed Modeling](https://journal.r-project.org/archive/2017/RJ-2017-066/RJ-2017-066.pdf)
-
-
-#### Interpreting zi Model Outputs
-
-The conditional output is indicating that for all observations with greater than 0 dieback proportions, distance from mean am influences the proprtion of dieback. The zi model tells us which predictor increases the propability of non-zero. 
-> interesting that the distance from mean am has a negative estimate though - hard to know if it is observations higher than the mean or lower than the mean (ie as temp increases, distance from mean decreases (but higher or lower than mean))
-
-Including a predictor in the zi= bit of the model would test whether heat influences whether there is dieback at all. 
-
-Possible understanding from: https://stats.stackexchange.com/questions/466047/interpreting-output-for-glmmtmb-for-zero-inflated-count-data 
-
-
-# References
-
-  + Brooks, M. E., Kristensen, K., van Benthem, K. J., Magnusson, A., Berg, C. W., Nielsen, A., Skaug, H. J., Machler, M., & Bolker, B. M. (2017). glmmTMB balances speed and flexibility among packages for Zero-inflated Generalized Linear Mixed Modeling. The R Journal, 9(2), 378-400. https://doi.org/10.32614/RJ-2017-066  
-    + Answers reference 'pages 382-383 explain all components of the model summary'
- + Voelkel, J., and Shandas, V. (2017). Towards Systematic Prediction of Urban Heat Islands: Grounding Measurements, Assessing Modeling Techniques. Climate 5, 41. doi: 10.3390/cli5020041.
 

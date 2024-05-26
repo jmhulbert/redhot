@@ -54,6 +54,18 @@ Evidence for increases in the probability of having top dieback with increases i
   + Do urban trees have higher proportions of unhealthy trees than rural trees?
   + Does tree size affect the tree's vulnerability to urban heat?
 
+# Possible co-factors
+
+It may be possible to include more detail in recommendations if we explore the relationship between tree health and urban heat while accounting for co-factors. 
+
+Most of these co-factors are categorical so including 2 co-factors with 4 levels would include 16 different combinations.. we likely do not enough data for that. 
+
++ Possible co-factors to consider
+  + Tree Size (small, medium, large)
+  + Site Type (urban, suburban, rural)
+  + Location Description (In a forest, in a field, along a road)
+  + Water availability, water in summer? 
+
 # Approach Considerations
 
 * Aspects to consider
@@ -71,11 +83,21 @@ Evidence for increases in the probability of having top dieback with increases i
   + Removing Hoyt Arboretum Trees? 
     + Caclulating Distance from mean after removing Hoyt
   + should we remove observations with very poor positional accuracy?  
+
+* Binomial Distribution Analyses
+  + [Urban Heat Analysis](https://jmhulbert.github.io/redhot/analyses/heat/binomial/)
+  + [1930s Home Owner Loan Corporation Ranks Analysis](https://jmhulbert.github.io/redhot/analyses/holc/binomial/)
+  + [Environmental Health Disparity Data Analysis](https://jmhulbert.github.io/redhot/analyses/ehd/binomial/)
+  + [Portland Urban Heat Analysis](https://jmhulbert.github.io/redhot/analyses/portland/heat/binomial/)
   
   
 Eish, the portland dataset as is, only includes 15 trees with dead tops. 
   
 Should we remove other tree health categories (e.g. other or thinning) in analyses? for example, should we only include 'dead top' and 'healthy' trees when doing a dead top analysis?
+
+Yes! Because some of the trees in the 'other category' may have had multiple symptoms (thinning and dead top) so saying it is tree that is not thinning or does not have a dead top may be false. 
+
+Removing the other categories (thinning or dead top) when comparing these categorizes also makes sense because be just want to compare thinning to healthy trees not thinning to dead top. 
 
 Filtering trees to dead tops or healthy did not improve the significance of the tacoma dead top model. 
 
@@ -96,6 +118,10 @@ Why was there no evidence of a relationship in Tacoma?
 
 [Analyses of Portland data only](https://jmhulbert.github.io/redhot/analyses/portland/heat/binomial/) indicate there is a relationship between tree health and afternoon heat (DN_AF1) - non standardized. 
 The probability of a tree having top dieback increased with afternoon heat. However, no evidence was found for a relationship between crown thinning and afternoon heat. *Perhaps there is a relationship with morning or evening temperatures?* However, it could also be that the observers are not as confident in recognizing trees as thinning. 
+
+
+Effects of co-variates without urban heat
+chi squared - proporitons are different than they would be with chance
 
 ## Data limitations
 
@@ -125,6 +151,16 @@ How many identifiers were there? How many observers were there?
     + Climate Variables
     + Wealth
     + Tree Size
+
+Additional possible co-factors in urban heat analyses 
+  + equity 
+    + not sure if there is a good metric in the data for this, but maybe income would be related to expenses for tree care
+    + however, it may be correlated with urban heat
+
+
+
+
+
 
 ## Jim's study
 

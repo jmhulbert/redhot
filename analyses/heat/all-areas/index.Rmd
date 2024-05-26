@@ -41,13 +41,11 @@ The purpose of this page is to summarize an investigation of **tree health categ
 Response variable: category: *healthy, unhealthy*
 
 
-# Read Data
+# Data Wrangling
 
 ```{r}
 data <- read.csv('https://raw.githubusercontent.com/jmhulbert/redhot/main/data/urban-data-modified.csv')
 ```
-
-# Wrangle Data
 
 ## Remove dead trees
 
@@ -138,12 +136,11 @@ AICtab(binomial.daily,binomial.am,binomial.af,binomial.pm)
 
 Afternoon heat was the best fit
 
-## Model 1: health and heat
+## Response 1.0: healthy / unhealthy
 
 ```{r}
 #binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + (1|Area),data=data,family=binomial)
 ```
-
 
 ### Summary
 
@@ -186,10 +183,15 @@ ggplot(new.data, aes(x = dist.from.mean.af, y = predicted_response)) +
 
 The probability of tree being classified as unhealthy increases with distance from mean af
 
-## Model 2: top dieback and heat
+## Response 2.0: healthy / top-dieback 
 
 ```{r}
-top.dieback.binomial.af <- glmmTMB(top.dieback ~ dist.from.mean.af + (1|Area),data=data,family=binomial)
+data.top <- data %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Dead Top") %>% droplevels()
+```
+
+
+```{r}
+top.dieback.binomial.af <- glmmTMB(top.dieback ~ dist.from.mean.af + (1|Area),data=data.top,family=binomial)
 ```
 
 ### Summary
@@ -244,7 +246,11 @@ ggplot(new.data.2, aes(x = dist.from.mean.af, y = predicted_response)) +
 ```
 
 
-## Model 3: thinning and heat
+## Response 3.0: healthy / thinning
+
+```{r}
+data.thin <- data %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning") %>% droplevels()
+```
 
 ```{r}
 thinning.binomial.af <- glmmTMB(thinning ~ dist.from.mean.af + (1|Area),data=data,family=binomial)
@@ -328,32 +334,168 @@ Heat had the largest effect on predicting if trees had top dieback
 
 ## Adding co-variates
 
-### Site
+Note the models below were tested on filtered data. Data categorized as 'No Selection', 'Other' or blank were filtered out. 
+
+
+
+### Co-Factor Model 1: adding size
+
+#### Visualize co-factor
+
+```{r}
+data.size.filter <- data %>% filter(tree.size.simplified!="" & tree.size.simplified!="No Selection")
+levels(as.factor(data.size.filter$tree.size.simplified))
+```
+
+`r nrow(data) - nrow(data.size.filter)` were removed from the data. `r nrow(data.size.filter)` observations were used in below the co-factor model adding size below.
+
+```{r}
+ggplot(data.size.filter,aes(tree.size.simplified))+geom_histogram(stat="count")+coord_flip()+theme_bw()
+```
+
+##### All Trees
+
+```{r}
+ggplot(data.size.filter,aes(binary.tree.canopy.symptoms)) +facet_wrap(~tree.size.simplified) +geom_histogram(stat="count")+theme_bw()+coord_flip()
+```
+
+
+##### Trees with Dead Tops
+
+```{r}
+ggplot(data.size.filter,aes(top.dieback)) +facet_wrap(~tree.size.simplified) +geom_histogram(stat="count")+theme_bw()+coord_flip()
+```
+
+##### Thinning Trees
+
+```{r}
+ggplot(data.size.filter,aes(thinning)) +facet_wrap(~tree.size.simplified) +geom_histogram(stat="count")+theme_bw()+coord_flip()
+```
+
+
+
+#### Response 1.1 healthy / unhealthy
+
+```{r}
+binomial.af.size <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af +  tree.size.simplified +(1|Area),data=data.size.filter,family=binomial)
+```
+
+```{r}
+summary(binomial.af.size)
+```
+
+#### Response 2.1 healthy / top-dieback 
+
+```{r}
+data.top.size <- data.size.filter %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Dead Top") %>% droplevels()
+```
+
+```{r}
+top.dieback.binomial.af.size <- glmmTMB(top.dieback ~ dist.from.mean.af + tree.size.simplified + (1|Area),data=data.top.size,family=binomial)
+```
+
+```{r}
+summary(top.dieback.binomial.af.size)
+```
+
+#### Response 3.1 healthy / thinning
+
+```{r}
+data.thin.size <- data.size.filter %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning") %>% droplevels()
+```
+
+```{r}
+thinning.binomial.af.size <- glmmTMB(thinning ~ dist.from.mean.af + tree.size.simplified + (1|Area),data=data.thin.size,family=binomial)
+```
+
+```{r}
+summary(thinning.binomial.af.size)
+```
+
+
+### Co-Factor Model 2: adding location
+
+#### Visualize co-factor
 
 ```{r}
 data.site.filter <- data %>% filter(field.optional...site.location.description!="" & field.optional...site.location.description!="No Selection" & field.optional...site.location.description!="Other") %>% droplevels()
 levels(as.factor(data.site.filter$field.optional...site.location.description))
 ```
 
+`r nrow(data) - nrow(data.site.filter)` were removed from the data. `r nrow(data.site.filter)` observations were used in below the co-factor model adding size below.
 
 ```{r}
 ggplot(data.site.filter,aes(field.optional...site.location.description))+geom_histogram(stat="count")+coord_flip()+theme_bw()
 ```
 
+##### All Trees
 
-### Size
+```{r}
+ggplot(data.site.filter,aes(binary.tree.canopy.symptoms)) +facet_wrap(~field.optional...site.location.description) +geom_histogram(stat="count")+theme_bw()+coord_flip()
+```
+
+
+##### Trees with Dead Tops
+
+```{r}
+ggplot(data.site.filter,aes(top.dieback)) +facet_wrap(~field.optional...site.location.description) +geom_histogram(stat="count")+theme_bw()+coord_flip()
+```
+
+##### Thinning Trees
+
+```{r}
+ggplot(data.site.filter,aes(thinning)) +facet_wrap(~field.optional...site.location.description) +geom_histogram(stat="count")+theme_bw()+coord_flip()
+```
+
+
+
+#### Response 1.2 healthy / unhealthy
+
+```{r}
+binomial.af.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + field.optional...site.location.description  + (1|Area),data=data.site.filter,family=binomial)
+```
+
+```{r}
+summary(binomial.af.site)
+```
+
+#### Response 2.2 healthy / top-dieback 
+
+```{r}
+data.top.site <- data.site.filter %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Dead Top") %>% droplevels()
+```
+
+```{r}
+top.dieback.binomial.af.site <- glmmTMB(top.dieback ~ dist.from.mean.af + field.optional...site.location.description + (1|Area),data=data.top.site,family=binomial)
+```
+
+```{r}
+summary(top.dieback.binomial.af.site)
+```
+
+#### Response 3.2 healthy / thinning
+
+```{r}
+data.thin.site <- data.size.filter %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning") %>% droplevels()
+```
+
+```{r}
+thinning.binomial.af.site <- glmmTMB(top.dieback ~ dist.from.mean.af + field.optional...site.location.description + (1|Area),data=data.thin.site,family=binomial)
+```
+
+```{r}
+summary(thinning.binomial.af.site)
+```
+
+
+### Co-Factor Model 3: adding both size and location - filtered data 
 
 ```{r}
 data.size.site.filter <- data.site.filter %>% filter(tree.size.simplified!="" & tree.size.simplified!="No Selection")
 levels(as.factor(data.size.site.filter$tree.size.simplified))
 ```
 
-```{r}
-ggplot(data.size.site.filter,aes(tree.size.simplified))+geom_histogram(stat="count")+coord_flip()+theme_bw()
-```
-
-
-## Model 4: health, heat, size, and location - filtered data
+`r nrow(data) - nrow(data.size.site.filter)` were removed from the data. `r nrow(data.size.site.filter)` observations were used in below the co-factor model adding size below.
 
 ```{r}
 binomial.af.size.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + field.optional...site.location.description + tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
@@ -366,26 +508,3 @@ summary(binomial.af.size.site)
 With the data we have available and above model, there is no evidence size or site location have a significant effect on the probability of a tree having dieback.
 
 Generally there is a lack of statistical evidence for a relationship between size or site location on tree health. However, we should revisit it with the larger (urban and non urban dataset). 
-
-
-## Model 5: health, heat and size
-
-```{r}
-binomial.af.size <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af +  tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
-```
-
-```{r}
-summary(binomial.af.size)
-```
-
-
-## Model 6: health, heat and location
-
-```{r}
-binomial.af.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af +  tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
-```
-
-```{r}
-summary(binomial.af.site)
-```
-

@@ -105,12 +105,31 @@ p1 <- ggplot(data,aes(binary.tree.canopy.symptoms))+geom_histogram(stat="count")
 ```
 
 ```{r}
+names(data)
+```
+
+
+
+
+```{r}
 p2 <- ggplot(data,aes(reclassified.tree.canopy.symptoms))+geom_histogram(stat="count")+theme_bw()+coord_flip()
 ```
 
 ```{r}
 p1 + p2
 ```
+
+
+```{r}
+p3 <- ggplot(data,aes(binary.tree.canopy.symptoms)) +facet_wrap(~field.optional...tree.size) +geom_histogram(stat="count")+theme_bw()+coord_flip()
+p3
+```
+
+```{r}
+p4 <- ggplot(data,aes(binary.tree.canopy.symptoms)) +facet_wrap(~field.optional...site.location.description) +geom_histogram(stat="count")+theme_bw()+coord_flip()
+p4
+```
+
 
 
 ```{r}
