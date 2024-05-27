@@ -134,6 +134,8 @@ Export data for QGIS data joins
 
 # QGIS Methods
 
+## Extracting Ancillary Data for iNaturalist Observations
+
 * Import into QGIS
   + Data Source Manager - Delimited Text - Browse to R working directory
 
@@ -166,7 +168,7 @@ af_t_f_ranger
 Hybrid
 ```
 
-##### Extract Heat Data for Trees
+### Extract Heat Data for Trees
 
 ```{r eval=FALSE, include=FALSE}
 #Portland AM
@@ -245,7 +247,7 @@ Extract temp data for trees
     + Export layer as .CSV in EPSG 4326 WGS 84
 ```
 
-##### Extract HOLC Data
+### Extract HOLC Data
 
 * Add HOLC data to trees layers for each city
   + join attributes by location (Vector > Data Management Tools > Join Attributes By Location)
@@ -269,7 +271,7 @@ processing.run("native:joinattributesbylocation", {'INPUT':'/Users/redcedar/Loca
 
 
 
-##### Extract EHD Rank Data for Trees 
+### Extract EHD Rank Data for Trees 
 
   + Add EHD RAnk data downloaded on 6.17.23 from https://geo.wa.govsets/WADOH::full-environmental-health-disparities-version-2-extract/explore\
   + Add EHD Data to trees layer
@@ -288,7 +290,7 @@ processing.run("native:joinattributesbylocation", {'INPUT':'/Users/redcedar/Loca
 processing.run("native:joinattributesbylocation", {'INPUT':'/Users/redcedar/LocalFiles/Academia/PostDoc/GIS/Shape Files/Project Produced/Redhot/WRC.Tacoma.UHI.AMAFPM.HOLC.shp','PREDICATE':[0],'JOIN':'/Users/redcedar/LocalFiles/Academia/PostDoc/GIS/Shape Files/Washington State/Full_Environmental_Health_Disparities_Version_2_Extract/EHD_Combined_V2.shp','JOIN_FIELDS':[],'METHOD':0,'DISCARD_NONMATCHING':False,'PREFIX':'','OUTPUT':'/Users/redcedar/LocalFiles/Academia/PostDoc/GIS/Shape Files/Project Produced/Redhot/WRC.Tacoma.UHI.AMAFPM.HOLC.EHD.shp'})
 ```
 
-#### Community Hypothesis Test - Tree Selection
+## Random Tree Selection - Community Hypothesis Test
 
 * Random Tree Selection for Portland Redhot Hypothesis Test. 
   + Define Project CRS WGS 84 EPSG:4326
@@ -315,8 +317,58 @@ Extract temp data for trees
 
 Export final .shp files as .csv
 
+## Extract Heat Data for Additional City Trees
 
-Re-import Data after following QGIS Methods
++ Collecting City trees datasets 
+  + Downloaded Data
+    + Portland street tree data were downloaded on 5.26.24 - the data were updated on 5.4.24 - from the [City of Portland Open GIS Data Portal](https://gis-pdx.opendata.arcgis.com/datasets/c2b02440053f459db71e1109b9947e51_1415/explore?filters=eyJTUEVDSUVTIjpbIlRodWphIHBsaWNhdGEgLSB3ZXN0ZXJuIHJlZGNlZGFyIl19&location=45.536039%2C-122.653050%2C11.98).
+      + Street tree data were from Source CRS 102100 (3857) according to ['view data source' page](https://www.portlandmaps.com/od/rest/services/COP_OpenData_Environment/MapServer/1415).
+    + Portland parks tree inventory data were downloaded on 5.26.24 - the data were updated on 4.16.24 - from the [City of Portland Open GIS Data Portal](https://gis-pdx.opendata.arcgis.com/datasets/15ae00ece1bf486a868c0f635d3acbfa_220/explore?location=0.001110%2C73.021058%2C0.72).
+      + Parks tree data were from Source CRS 102100 (3857) according to ['view data source' page](https://www.portlandmaps.com/od/rest/services/COP_OpenData_Environment/MapServer/220).
+    + Portland Heritage Trees data were downloaded on 5.26.24 - the data were updated on 4.1.24 - from the [City of Portland Open GIS Data Portal](https://gis-pdx.opendata.arcgis.com/datasets/db48b717d0174906b95f028c83c09dd0_26/explore?location=45.519704%2C-122.629500%2C12.10).
+      + Heritage tree data were from Source CRS 102100 (3857) according to ['view data source' page](https://www.portlandmaps.com/od/rest/services/COP_OpenData_Environment/MapServer/26).
+    + Seattle tree data were downloaded on 5.26.24 - the data were updated on 5.25.24 - from the [City of Seattle Open GIS Data Portal](https://data-seattlecitygis.opendata.arcgis.com/datasets/SeattleCityGIS::combined-tree-point/explore). 
+      + The City of Seattle data contained trees from 4 departments (SDOT, SPU, SDCI, SPR). 
+      + Note the City of Seattle Data were from Source CRS 2926 according to ['view data source' page](https://services.arcgis.com/ZOyb2t4B0UYuYNYH/arcgis/rest/services/Combined_Tree_Point/FeatureServer/0)
+  
+
++ Extracting heat data for trees
+  + City Tree data and urban Heat Data (used in previous qgis data extraction methods) were imported into qGIS
+    + Note Seattle and Portland data had different Source CRS data
+  + Trees were filtered to redcedar
+    + Seattle combined trees - "Scientific Name" = 'Thuja plicata'
+    + Portland street trees - "SPECIES" = 'Thuja plicata - western redcedar'
+  + Air temperature data were extracted for each tree with the sample rasters value tool
+    + Open processing tools panel and search for ‘sample raster values’ (View > Panels > processing tools)
+  + (Optional) Convert C to F in new column (Portland data only)
+    + Open attribute table, toggle editing, click new field, use decimal 10,3. 
+      + AF_F = click equation
+        + ("DN_AF1" * 1.8)+32 - update all
+    + Save, toggle editing
+  + Add lat/lon columns for r
+    + Open attribute table, toggle editing, click new field, name lat or lon, use decimal 10,10.
+    + for lat - y(transform($geometry, layer_property(@layer, 'crs'),'EPSG:4326'))
+    + fot lon - x(transform($geometry, layer_property(@layer, 'crs'),'EPSG:4326'))
+  + exported to csv
+
+* Total Trees
+  + Seattle - 205146
+  + Portland Street - 243,283
+  + Portland Park - 25,740
+  + Portland Heritage - 324
+
+* Redcedar Trees
+  + Seattle Combined - 2,690 
+  + Portland Street - 1,715
+  + Portland Park - 964
+  + Portland Heritage - 3
+
+
+
+# Post-GIS Data Wrangle Methods
+
+
+## Re-import Data after following QGIS Methods
 
 
 ```{r}
@@ -330,7 +382,7 @@ portland.uhi.holc <- read.csv("./WRC.Portland.UHI.HOLC-1.13.24.csv") # does not 
 ![](https://github.com/jmhulbert/redhot/blob/main/maps/index_files/figure-html/all-areas-map-1.png?raw=true)
 
 
-# Post-GIS Data Wrangle Methods
+
 
 ## Join UHI data with iNat Data
 

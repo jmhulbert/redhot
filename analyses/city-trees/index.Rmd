@@ -1,0 +1,29 @@
+---
+title: "City Tree Analyses"
+author: "Joey Hulbert"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: true
+    toc_depth: 3
+---
+
+
+|            |            |            |            |            |
+|:----------:|:----------:|:----------:|:----------:|:----------:|
+|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redhot/discussion)|[Maps](https://jmhulbert.github.io/redhot/maps)
+|             |           |            |            |            |
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Purpose
+
+# Data Wrangling
+
+
+

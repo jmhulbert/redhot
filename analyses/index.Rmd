@@ -49,6 +49,8 @@ iNaturalist data were downloaded and urban heat data were extracted and merged f
 
 Summaries of the community scientist participation or trends in observations shared are available in the [iNaturalist Data Summaries analyses](https://jmhulbert.github.io/redhot/analyses/inaturalist/). 
 
+Summaries of the redcedar trees in Seattle and Portland street and park tree inventories are available in the [City Tree Analyses]((https://jmhulbert.github.io/redhot/analyses/city-trees/)).
+
 # Discussion
 
 See the [Discussion page](https://jmhulbert.github.io/redhot/discussion) for a list of topics to revisit in analyses and more questions of interest
