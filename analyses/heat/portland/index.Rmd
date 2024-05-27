@@ -315,6 +315,12 @@ p2 + annotate("text", x=82, y=.125, label= "Protect from\nDevelopment") + annota
 
 The probability of a tree having top dieback increases with afternoon temperature
 
+```{r inlcude=FALSE}
+new.data.2
+```
+
+trees at about 88.5 degrees had a 0.1 predicted response. 
+
 
 ---
 

@@ -20,10 +20,73 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(tidyverse)
+```
+
+
 
 # Purpose
 
 # Data Wrangling
 
+## Import Data
+
+```{r}
+portland.parks <- read.csv('https://raw.githubusercontent.com/jmhulbert/redhot/main/data/Portland.Parks.Trees.AF.csv')
+portland.streets <- read.csv('https://raw.githubusercontent.com/jmhulbert/redhot/main/data/Portland.Street.Trees.AF.csv')
+seattle.combined <- read.csv('https://raw.githubusercontent.com/jmhulbert/redhot/main/data/Seattle.Trees.AF.csv')
+```
+
+## Tidy Data
+
+```{r}
+portland.parks <- portland.parks[c(3,4,6,7,8,14,35,36,40,42:45)]
+portland.parks <- portland.parks %>% mutate(city.space="Park")
+
+portland.streets <- portland.streets[c(3,4,5,9,10:19)]
+portland.streets <- portland.streets %>% mutate(city.space="Street") %>% rename(DBH=DIAMETER) %>% rename(Functional=FUNCTIONAL)
+
+portland.combined <- full_join(portland.streets,portland.parks,by = join_by(OBJECTID, Condition, DN_AF1, lat, lon, DBH,city.space,Functional)) %>% mutate(city="Portland") %>% mutate(DN_AFc=DN_AF1)
+
+portland.combined$DN_AF1 <- ((portland.combined$DN_AF1 * 1.8) +32)
+
+```
+
+```{r}
+seattle.combined <- seattle.combined[c(1:8,11:14,17:19)] %>% mutate(city="Seattle") %>% rename(GlobalID=GLOBALID)
+
+seattle.streets <- seattle.combined %>% filter(Source.Department=="Seattle Department of Transportation") %>% mutate(city.space="Street")
+seattle.parks <- seattle.combined %>% filter(Source.Department=="Seattle Parks and Recreation") %>% mutate(city.space="Park")
+
+seattle.combined.back <- rbind(seattle.streets,seattle.parks)
+```
+
+
+# Categorize Trees
+
+Portland Categories - Dead Tops
+Protect from development: <85 
+Extra care: 85-88.5
+Most concern: >88.5
+
+King County Categories - Dead Tops
+Protect from development: <85 
+Extra care: 85-87.8
+Most concern: >87.8
+
+
+## Join City Data
+
+```{r}
+cities <- full_join(seattle.combined.back,portland.combined,by = join_by(OBJECTID, DBH, DN_AF1, lat, lon, city, city.space,GlobalID))
+```
+
+# Summarize Data
+
+```{r}
+summary <- cities %>% group_by(city,city.space) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
+summary
+```
 
 

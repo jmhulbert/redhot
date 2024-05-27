@@ -181,11 +181,6 @@ new.data.2 <- expand.grid(
 
 
 ```{r}
-head(new.data.2)
-```
-
-
-```{r}
 new.data.2$predicted_response <- predict(top.dieback.binomial.af, newdata = new.data.2, type = "response")
 ```
 
@@ -225,6 +220,11 @@ p2 <- p + annotate(geom="rect",ymin = -Inf, ymax = Inf,
 p2 + annotate("text", x=82, y=.125, label= "Protect from\nDevelopment") + annotate("text", x=86.6, y=.125, label= "Provide\nExtra Care") + annotate("text", x=90.2, y=.125, label= "Most\nConcern")
 ```
 
+```{r include=FALSE}
+new.data.2
+```
+
+trees at about 87.8 degrees had a 0.1 predicted response. 
 
 
 ### Response 3.0: healthy / thinning
