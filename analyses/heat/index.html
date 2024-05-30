@@ -11,7 +11,7 @@
 
 <meta name="author" content="Joey Hulbert" />
 
-<meta name="date" content="2024-05-25" />
+<meta name="date" content="2024-05-29" />
 
 <title>Tree Health and Urban Heat Analyses</title>
 
@@ -1481,7 +1481,7 @@ border-radius: 0px;
 
 <h1 class="title toc-ignore">Tree Health and Urban Heat Analyses</h1>
 <h4 class="author">Joey Hulbert</h4>
-<h4 class="date">2024-05-25</h4>
+<h4 class="date">2024-05-29</h4>
 
 </div>
 
@@ -1503,6 +1503,52 @@ border-radius: 0px;
 <td align="center"><a href="https://jmhulbert.github.io/redhot/maps">Maps</a></td>
 </tr>
 <tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<table style="width:100%;">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center">Analyses</th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/">Urban
+Heat</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/all-areas">All
+Areas</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/portland">Portland</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/tacoma">Tacoma</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/king-county">King
+County</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/inaturalist/">iNaturalist</a></td>
+<td align="center"><a href="(https://jmhulbert.github.io/redhot/analyses/city-trees/)">City
+Inventories</a></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -1558,7 +1604,7 @@ thinning)
 </ul></li>
 <li>Co-Factors
 <ul>
-<li>Co-Factor Model 1 - including size only
+<li>Co-Factor Model 1 - including addition of location
 <ul>
 <li><strong>Response 1.1</strong> - Binary Health Response (healthy,
 unhealthy)
@@ -1572,7 +1618,7 @@ top)</li>
 <li><strong>Response 3.1</strong> - Binary Thinning Response (healthy,
 thinning)</li>
 </ul></li>
-<li>Co-Factor Model 2 - including location only
+<li>Co-Factor Model 2 - including addition of tree size
 <ul>
 <li><strong>Response 1.2</strong> - Binary Health Response (healthy,
 unhealthy)
@@ -1722,8 +1768,8 @@ dieback proportion for trees with some dieback (conditional model).</li>
 <li>Response variables:
 <ul>
 <li><em>healthy, unhealthy</em></li>
-<li><em>no dead top, dead top</em></li>
-<li><em>no thinning, thinning</em></li>
+<li><em>healthy, dead top</em></li>
+<li><em>healthy, thinning</em></li>
 </ul></li>
 </ul>
 <p>Excluding dead trees might make sense biologically, because we’re not

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Joey Hulbert" />
 
-<meta name="date" content="2024-05-26" />
+<meta name="date" content="2024-05-29" />
 
 <title>Binomial Distribution Response to Urban Heat in King County</title>
 
@@ -1482,7 +1482,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Binomial Distribution Response to Urban
 Heat in King County</h1>
 <h4 class="author">Joey Hulbert</h4>
-<h4 class="date">2024-05-26</h4>
+<h4 class="date">2024-05-29</h4>
 
 </div>
 
@@ -1512,6 +1512,52 @@ Heat in King County</h1>
 </tr>
 </tbody>
 </table>
+<table style="width:100%;">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center">Analyses</th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/">Urban
+Heat</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/all-areas">All
+Areas</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/portland">Portland</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/tacoma">Tacoma</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/king-county">King
+County</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/inaturalist/">iNaturalist</a></td>
+<td align="center"><a href="(https://jmhulbert.github.io/redhot/analyses/city-trees/)">City
+Inventories</a></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>library(tidyverse)
 library(corrplot)
 library(knitr)
@@ -1522,6 +1568,7 @@ library(scales)
 library(glmmTMB)
 library(bbmle)
 library(DHARMa)</code></pre>
+<p>#KING COUNTY</p>
 <div id="purpose" class="section level1">
 <h1>Purpose</h1>
 <p>The purpose of this page is to summarize an investigation of
@@ -1575,8 +1622,8 @@ levels(data$binary.tree.canopy.symptoms)</code></pre>
 </div>
 <div id="analyses" class="section level1">
 <h1>Analyses</h1>
-<div id="fit-models" class="section level2">
-<h2>Fit Models</h2>
+<div id="time-series-model-fit" class="section level2">
+<h2>Time Series Model Fit</h2>
 <pre class="r"><code>data$top.dieback &lt;- as.factor(data$top.dieback)
 data$thinning &lt;- as.factor(data$thinning)</code></pre>
 <pre class="r"><code>binomial.daily &lt;- glmmTMB(binary.tree.canopy.symptoms ~ mean.temp.daily ,family=binomial,data=data)
@@ -1713,10 +1760,82 @@ p2 + annotate(&quot;text&quot;, x=82, y=.125, label= &quot;Protect from\nDevelop
 </div>
 </div>
 </div>
-<div id="summary-3" class="section level1">
-<h1>Summary</h1>
+<div id="overall-summary" class="section level1">
+<h1>Overall Summary</h1>
 <p>The probability of a tree having top dieback increases with afternoon
 temperature</p>
+<table style="width:100%;">
+<colgroup>
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Area</th>
+<th align="center">Response</th>
+<th align="center">Explanatory</th>
+<th align="center">df.resid</th>
+<th align="center">Estimate</th>
+<th align="center">Std.Error</th>
+<th align="center">z-val</th>
+<th align="center">Pr(&gt;z)</th>
+<th align="center">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Tacoma</td>
+<td align="center">healthy/unhealthy</td>
+<td align="center">DN_AF</td>
+<td align="center">418</td>
+<td align="center">0.28792</td>
+<td align="center">0.09074</td>
+<td align="center">3.173</td>
+<td align="center">0.00151</td>
+<td align="center">**</td>
+</tr>
+<tr class="even">
+<td align="center">Tacoma</td>
+<td align="center">no/dead-top</td>
+<td align="center">DN_AF</td>
+<td align="center">297</td>
+<td align="center">0.5607</td>
+<td align="center">0.1625</td>
+<td align="center">3.451</td>
+<td align="center">0.000558</td>
+<td align="center">***</td>
+</tr>
+<tr class="odd">
+<td align="center">Tacoma</td>
+<td align="center">no/thinning</td>
+<td align="center">DN_AF</td>
+<td align="center">297</td>
+<td align="center">0.4211</td>
+<td align="center">0.1495</td>
+<td align="center">2.817</td>
+<td align="center">0.00485</td>
+<td align="center">**</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
 </div>
 
 

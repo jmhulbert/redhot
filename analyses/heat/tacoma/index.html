@@ -11,7 +11,7 @@
 
 <meta name="author" content="Joey Hulbert" />
 
-<meta name="date" content="2024-05-26" />
+<meta name="date" content="2024-05-29" />
 
 <title>Binomial Distribution Response to Urban Heat in Tacoma</title>
 
@@ -1482,7 +1482,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Binomial Distribution Response to Urban
 Heat in Tacoma</h1>
 <h4 class="author">Joey Hulbert</h4>
-<h4 class="date">2024-05-26</h4>
+<h4 class="date">2024-05-29</h4>
 
 </div>
 
@@ -1512,6 +1512,52 @@ Heat in Tacoma</h1>
 </tr>
 </tbody>
 </table>
+<table style="width:100%;">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center">Analyses</th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/">Urban
+Heat</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/all-areas">All
+Areas</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/portland">Portland</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/tacoma">Tacoma</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/heat/king-county">King
+County</a></td>
+<td align="center"><a href="https://jmhulbert.github.io/redhot/analyses/inaturalist/">iNaturalist</a></td>
+<td align="center"><a href="(https://jmhulbert.github.io/redhot/analyses/city-trees/)">City
+Inventories</a></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>library(tidyverse)
 library(corrplot)
 library(knitr)
@@ -1522,6 +1568,9 @@ library(scales)
 library(glmmTMB)
 library(bbmle)
 library(DHARMa)</code></pre>
+<div id="tacoma" class="section level1">
+<h1>TACOMA</h1>
+</div>
 <div id="purpose" class="section level1">
 <h1>Purpose</h1>
 <p>The purpose of this page is to summarize an investigation of
@@ -1741,6 +1790,78 @@ binomial.pm &lt;- glmmTMB(binary.tree.canopy.symptoms ~ DN_PM1,data=data,family=
 <h1>Summary</h1>
 <p>There was no evidence for a relationship between tree health and
 afternoon temperatures in Tacoma.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Area</th>
+<th align="center">Response</th>
+<th align="center">Explanatory</th>
+<th align="center">df.resid</th>
+<th align="center">Estimate</th>
+<th align="center">Std.Error</th>
+<th align="center">z-val</th>
+<th align="center">Pr(&gt;z)</th>
+<th align="center">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Tacoma</td>
+<td align="center">healthy/unhealthy</td>
+<td align="center">DN_PM</td>
+<td align="center">341</td>
+<td align="center">0.12950</td>
+<td align="center">0.09652</td>
+<td align="center">1.342</td>
+<td align="center">0.180</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">Tacoma</td>
+<td align="center">no/dead-top</td>
+<td align="center">DN_PM</td>
+<td align="center">239</td>
+<td align="center">0.1654</td>
+<td align="center">0.1670</td>
+<td align="center">0.99</td>
+<td align="center">0.322</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center">Tacoma</td>
+<td align="center">no/thinning</td>
+<td align="center">DN_PM</td>
+<td align="center">266</td>
+<td align="center">0.04493</td>
+<td align="center">0.12604</td>
+<td align="center">0.356</td>
+<td align="center">0.721</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
 </div>
 
 

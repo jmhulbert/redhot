@@ -20,6 +20,10 @@ knitr::opts_chunk$set(echo = TRUE)
 |[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redhot/discussion)|[Maps](https://jmhulbert.github.io/redhot/maps)
 |             |           |            |            |            |
 
+|            |            |            | Analyses   |            |            |            |
+|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+|[Urban Heat](https://jmhulbert.github.io/redhot/analyses/heat/)|[All Areas](https://jmhulbert.github.io/redhot/analyses/heat/all-areas)|[Portland](https://jmhulbert.github.io/redhot/analyses/heat/portland)|[Tacoma](https://jmhulbert.github.io/redhot/analyses/heat/tacoma)|[King County](https://jmhulbert.github.io/redhot/analyses/heat/king-county)|[iNaturalist](https://jmhulbert.github.io/redhot/analyses/inaturalist/)|[City Inventories]((https://jmhulbert.github.io/redhot/analyses/city-trees/))|
+|             |           |            |            |            |            |            |
 
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -34,6 +38,7 @@ library(bbmle)
 library(DHARMa)
 ```
 
+# PORTLAND
 
 # Purpose
 
@@ -102,10 +107,6 @@ ggplot(data,aes(binary.tree.canopy.symptoms,DN_AF1))+geom_violin()+coord_flip()+
 
 ```{r}
 p1 <- ggplot(data,aes(binary.tree.canopy.symptoms))+geom_histogram(stat="count")+theme_bw()+coord_flip()
-```
-
-```{r}
-names(data)
 ```
 
 
@@ -315,8 +316,8 @@ p2 + annotate("text", x=82, y=.125, label= "Protect from\nDevelopment") + annota
 
 The probability of a tree having top dieback increases with afternoon temperature
 
-```{r inlcude=FALSE}
-new.data.2
+```{r}
+head(new.data.2[new.data.2$predicted_response>0.09,])
 ```
 
 trees at about 88.5 degrees had a 0.1 predicted response. 
@@ -377,3 +378,13 @@ ggplot(new.data.3, aes(x = DN_AF1, y = predicted_response)) +
 # Results Summary
 
 The probability of a tree having top dieback or being classified as unhealthy increased with afternoon temperature, but there was no evidence the probability of a tree being classified as thinning is related to afternoon heat.  
+
+Estimate Std. Error z value Pr(>|z|)  
+
+
+| Area       | Response   | Explanatory| df.resid  | Estimate   | Std.Error  | z-val       | Pr(>z)     | Signif.    |
+|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+Portland | healthy/unhealthy | DN_AF | 339 | 0.15603 |   0.03966 |  3.934 | 8.35e-05 | *** | 
+Portland | no/dead-top | DN_AF | 273 | 0.3507  |   0.1222 |  2.870 | 0.00411 | ** | 
+Portland | no/thinning | DN_AF | 289 |  0.10825  |  0.05641 |   1.919  | 0.0550 | . |
+|            |            |            |            |            |            |            |            |            |

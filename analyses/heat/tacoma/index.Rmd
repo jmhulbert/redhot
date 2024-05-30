@@ -20,6 +20,10 @@ knitr::opts_chunk$set(echo = TRUE)
 |[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redhot/discussion)|[Maps](https://jmhulbert.github.io/redhot/maps)
 |             |           |            |            |            |
 
+|            |            |            | Analyses   |            |            |            |
+|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+|[Urban Heat](https://jmhulbert.github.io/redhot/analyses/heat/)|[All Areas](https://jmhulbert.github.io/redhot/analyses/heat/all-areas)|[Portland](https://jmhulbert.github.io/redhot/analyses/heat/portland)|[Tacoma](https://jmhulbert.github.io/redhot/analyses/heat/tacoma)|[King County](https://jmhulbert.github.io/redhot/analyses/heat/king-county)|[iNaturalist](https://jmhulbert.github.io/redhot/analyses/inaturalist/)|[City Inventories]((https://jmhulbert.github.io/redhot/analyses/city-trees/))|
+|             |           |            |            |            |            |            |
 
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -34,6 +38,7 @@ library(bbmle)
 library(DHARMa)
 ```
 
+# TACOMA
 
 # Purpose
 
@@ -259,3 +264,10 @@ levels(data$thinning)
 
 There was no evidence for a relationship between tree health and afternoon temperatures in Tacoma.
 
+
+| Area       | Response   | Explanatory| df.resid  | Estimate   | Std.Error  | z-val       | Pr(>z)     | Signif.    |
+|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+Tacoma | healthy/unhealthy | DN_PM | 341 | 0.12950  |  0.09652 |  1.342  |  0.180 | |
+Tacoma | no/dead-top | DN_PM | 239 |  0.1654  |   0.1670  |  0.99  |  0.322 | |
+Tacoma | no/thinning | DN_PM | 266 |  0.04493 |   0.12604  | 0.356 |   0.721 | |
+|            |            |            |            |            |            |            |            |            |

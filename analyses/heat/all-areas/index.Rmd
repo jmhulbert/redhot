@@ -16,9 +16,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 |            |            |            |            |            |
 |:----------:|:----------:|:----------:|:----------:|:----------:|
-|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redhot/discussion)|[Maps](https://jmhulbert.github.io/redhot/maps)
+|[Welcome](https://jmhulbert.github.io/redhot)|[Data](https://jmhulbert.github.io/redhot/data)|[Analyses](https://jmhulbert.github.io/redhot/analyses)|[Discussion](https://jmhulbert.github.io/redhot/discussion)|[Maps](https://jmhulbert.github.io/redhot/maps)|
 |             |           |            |            |            |
 
+|            |            |            | Analyses   |            |            |            |
+|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+|[Urban Heat](https://jmhulbert.github.io/redhot/analyses/heat/)|[All Areas](https://jmhulbert.github.io/redhot/analyses/heat/all-areas)|[Portland](https://jmhulbert.github.io/redhot/analyses/heat/portland)|[Tacoma](https://jmhulbert.github.io/redhot/analyses/heat/tacoma)|[King County](https://jmhulbert.github.io/redhot/analyses/heat/king-county)|[iNaturalist](https://jmhulbert.github.io/redhot/analyses/inaturalist/)|[City Inventories]((https://jmhulbert.github.io/redhot/analyses/city-trees/))|
+|             |           |            |            |            |            |            |
 
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -33,6 +37,7 @@ library(bbmle)
 library(DHARMa)
 ```
 
+# ALL AREAS
 
 # Purpose
 
@@ -119,7 +124,7 @@ ggplot(king,aes(field.optional...site.type,dist.from.mean.af ))+geom_boxplot()+t
 
 # Analyses
 
-## Fit Models
+## Time Series Model Fit
 
 ```{r}
 binomial.daily <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.daily + (1|Area),family=binomial,data=data)
@@ -128,7 +133,7 @@ binomial.af <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + (1|Area
 binomial.pm <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.pm + (1|Area),data=data,family=binomial)
 ```
 
-## Compare Models
+### Compare Time Series Models
 
 ```{r}
 AICtab(binomial.daily,binomial.am,binomial.af,binomial.pm)
@@ -253,7 +258,7 @@ data.thin <- data %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclas
 ```
 
 ```{r}
-thinning.binomial.af <- glmmTMB(thinning ~ dist.from.mean.af + (1|Area),data=data,family=binomial)
+thinning.binomial.af <- glmmTMB(thinning ~ dist.from.mean.af + (1|Area),data=data.thin,family=binomial)
 ```
 
 ### Summary
@@ -296,9 +301,9 @@ ggplot(new.data.3, aes(x = dist.from.mean.af, y = predicted_response)) +
 ```
 
 
-## Compare Models
+### Compare models  
 
-### Odds Ratios
+#### Odds Ratios
 
 Unhealthy Trees
 
@@ -306,7 +311,7 @@ Unhealthy Trees
 
 # Unhealthy Overall
 coef(binomial.af)
-exp(0.1487527)
+exp(0.1397678)
 ```
 
 Top Dieback
@@ -314,7 +319,7 @@ Top Dieback
 ```{r}
 # Top Dieback
 coef(top.dieback.binomial.af)
-exp(0.2046919)
+exp(0.2385653)
 ```
 
 
@@ -323,7 +328,7 @@ Thinning
 ```{r}
 # Thinning
 coef(thinning.binomial.af)
-exp(0.08554814)
+exp(0.09135893)
 ```
 
 
@@ -332,7 +337,7 @@ exp(0.08554814)
 Heat had the largest effect on predicting if trees had top dieback
 
 
-## Adding co-variates
+## Models with Co-Factors
 
 Note the models below were tested on filtered data. Data categorized as 'No Selection', 'Other' or blank were filtered out. 
 
@@ -476,7 +481,7 @@ summary(top.dieback.binomial.af.site)
 #### Response 3.2 healthy / thinning
 
 ```{r}
-data.thin.site <- data.size.filter %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning Canopy") %>% droplevels()
+data.thin.site <- data.site.filter %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Thinning Canopy") %>% droplevels()
 ```
 
 ```{r}
@@ -488,23 +493,53 @@ summary(thinning.binomial.af.site)
 ```
 
 
-### Co-Factor Model 3: adding both size and location - filtered data 
+# Overall Summary
 
-```{r}
-data.size.site.filter <- data.site.filter %>% filter(tree.size.simplified!="" & tree.size.simplified!="No Selection")
-levels(as.factor(data.size.site.filter$tree.size.simplified))
-```
+## Core Models - 3 responses
 
-`r nrow(data) - nrow(data.size.site.filter)` were removed from the data. `r nrow(data.size.site.filter)` observations were used in below the co-factor model adding size below.
+| Area       | Response   | Explanatory| df.resid  | Estimate   | Std.Error  | z-val       | Pr(>z)     | Signif.    |
+|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+All Areas | healthy/unhealthy | Dist from Mean AF | 1101 | 0.13977 |   0.03219 |  4.343 | 1.41e-05 | *** |
+All Areas | no/dead-top | Dist from Mean AF | 812 | 0.2386 |     0.0688  | 3.468 | 0.000525 | *** |
+All Areas | no/thinning | Dist from Mean AF | 855 | 0.12305 |   0.04641 |   2.651 | 0.00802 | ** |
+|            |            |            |            |            |            |            |            |            |
 
-```{r}
-binomial.af.size.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + field.optional...site.location.description + tree.size.simplified +(1|Area),data=data.size.site.filter,family=binomial)
-```
+## Co Factors 
 
-```{r}
-summary(binomial.af.size.site)
-```
 
-With the data we have available and above model, there is no evidence size or site location have a significant effect on the probability of a tree having dieback.
+### Size
 
-Generally there is a lack of statistical evidence for a relationship between size or site location on tree health. However, we should revisit it with the larger (urban and non urban dataset). 
+| Area       | Response   | Explanatory| df.resid  | Estimate   | Std.Error  | z-val       | Pr(>z)     | Signif.    |
+|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+All Areas | healthy/unhealthy | Dist from Mean AF | 876 | 0.13074  |  0.03459|   3.779| 0.000157| ***|
+All Areas | healthy/unhealthy | Tree.Size.Medium  | 876 | 0.28156  |  0.15542  | 1.812 |0.070034| .|
+All Areas | healthy/unhealthy | Tree.Size.Small   | 876 | -0.63900  |   0.33293|  -1.919 | 0.054947 |.| 
+All Areas | no/dead-top | Dist from Mean AF | 634 | 0.15033  |  0.07431 |  2.023 | 0.04307 | * | 
+All Areas | no/dead-top | Tree.Size.Medium | 634 | 0.85568   | 0.27103  | 3.157 | 0.00159 | ** |
+All Areas | no/dead-top | Tree.Size.Small | 634 | 0.28621  |  0.48528 |  0.590 | 0.55533|  |
+All Areas | no/thinning | Dist from Mean AF | 694 |  0.12852  |  0.04909 |  2.618 |  0.00884 | ** |
+All Areas | no/thinning | Tree.Size.Medium | 694 | 0.19655  |  0.21049 |  0.934 | 0.35042 | |
+All Areas | no/thinning | Tree.Size.Small | 694 | -1.28676 |   0.61263 | -2.100 | 0.03569| * |
+|            |            |            |            |            |            |            |            |            |
+
+
+### Location
+
+
+| Area       | Response   | Explanatory| df.resid  | Estimate   | Std.Error  | z-val       | Pr(>z)     | Signif.    |
+|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+All Areas | healthy/unhealthy | Dist from Mean AF | 905 |  0.14851 | 0.03594 |4.132 |3.6e-05 | *** |
+All Areas | healthy/unhealthy | Inside a forest canopy  | 905 | -0.04090| 0.36106|   -0.113|  0.910 ||
+All Areas | healthy/unhealthy | Roadside   | 905 | 0.09457 | 0.33588 |0.282 |0.778 ||
+All Areas | healthy/unhealthy | Urban yard or open park grounds | 905 | -0.40163| 0.32497| -1.236 | 0.216 ||
+All Areas | no/dead-top | Dist from Mean AF |667| 0.21257 |0.07773 | 2.735| 0.00624 | ** |
+All Areas | no/dead-top | Inside a forest canopy  |667| -0.45747 | 0.48784| -0.938 | 0.34837 | | 
+All Areas | no/dead-top | Roadside|667| -1.10304 | 0.48802 | -2.260 | 0.02381 | * |
+All Areas | no/dead-top | Urban yard or open park grounds |667| -1.08256  | 0.44487 | -2.433 | 0.01496 | * |
+All Areas | no/thinning | Dist from Mean AF | 712 | 0.12110 | 0.05168 | 2.343 | 0.019122 | * |
+All Areas | no/thinning | Inside a forest canopy | 712 | 0.47285 | 0.69207| 0.683 | 0.494456 ||
+All Areas | no/thinning | Roadside | 712 | 1.24642 | 0.63806| 1.953 |0.050764 |. | 
+All Areas | no/thinning | Urban yard or open park grounds | 712 | 0.55728 |0.63278| 0.881 | 0.378491 ||
+|            |            |            |            |            |            |            |            |            |
+
+
