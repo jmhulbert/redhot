@@ -1,7 +1,7 @@
 ---
 title: "Maps"
 author: "Joey Hulbert"
-date: "Last Update: 2024-05-24"
+date: "Last Update: 2024-06-03"
 output: 
   html_document:
     toc: true
@@ -86,7 +86,7 @@ portland.map <- ggmap(portmap) + geom_point(data = portland, aes(x = longitude.x
 portland.map
 ```
 
-![](index_files/figure-html/portland-map-1.png)<!-- -->
+![](index_files/figure-html/portland-map-inat-1.png)<!-- -->
 
 ## King County
 
@@ -122,7 +122,7 @@ king.map <- ggmap(kingmap) + geom_point(data = king, aes(x = longitude.x, y = la
 king.map
 ```
 
-![](index_files/figure-html/king-county-map-1.png)<!-- -->
+![](index_files/figure-html/king-county-map-inat-1.png)<!-- -->
 
 
 ## Tacoma
@@ -159,7 +159,7 @@ tacoma.map <- ggmap(tacomamap) + geom_point(data = tacoma, aes(x = longitude.x, 
 tacoma.map
 ```
 
-![](index_files/figure-html/tacoma-map-1.png)<!-- -->
+![](index_files/figure-html/tacoma-map-inat-1.png)<!-- -->
 
 
 ``` r
@@ -175,7 +175,7 @@ king.map <- king.map
 portland.map + tacoma.map + king.map
 ```
 
-![](index_files/figure-html/all-areas-map-1.png)<!-- -->
+![](index_files/figure-html/all-areas-map-inat-1.png)<!-- -->
 
 
 # Trees with Dead Tops
@@ -201,7 +201,7 @@ portland.dead.top.map <- ggmap(portmap) + geom_point(data = portland.dead.top, a
 portland.dead.top.map
 ```
 
-![](index_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](index_files/figure-html/portland-map-inat-dead-tops-1.png)<!-- -->
 
 ## King County
 
@@ -215,7 +215,7 @@ king.dead.top.map <- ggmap(kingmap) + geom_point(data = king.dead.top, aes(x = l
 king.dead.top.map
 ```
 
-![](index_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](index_files/figure-html/king-county-map-inat-dead-tops-1.png)<!-- -->
 
 ## Tacoma
 
@@ -229,7 +229,7 @@ tacoma.dead.top.map <- ggmap(tacomamap) + geom_point(data = tacoma.dead.top, aes
 tacoma.dead.top.map
 ```
 
-![](index_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](index_files/figure-html/tacoma-map-inat-dead-tops-1.png)<!-- -->
 
 
 
@@ -246,7 +246,7 @@ king.dead.top.map <- king.dead.top.map
 portland.dead.top.map + tacoma.dead.top.map + king.dead.top.map
 ```
 
-![](index_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](index_files/figure-html/all-areas-map-inat-dead-tops-1.png)<!-- -->
 
 
 # Trees with Thinning Canopies
@@ -272,7 +272,7 @@ portland.thinning.map <- ggmap(portmap) + geom_point(data = portland.thinning, a
 portland.thinning.map
 ```
 
-![](index_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](index_files/figure-html/portland-map-inat-thinning-1.png)<!-- -->
 
 ## King County
 
@@ -286,7 +286,7 @@ king.thinning.map <- ggmap(kingmap) + geom_point(data = king.thinning, aes(x = l
 king.thinning.map
 ```
 
-![](index_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+![](index_files/figure-html/king-county-map-inat-thinning-1.png)<!-- -->
 
 ## Tacoma
 
@@ -300,7 +300,7 @@ tacoma.thinning.map <- ggmap(tacomamap) + geom_point(data = tacoma.thinning, aes
 tacoma.thinning.map
 ```
 
-![](index_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](index_files/figure-html/tacoma-map-inat-thinning-1.png)<!-- -->
 
 
 
@@ -316,7 +316,7 @@ king.thinning.map <- king.thinning.map
 portland.thinning.map + tacoma.thinning.map + king.thinning.map
 ```
 
-![](index_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](index_files/figure-html/all-areas-map-inat-thinning-1.png)<!-- -->
 
 
 
@@ -347,11 +347,28 @@ wrap_elements(all.trees) / wrap_elements(dead.tops) / wrap_elements(thin.trees)
 ![](index_files/figure-html/all-nine-areas-map-1.png)<!-- -->
 
 
-
 ``` r
-(portland.map + tacoma.map + king.map) / (portland.dead.top.map + tacoma.dead.top.map + king.dead.top.map) / (portland.thinning.map + tacoma.thinning.map + king.thinning.map)
+#patch <- (portland.map | tacoma.map | king.map) / (portland.dead.top.map | tacoma.dead.top.map | king.dead.top.map) / (portland.thinning.map | tacoma.thinning.map | king.thinning.map)
+#patch <- patch + plot_annotation(tag_levels = 'A') & theme(plot.tag = element_text(size = 12))
+
+line.one <- (portland.map + tacoma.map + king.map) + plot_annotation(title = 'All iNaturalist Observations')
+line.two <- (portland.dead.top.map + tacoma.dead.top.map + king.dead.top.map) + plot_annotation(title = 'Observations with Dead-Tops')
+line.three <- (portland.thinning.map + tacoma.thinning.map + king.thinning.map) + plot_annotation(title = 'Observations with Thinning Canopies')
+
+patch <- line.one / line.two / line.three
 ```
 
-![](index_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+
+
+
+``` r
+patch
+```
+
+![](index_files/figure-html/all-areas-map-inat-all-health-1.png)<!-- -->
+
+``` r
+#((portland.map | tacoma.map | king.map)+ plot_annotation(title = 'All iNaturalist Observations')) / ((portland.dead.top.map | tacoma.dead.top.map | king.dead.top.map)+ plot_annotation(title = 'Observations with Dead-Tops')) / ((portland.thinning.map | tacoma.thinning.map | king.thinning.map)+ plot_annotation(title = 'Observations with Thinning Canopies'))
+```
 
 

@@ -264,7 +264,7 @@ The probability of a tree having top dieback increases with afternoon temperatur
 
 | Area       | Response   | Explanatory| df.resid  | Estimate   | Std.Error  | z-val       | Pr(>z)     | Signif.    |
 |:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
-Tacoma | healthy/unhealthy | DN_AF | 418 | 0.28792   | 0.09074 |  3.173 | 0.00151 | ** |
-Tacoma | no/dead-top | DN_AF | 297 |   0.5607  |   0.1625 |  3.451 | 0.000558 | *** |
-Tacoma | no/thinning | DN_AF | 297 |  0.4211   |  0.1495  | 2.817  | 0.00485 | ** |
+King County | healthy/unhealthy | DN_AF | 418 | 0.28792   | 0.09074 |  3.173 | 0.00151 | ** |
+King County | no/dead-top | DN_AF | 297 |   0.5607  |   0.1625 |  3.451 | 0.000558 | *** |
+King County | no/thinning | DN_AF | 297 |  0.4211   |  0.1495  | 2.817  | 0.00485 | ** |
 |            |            |            |            |            |            |            |            |            |

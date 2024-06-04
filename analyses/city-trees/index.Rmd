@@ -26,10 +26,16 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(gghalves)
+library(patchwork)
+library(scales)
+library(ggmap)
+library(osmdata)
 ```
-
 
 
 # Purpose
@@ -123,13 +129,107 @@ summary
 ```
 
 
-# Portland Only
+# Portland
 
 ```{r}
-summary <- portland.combined.cat %>% group_by(city,city.space,Category) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
+summary <- portland.combined.cat %>% group_by(city.space,Category) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
 summary
 ```
 
 ```{r}
-ggplot(summary,aes(n,city.space,fill=Category))+geom_col(position=position_dodge(),alpha=0.7) +facet_wrap(~city) +theme_bw() + scale_fill_manual(name="Category",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
+ggplot(summary,aes(n,city.space,fill=Category))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
 ```
+
+
+## Portland Map
+
+```{r}
+portbb <- c(left = min(portland.combined.cat$lon), 
+                              bottom = min(portland.combined.cat$lat), 
+                              right = max(portland.combined.cat$lon), 
+                              top = max(portland.combined.cat$lat))
+```
+
+
+```{r}
+portmap <- get_map(portbb, zoom = 11, scale = 2, maptype="terrain",source="google")
+```
+```{r}
+portland.map <- ggmap(portmap) + geom_point(data = portland.combined.cat, aes(x = lon, y = lat,fill=DN_AF1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_viridis_c(option = "inferno")+labs(title="Portland",x="Longitude",y="Latitude",fill="Afternoon\nTemp (F)") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+```{r portland-map, fig.height=7, fig.width=7}
+portland.map
+```
+
+
+```{r}
+portland.map.cat <- ggmap(portmap) + geom_point(data = portland.combined.cat, aes(x = lon, y = lat,fill=Category), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#7fcdbb","#fe9929","#DDA0DD"))+labs(title="Portland",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+
+```{r portland-map-concern, fig.height=7, fig.width=7}
+portland.map.cat
+```
+
+# Seattle
+
+```{r}
+summary <- seattle.combined.cat %>% group_by(city.space,Category) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
+summary
+```
+
+```{r}
+ggplot(summary,aes(n,city.space,fill=Category))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
+```
+
+
+## Seattle Map
+
+```{r}
+seabb <- c(left = min(seattle.combined.cat$lon), 
+                              bottom = min(seattle.combined.cat$lat), 
+                              right = max(seattle.combined.cat$lon), 
+                              top = max(seattle.combined.cat$lat))
+```
+
+
+```{r}
+seamap <- get_map(seabb, zoom = 11, scale = 2, maptype="terrain",source="google")
+```
+
+```{r}
+seattle.map <- ggmap(seamap) + geom_point(data = seattle.combined.cat, aes(x = lon, y = lat,fill=DN_AF1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_viridis_c(option = "inferno")+labs(title="Seattle",x="Longitude",y="Latitude",fill="Afternoon\nTemp (F)") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+```{r seattle-map, fig.height=7, fig.width=7}
+seattle.map
+```
+
+
+```{r}
+seattle.map.cat <- ggmap(seamap) + geom_point(data = seattle.combined.cat, aes(x = lon, y = lat,fill=Category), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#7fcdbb","#fe9929","#DDA0DD"))+labs(title="Seattle",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+
+```{r seattle-map-concern, fig.height=7, fig.width=7}
+seattle.map.cat
+```
+
+
+```{r}
+seattle.map <- seattle.map + theme(legend.position = "none",axis.title.x = element_blank())
+seattle.map.cat  <- seattle.map.cat + theme(legend.position = "none",plot.title = element_blank())
+portland.map <- portland.map +theme(axis.title.x = element_blank(),axis.title.y = element_blank())
+portland.map.cat <- portland.map.cat +theme(plot.title = element_blank(),axis.title.y = element_blank())
+
+
+#+ theme(legend.position = "none",,)
+```
+
+
+
+```{r combined-maps, fig.height=10, fig.width=10}
+(seattle.map | portland.map) / (seattle.map.cat | portland.map.cat)
+```
+

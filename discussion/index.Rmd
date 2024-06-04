@@ -123,6 +123,9 @@ The probability of a tree having top dieback increased with afternoon heat. Howe
 Effects of co-variates without urban heat
 chi squared - proporitons are different than they would be with chance
 
+
+Should we compare a binary model for healthy / dead ? I guess there are only 48 dead trees, so probably not. Plus many dead trees may be removed prior to being observed, so our numbers of dead trees are likely a huge? underestimate. 
+
 ## Data limitations
 
 Preliminary analyses of data limited to those with [HOLC grades](https://jmhulbert.github.io/redhot/analyses/holc/binomial/) (n=395) may not have enough observations. For example, even when distance from mean afternoon temp was included as a co-factor, there was no evidence of a realtionship with heat. 
