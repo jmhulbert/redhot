@@ -69,6 +69,8 @@ data.w.dead <- data
 data <- data %>% filter(field.tree.canopy.symptoms!="Tree is dead") %>% filter(field.dieback.percent<100) %>% droplevels()
 ```
 
+`r nrow(data.w.dead)-nrow(data)` trees were dead
+
 ```{r}
 data$binary.tree.canopy.symptoms <- as.factor(data$binary.tree.canopy.symptoms)
 levels(data$binary.tree.canopy.symptoms)
@@ -84,6 +86,8 @@ levels(data$binary.tree.canopy.symptoms)
 hoyt.data <- data %>% filter(str_detect(place_guess, "Hoyt") |str_detect(place_guess, "hoyt"))
 ```
 
+`r nrow(hoyt.data)` trees were from hoyt
+
 
 ## Remove observations from Hoyt
 
@@ -91,11 +95,11 @@ hoyt.data <- data %>% filter(str_detect(place_guess, "Hoyt") |str_detect(place_g
 data <- data %>% filter(!str_detect(place_guess, "Hoyt") & !str_detect(place_guess, "hoyt"))
 ```
 
-
 ```{r}
 data <- data %>% filter(Area=="Portland") %>% droplevels()
 ```
 
+`r nrow(data)` trees were included in portland
 
 # Visualize Portland Data
 
@@ -301,26 +305,84 @@ p
 ```
 
 
+### Calculate Dieback Probability Categories
+
 
 ```{r}
-p <- ggplot(new.data.2, aes(x = DN_AF1, y = predicted_response)) + geom_line() + labs(x = "Afternoon temperature (F)", y = "Dieback Probability") + scale_x_continuous(limits = c(80, 92.5),breaks=c(80,82.5,85,87.5,90,92.5)) + scale_y_continuous(limits = c(0, .3)) +theme_minimal()
-
-p2 <- p + annotate(geom="rect",ymin = -Inf, ymax = Inf, 
-              xmin = -Inf, xmax = 85, fill = alpha('#7fcdbb',0.5)) +
-    annotate(geom="rect",ymin = -Inf, ymax = Inf, 
-              xmin = 85, xmax = 88.55, fill = alpha('#fe9929',0.5)) + 
-    annotate(geom="rect",ymin = -Inf, ymax = Inf, 
-          xmin = 88.55, xmax = Inf, fill = alpha('red',0.5))
-p2 + annotate("text", x=82, y=.125, label= "Protect from\nDevelopment") + annotate("text", x=86.8, y=.125, label= "Provide\nExtra Care") + annotate("text", x=90.8, y=.125, label= "Most\nConcern")
+head(new.data.2[new.data.2$DN_AF1<85.5 & new.data.2$DN_AF1>84.75,])
 ```
 
-The probability of a tree having top dieback increases with afternoon temperature
+Portland redcedar at 85 degrees had a 0.03 probability
+
+```{r}
+head(new.data.2[new.data.2$predicted_response>0.023 & new.data.2$predicted_response<0.027,])
+```
+
+
+Portland redcedar at 84.32 degrees had a 0.025 probability
+
+```{r}
+head(new.data.2[new.data.2$predicted_response>0.048 & new.data.2$predicted_response<0.052,])
+```
+
+Portland trees at 86.48 had about a 0.05 probability
 
 ```{r}
 head(new.data.2[new.data.2$predicted_response>0.09,])
 ```
 
-trees at about 88.5 degrees had a 0.1 predicted response. 
+Portland redcedar at about 88.5 degrees had a 0.1 predicted response. 
+
+
+```{r}
+head(new.data.2[new.data.2$predicted_response>0.195 & new.data.2$predicted_response<0.205,])
+```
+
+Portland redcedar at about 91.66 degrees had a 0.25 predicted response. 
+
+
+* Portland Dieback Probability Categories (25%)
+  + Most Concern (>25%): >91.66
+  + Moderate Concern (3-25%): 86.48- 91.66
+  + Lowest Concern (<5%): <86.48
+
+
+* Portland Top-Dieback Probability Categories (10%)
+  + Most Concern (>10%): > 88.5
+  + Moderate Concern (5-10%): 84.32-88.5
+  + Lowest Concern (<2.5%): DN_AF <84.32 
+
+
+
+```{r}
+p <- ggplot(new.data.2, aes(x = DN_AF1, y = predicted_response)) + geom_line() + labs(x = "Afternoon temperature (F)", y = "Dieback Probability") + scale_x_continuous(limits = c(80, 92.5),breaks=c(80,82.5,85,87.5,90,92.5)) + scale_y_continuous(limits = c(0, .3)) +theme_minimal()
+
+p2 <- p + annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+              xmin = -Inf, xmax = 84.32, fill = alpha('#DDA0DD',0.5)) +
+    annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+              xmin = 84.32, xmax = 88.5, fill = alpha('#7fcdbb',0.5)) + 
+    annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+          xmin = 88.5, xmax = Inf, fill = alpha('#fe9929',0.5))
+p3 <- p2 + annotate("text", x=82, y=.15, label= "Lowest\nConcern") + annotate("text", x=86.8, y=.15, label= "Moderate\nConcern") + annotate("text", x=91, y=.15, label= "Most\nConcern")
+p3
+```
+
+The probability of a tree having top dieback increases with afternoon temperature
+
+
+
+```{r}
+p <- ggplot(data.top, aes(x=DN_AF1))+geom_histogram() +theme_bw() +labs(y="Number of Trees",x="Afternoon Temperature (F)")
+p2 <- p + annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+              xmin = -Inf, xmax = 84.32, fill = alpha('#DDA0DD',0.5)) +
+    annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+              xmin = 84.32, xmax = 88.5, fill = alpha('#7fcdbb',0.5)) + 
+    annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+          xmin = 88.5, xmax = Inf, fill = alpha('#fe9929',0.5))
+p3 <- p2 + annotate("text", x=82.3, y=30, label= "Lowest\nConcern") + annotate("text", x=86.8, y=30, label= "Moderate\nConcern") + annotate("text", x=90.1, y=30, label= "Most\nConcern")
+p3
+```
+
 
 
 ---

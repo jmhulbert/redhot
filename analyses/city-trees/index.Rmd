@@ -77,28 +77,73 @@ seattle.combined.back <- rbind(seattle.streets,seattle.parks)
 
 # Categorize Trees
 
-Portland Categories - Dead Tops
-Protect from development: <85 
-Extra care: 85-88.5
-Most concern: >88.5
 
-King County Categories - Dead Tops
-Protect from development: <85 
-Extra care: 85-87.8
-Most concern: >87.8
+* Portland Top-Dieback Probability Categories (10%)
+  + Most Concern (>10%): > 88.5
+  + Moderate Concern (2.5-10%): 84.32-88.5
+  + Lowest Concern (<2.5%): <84.32 
+
+* Portland Dieback Probability Cateogories (25%)
+  + Most Concern (>25%): >91.66
+  + Moderate Concern (5-25%): 86.48- 91.66
+  + Lowest Concern (<5%): <86.48
 
 ```{r}
-portland.protect <- portland.combined %>% filter(DN_AF1<85) %>% mutate(Category="Protect") %>% droplevels()
-portland.care <- portland.combined %>% filter(DN_AF1>85 & DN_AF1<88.5) %>% mutate(Category="Extra Care") %>% droplevels()
-portland.concern <- portland.combined %>% filter(DN_AF1>88.5)%>% mutate(Category="Most Concern") %>% droplevels()
-portland.combined.cat <- bind_rows(list(portland.protect,portland.care,portland.concern))
+portland.most <- portland.combined %>% filter(DN_AF1>88.5)%>% mutate(Category1="Most Concern") %>% droplevels()
+portland.mod <- portland.combined %>% filter(DN_AF1>84.32 & DN_AF1<88.5) %>% mutate(Category1="Moderate Concern") %>% droplevels()
+portland.low <- portland.combined %>% filter(DN_AF1<84.32) %>% mutate(Category1="Lowest Concern") %>% droplevels()
+
+portland.combined.cat <- bind_rows(list(portland.low,portland.mod,portland.most))
+
+portland.most <- portland.combined.cat %>% filter(DN_AF1>86.5)%>% mutate(Category1Plus2="Most Concern") %>% droplevels()
+portland.mod <- portland.combined.cat %>% filter(DN_AF1>82.32 & DN_AF1<86.5) %>% mutate(Category1Plus2="Moderate Concern") %>% droplevels()
+portland.low <- portland.combined.cat %>% filter(DN_AF1<82.32) %>% mutate(Category1Plus2="Lowest Concern") %>% droplevels()
+
+portland.combined.cat <- bind_rows(list(portland.low,portland.mod,portland.most))
+
+portland.most <- portland.combined.cat %>% filter(DN_AF1>91.66)%>% mutate(Category25="Most Concern") %>% droplevels()
+portland.mod <- portland.combined.cat %>% filter(DN_AF1>86.48 & DN_AF1<91.66) %>% mutate(Category25="Moderate Concern") %>% droplevels()
+portland.low <- portland.combined.cat %>% filter(DN_AF1<86.48) %>% mutate(Category25="Lowest Concern") %>% droplevels()
+
+
+portland.combined.cat <- bind_rows(list(portland.low,portland.mod,portland.most))
 ```
 
+
 ```{r}
-seattle.protect <- seattle.combined.back %>% filter(DN_AF1<85) %>% mutate(Category="Protect") %>% droplevels()
-seattle.care <- seattle.combined.back %>% filter(DN_AF1>85 & DN_AF1<88.5) %>% mutate(Category="Extra Care") %>% droplevels()
-seattle.concern <- seattle.combined.back %>% filter(DN_AF1>88.5)%>% mutate(Category="Most Concern") %>% droplevels()
-seattle.combined.cat <- bind_rows(list(seattle.protect,seattle.care,seattle.concern))
+#P1 <- ggplot(data.top, aes(x=DN_AF1))+geom_histogram() + theme_bw()
+```
+
+* King County Top-Dieback Probability Categories (10%)
+  + Most Concern (>10%): >87.8
+  + Moderate Concern (2.5-10%): 85.22-87.8
+  + Lowest Concern (<2.5%): <85.22 
+  
+* King County Top-Dieback Probability Categories (25%)  
+  + Most Concern (>25%): 89.78
+  + Moderate Concern (5-25%): 86.5 - 89.78 
+  + Lowest Concern (<5%): <86.5
+
+
+```{r}
+
+seattle.most <- seattle.combined.back %>% filter(DN_AF1>87.8)%>% mutate(Category1="Most Concern") %>% droplevels()
+seattle.mod <- seattle.combined.back %>% filter(DN_AF1>85.22 & DN_AF1<87.8) %>% mutate(Category1="Moderate Concern") %>% droplevels()
+seattle.low <- seattle.combined.back %>% filter(DN_AF1<85.22) %>% mutate(Category1="Lowest Concern") %>% droplevels()
+
+seattle.combined.cat <- bind_rows(list(seattle.low,seattle.mod,seattle.most))
+
+seattle.most <- seattle.combined.cat %>% filter(DN_AF1>85.8)%>% mutate(Category1Plus2="Most Concern") %>% droplevels()
+seattle.mod <- seattle.combined.cat%>% filter(DN_AF1>83.22 & DN_AF1<85.8) %>% mutate(Category1Plus2="Moderate Concern") %>% droplevels()
+seattle.low <- seattle.combined.cat %>% filter(DN_AF1<83.22) %>% mutate(Category1Plus2="Lowest Concern") %>% droplevels()
+
+seattle.combined.cat <- bind_rows(list(seattle.low,seattle.mod,seattle.most))
+
+seattle.most <- seattle.combined.cat %>% filter(DN_AF1>89.78)%>% mutate(Category25="Most Concern") %>% droplevels()
+seattle.mod <- seattle.combined.cat %>% filter(DN_AF1>86.5 & DN_AF1<89.78) %>% mutate(Category25="Moderate Concern") %>% droplevels()
+seattle.low <- seattle.combined.cat%>% filter(DN_AF1<86.5) %>% mutate(Category25="Lowest Concern") %>% droplevels()
+
+seattle.combined.cat <- bind_rows(list(seattle.low,seattle.mod,seattle.most))
 ```
 
 87 trees in Seattle did not have UHI data. 1 tree in Portland did not have UHI data. 
@@ -107,24 +152,22 @@ seattle.combined.cat <- bind_rows(list(seattle.protect,seattle.care,seattle.conc
 ## Join City Data
 
 ```{r}
-cities <- full_join(seattle.combined.cat,portland.combined.cat,by = join_by(OBJECTID, DBH, DN_AF1, lat, lon, city, city.space,GlobalID,Category))
+cities <- full_join(seattle.combined.cat,portland.combined.cat,by = join_by(OBJECTID, DBH, DN_AF1, lat, lon, city, city.space,GlobalID,Category1,Category1Plus2,Category25))
 ```
 
 # Summarize Data
 
 ```{r}
-summary <- cities %>% group_by(city,city.space,Category) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
+summary <- cities %>% group_by(city,city.space,Category1) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
 summary
 ```
 
 ```{r}
-ggplot(summary,aes(n,city.space,fill=Category))+geom_col(position=position_dodge(),alpha=0.7) +facet_wrap(~city) +theme_bw() + scale_fill_manual(name="Category",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
+ggplot(summary,aes(n,city.space,fill=Category1))+geom_col(position=position_dodge(),alpha=0.7) +facet_wrap(~city) +theme_bw() + scale_fill_manual(name="Category",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
 ```
 
-
-
 ```{r}
-summary <- cities %>% group_by(city,Category) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
+summary <- cities %>% group_by(city,Category1) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
 summary
 ```
 
@@ -132,12 +175,32 @@ summary
 # Portland
 
 ```{r}
-summary <- portland.combined.cat %>% group_by(city.space,Category) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
-summary
+summary1 <- portland.combined.cat %>% group_by(city.space,Category1) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
+summary1
 ```
 
 ```{r}
-ggplot(summary,aes(n,city.space,fill=Category))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
+summary1Plus2 <- portland.combined.cat %>% group_by(city.space,Category1Plus2) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
+summary1
+```
+
+```{r}
+summary25 <- portland.combined.cat %>% group_by(city.space,Category25) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
+summary25
+```
+
+
+
+```{r}
+ggplot(summary1,aes(n,city.space,fill=Category1))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category 1",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
+```
+
+```{r}
+ggplot(summary1Plus2,aes(n,city.space,fill=Category1Plus2))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category 1 plus 2",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
+```
+
+```{r}
+ggplot(summary25,aes(n,city.space,fill=Category25))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category 25",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
 ```
 
 
@@ -154,6 +217,7 @@ portbb <- c(left = min(portland.combined.cat$lon),
 ```{r}
 portmap <- get_map(portbb, zoom = 11, scale = 2, maptype="terrain",source="google")
 ```
+
 ```{r}
 portland.map <- ggmap(portmap) + geom_point(data = portland.combined.cat, aes(x = lon, y = lat,fill=DN_AF1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_viridis_c(option = "inferno")+labs(title="Portland",x="Longitude",y="Latitude",fill="Afternoon\nTemp (F)") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
 ```
@@ -164,25 +228,58 @@ portland.map
 
 
 ```{r}
-portland.map.cat <- ggmap(portmap) + geom_point(data = portland.combined.cat, aes(x = lon, y = lat,fill=Category), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#7fcdbb","#fe9929","#DDA0DD"))+labs(title="Portland",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+portland.map.cat1 <- ggmap(portmap) + geom_point(data = portland.combined.cat, aes(x = lon, y = lat,fill=Category1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929"))+labs(title="Portland",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+```{r}
+portland.map.cat1Plus2 <- ggmap(portmap) + geom_point(data = portland.combined.cat, aes(x = lon, y = lat,fill=Category1Plus2), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929"))+labs(title="Portland",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+```{r}
+portland.map.cat25 <- ggmap(portmap) + geom_point(data = portland.combined.cat, aes(x = lon, y = lat,fill=Category25), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929"))+labs(title="Portland",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+```{r}
+portland.map.cat1 <- portland.map.cat1  +labs(title="0.1 Probability") + theme(legend.position = "none")
+portland.map.cat1Plus2 <- portland.map.cat1Plus2  +labs(title="0.1 Probability at 2 degrees higher") + theme(legend.position = "none",axis.title.y = element_blank())
+portland.map.cat25 <-  portland.map.cat25  +labs(title="0.25 Probability") + theme(axis.title.y = element_blank())
 ```
 
 
-```{r portland-map-concern, fig.height=7, fig.width=7}
-portland.map.cat
+```{r portland-map-concern, fig.height=5, fig.width=10}
+portland.map.cat1 + portland.map.cat1Plus2 + portland.map.cat25
 ```
 
 # Seattle
 
 ```{r}
-summary <- seattle.combined.cat %>% group_by(city.space,Category) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
-summary
+summary1 <- seattle.combined.cat %>% group_by(city.space,Category1) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
+summary1
 ```
 
 ```{r}
-ggplot(summary,aes(n,city.space,fill=Category))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
+summary1Plus2 <- seattle.combined.cat %>% group_by(city.space,Category1Plus2) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
+summary1
 ```
 
+```{r}
+summary25 <- seattle.combined.cat %>% group_by(city.space,Category25) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
+summary25
+```
+
+
+
+```{r}
+ggplot(summary1,aes(n,city.space,fill=Category1))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929")) +labs(x="Number of Trees",y="Tree Inventory")
+```
+
+```{r}
+ggplot(summary1Plus2,aes(n,city.space,fill=Category1Plus2))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929")) +labs(x="Number of Trees",y="Tree Inventory")
+```
+
+```{r}
+ggplot(summary25,aes(n,city.space,fill=Category25))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929")) +labs(x="Number of Trees",y="Tree Inventory")
+```
 
 ## Seattle Map
 
@@ -208,20 +305,43 @@ seattle.map
 
 
 ```{r}
-seattle.map.cat <- ggmap(seamap) + geom_point(data = seattle.combined.cat, aes(x = lon, y = lat,fill=Category), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#7fcdbb","#fe9929","#DDA0DD"))+labs(title="Seattle",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+seattle.map.cat1 <- ggmap(seamap) + geom_point(data = seattle.combined.cat, aes(x = lon, y = lat,fill=Category1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929"))+labs(title="Seattle",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
 ```
 
 
-```{r seattle-map-concern, fig.height=7, fig.width=7}
-seattle.map.cat
+```{r}
+seattle.map.cat1Plus2 <- ggmap(seamap) + geom_point(data = seattle.combined.cat, aes(x = lon, y = lat,fill=Category1Plus2), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929"))+labs(title="Seattle",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+
+```{r}
+seattle.map.cat25 <- ggmap(seamap) + geom_point(data = seattle.combined.cat, aes(x = lon, y = lat,fill=Category25), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929"))+labs(title="Seattle",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
+```
+
+
+```{r}
+seattle.map.cat1 <- seattle.map.cat1  +labs(title="0.1 Probability") + theme(legend.position = "none")
+seattle.map.cat1Plus2 <- seattle.map.cat1Plus2  +labs(title="0.1 Probability at 2 degrees higher") + theme(legend.position = "none",axis.title.y = element_blank())
+seattle.map.cat25 <-  seattle.map.cat25  +labs(title="0.25 Probability") + theme(axis.title.y = element_blank())
+```
+
+
+
+```{r seattle-map-concern, fig.height=5, fig.width=10}
+seattle.map.cat1 + seattle.map.cat1Plus2 + seattle.map.cat25
+```
+
+
+```{r}
+portland.map.cat1 <- ggmap(portmap) + geom_point(data = portland.combined.cat, aes(x = lon, y = lat,fill=Category1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929"))+labs(title="Portland",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
 ```
 
 
 ```{r}
 seattle.map <- seattle.map + theme(legend.position = "none",axis.title.x = element_blank())
-seattle.map.cat  <- seattle.map.cat + theme(legend.position = "none",plot.title = element_blank())
+seattle.map.cat  <- seattle.map.cat1 + theme(legend.position = "none",plot.title = element_blank())
 portland.map <- portland.map +theme(axis.title.x = element_blank(),axis.title.y = element_blank())
-portland.map.cat <- portland.map.cat +theme(plot.title = element_blank(),axis.title.y = element_blank())
+portland.map.cat <- portland.map.cat1 +theme(plot.title = element_blank(),axis.title.y = element_blank())
 
 
 #+ theme(legend.position = "none",,)
