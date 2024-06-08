@@ -110,9 +110,7 @@ portland.combined.cat <- bind_rows(list(portland.low,portland.mod,portland.most)
 ```
 
 
-```{r}
-#P1 <- ggplot(data.top, aes(x=DN_AF1))+geom_histogram() + theme_bw()
-```
+
 
 * King County Top-Dieback Probability Categories (10%)
   + Most Concern (>10%): >87.8
@@ -157,6 +155,16 @@ cities <- full_join(seattle.combined.cat,portland.combined.cat,by = join_by(OBJE
 
 # Summarize Data
 
+
+```{r}
+summary <- cities %>% group_by(city,Category1) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
+summary
+```
+
+```{r}
+ggplot(summary,aes(n,Category1,fill=Category1))+geom_col(alpha=0.7) +facet_wrap(~city) +theme_bw() + scale_fill_manual(name="Category",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Concern Category") +guides(fill="none")
+```
+
 ```{r}
 summary <- cities %>% group_by(city,city.space,Category1) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
 summary
@@ -173,6 +181,20 @@ summary
 
 
 # Portland
+
+```{r}
+p <- ggplot(portland.combined.cat, aes(x=DN_AF1))+geom_histogram() +theme_bw() +labs(y="Number of Trees",x="Afternoon Temperature (F)")
+p2 <- p + annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+              xmin = -Inf, xmax = 84.32, fill = alpha('#DDA0DD',0.5)) +
+    annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+              xmin = 84.32, xmax = 88.5, fill = alpha('#7fcdbb',0.5)) + 
+    annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+          xmin = 88.5, xmax = Inf, fill = alpha('#fe9929',0.5))
+p3 <- p2 + annotate("text", x=82.3, y=30, label= "Lowest\nConcern") + annotate("text", x=86.8, y=30, label= "Moderate\nConcern") + annotate("text", x=90.1, y=30, label= "Most\nConcern")
+p3
+```
+
+
 
 ```{r}
 summary1 <- portland.combined.cat %>% group_by(city.space,Category1) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
@@ -239,18 +261,42 @@ portland.map.cat1Plus2 <- ggmap(portmap) + geom_point(data = portland.combined.c
 portland.map.cat25 <- ggmap(portmap) + geom_point(data = portland.combined.cat, aes(x = lon, y = lat,fill=Category25), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929"))+labs(title="Portland",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
 ```
 
+
+```{r portland-map-concern, fig.height=7, fig.width=7}
+portland.map.cat1
+```
+
 ```{r}
 portland.map.cat1 <- portland.map.cat1  +labs(title="0.1 Probability") + theme(legend.position = "none")
-portland.map.cat1Plus2 <- portland.map.cat1Plus2  +labs(title="0.1 Probability at 2 degrees higher") + theme(legend.position = "none",axis.title.y = element_blank())
+portland.map.cat1Plus2 <- portland.map.cat1Plus2  +labs(title="0.1 Probability at 2 degrees higher") + theme(axis.title.y = element_blank())
+portland.map.cat1Plus2.1 <- portland.map.cat1Plus2  +labs(title="0.1 Probability at 2 degrees higher") + theme(legend.position = "none",axis.title.y = element_blank())
 portland.map.cat25 <-  portland.map.cat25  +labs(title="0.25 Probability") + theme(axis.title.y = element_blank())
 ```
 
+```{r 2-portland-maps-concern, fig.height=5, fig.width=8}
+portland.map.cat1 + portland.map.cat1Plus2
+```
 
-```{r portland-map-concern, fig.height=5, fig.width=10}
-portland.map.cat1 + portland.map.cat1Plus2 + portland.map.cat25
+
+```{r 3-portland-maps-concern, fig.height=5, fig.width=10}
+portland.map.cat1 + portland.map.cat1Plus2.1 + portland.map.cat25
 ```
 
 # Seattle
+
+```{r}
+p <- ggplot(seattle.combined.cat, aes(x=DN_AF1))+geom_histogram() +theme_bw() +labs(y="Number of Trees",x="Afternoon Temperature (F)")
+p2 <- p + annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+              xmin = -Inf, xmax = 84.32, fill = alpha('#DDA0DD',0.5)) +
+    annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+              xmin = 84.32, xmax = 88.5, fill = alpha('#7fcdbb',0.5)) + 
+    annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+          xmin = 88.5, xmax = Inf, fill = alpha('#fe9929',0.5))
+p3 <- p2 + annotate("text", x=82.3, y=30, label= "Lowest\nConcern") + annotate("text", x=86.8, y=30, label= "Moderate\nConcern") + annotate("text", x=90.1, y=30, label= "Most\nConcern")
+p3
+```
+
+
 
 ```{r}
 summary1 <- seattle.combined.cat %>% group_by(city.space,Category1) %>% summarize(n=n(),meanAF=mean(DN_AF1,na.rm=TRUE),n_AF_na=sum(is.na(DN_AF1)))
@@ -319,16 +365,29 @@ seattle.map.cat25 <- ggmap(seamap) + geom_point(data = seattle.combined.cat, aes
 ```
 
 
+
+
+
+```{r seattle-map-concern, fig.height=7, fig.width=7}
+seattle.map.cat1
+```
+
+
 ```{r}
 seattle.map.cat1 <- seattle.map.cat1  +labs(title="0.1 Probability") + theme(legend.position = "none")
-seattle.map.cat1Plus2 <- seattle.map.cat1Plus2  +labs(title="0.1 Probability at 2 degrees higher") + theme(legend.position = "none",axis.title.y = element_blank())
+seattle.map.cat1Plus2 <- seattle.map.cat1Plus2  +labs(title="0.1 Probability at 2 degrees higher") + theme(axis.title.y = element_blank())
+seattle.map.cat1Plus2.1 <- seattle.map.cat1Plus2  +labs(title="0.1 Probability at 2 degrees higher") + theme(legend.position = "none",axis.title.y = element_blank())
 seattle.map.cat25 <-  seattle.map.cat25  +labs(title="0.25 Probability") + theme(axis.title.y = element_blank())
 ```
 
 
+```{r 2-seattle-maps-concern, fig.height=5, fig.width=8}
+seattle.map.cat1 + seattle.map.cat1Plus2
+```
 
-```{r seattle-map-concern, fig.height=5, fig.width=10}
-seattle.map.cat1 + seattle.map.cat1Plus2 + seattle.map.cat25
+
+```{r 3-seattle-maps-concern, fig.height=5, fig.width=10}
+seattle.map.cat1 + seattle.map.cat1Plus2.1 + seattle.map.cat25
 ```
 
 
