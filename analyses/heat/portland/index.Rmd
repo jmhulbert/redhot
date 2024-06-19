@@ -295,10 +295,6 @@ new.data.2.inf$predicted_response <- predict(top.dieback.binomial.af, newdata = 
 
 
 ```{r}
-head(new.data.2)
-```
-
-```{r}
 p <- ggplot(new.data.2.inf, aes(x = DN_AF1, y = predicted_response)) + geom_line() + labs(x = "Afternoon temperature (F)", y = "Dieback Probability") + scale_x_continuous(limits = c(80, 115)) +theme_minimal()
 
 p

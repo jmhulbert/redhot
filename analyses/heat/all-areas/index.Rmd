@@ -163,6 +163,15 @@ levels(data$binary.tree.canopy.symptoms)
 
 The probability of a tree being classified as unhealthy increases with urban temperature. 
 
+
+```{r}
+#predict(binomial.af,data[data$DN_AF1=0,])
+#predict(binomial.af,DN_AF1=0)
+```
+
+
+
+
 ### Visualize effects of predictors
 
 First, generate predictions from model
@@ -180,11 +189,37 @@ new.data$predicted_response <- predict(binomial.af, newdata = new.data, type = "
 ```
 
 ```{r}
-ggplot(new.data, aes(x = dist.from.mean.af, y = predicted_response)) +
+p1 <- ggplot(new.data, aes(x = dist.from.mean.af, y = predicted_response)) +
   geom_line() +
   labs(x = "Distance from Mean Temperature", y = "Predicted Response") +
   theme_minimal()
+p1
 ```
+
+```{r}
+# Create a data frame for predictions
+new.data.2.inf <- expand.grid(
+  dist.from.mean.af = seq(min(data$dist.from.mean.af), max(150), length.out = 1000), Area = 0)  # keeping predictor2 constant at its mean
+```
+
+```{r}
+new.data.2.inf$predicted_response <- predict(binomial.af, newdata = new.data.2.inf, type = "response")
+```
+
+
+```{r}
+p2 <- ggplot(new.data.2.inf, aes(x = dist.from.mean.af, y = predicted_response)) + geom_line() + labs(x = "Distance from mean (F)", y = "Dieback Probability") + scale_x_continuous(limits = c(80, 115)) +theme_minimal()
+
+p2
+```
+
+
+```{r}
+p1 + p2
+```
+
+
+
 
 The probability of tree being classified as unhealthy increases with distance from mean af
 

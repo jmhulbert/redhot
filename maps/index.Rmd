@@ -37,13 +37,15 @@ Note you can add 'keep_md:yes' to the YAML to save all r outputs as images.
 The purpose of this page is to generate maps of data used in analyses. 
 
 
-# Read Data
+# Wrangle
+
+Read Data
 
 ```{r}
 data <- read.csv('https://raw.githubusercontent.com/jmhulbert/redhot/main/data/urban-data-modified.csv')
 ```
 
-# Filter into Areas
+Filter into Areas
 
 ```{r}
 portland <- data %>% filter(Area=="Portland")
@@ -51,6 +53,8 @@ king <- data %>% filter(Area=="King County")
 tacoma <-data %>% filter(Area=="Tacoma")
 ```
 
+
+# All WRDM Trees
 
 ## Portland
 
@@ -251,7 +255,7 @@ king.thinning.map <- king.thinning.map + theme(plot.title = element_blank(),axis
 ```
 
 ```{r}
-all.trees <- (portland.map + tacoma.map + king.map) + plot_annotation(title = 'All Trees') & theme(plot.title = element_text(hjust = 0.5))
+all.trees <- (portland.map + tacoma.map + king.map) + plot_annotation(title = 'All WRDM Trees') & theme(plot.title = element_text(hjust = 0.5))
 dead.tops <- (portland.dead.top.map + tacoma.dead.top.map + king.dead.top.map) + plot_annotation(title = 'Trees with Dead Tops') & theme(plot.title = element_text(hjust = 0.5))
 thin.trees <- (portland.thinning.map + tacoma.thinning.map + king.thinning.map) + plot_annotation(title = 'Trees with Thinning Canopies') & theme(plot.title = element_text(hjust = 0.5))
 ```

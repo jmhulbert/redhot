@@ -182,16 +182,16 @@ summary
 
 # Portland
 
-```{r}
-p <- ggplot(portland.combined.cat, aes(x=DN_AF1))+geom_histogram() +theme_bw() +labs(y="Number of Trees",x="Afternoon Temperature (F)")
-p2 <- p + annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+```{r portland-concern-histogram, fig.height=5, fig.width=5}
+pp <- ggplot(portland.combined.cat, aes(x=DN_AF1))+geom_histogram() +theme_bw() +labs(y="Number of Trees",x="Afternoon Temperature (F)")
+pp2 <- pp + annotate(geom="rect",ymin = -Inf, ymax = Inf, 
               xmin = -Inf, xmax = 84.32, fill = alpha('#DDA0DD',0.5)) +
     annotate(geom="rect",ymin = -Inf, ymax = Inf, 
               xmin = 84.32, xmax = 88.5, fill = alpha('#7fcdbb',0.5)) + 
     annotate(geom="rect",ymin = -Inf, ymax = Inf, 
           xmin = 88.5, xmax = Inf, fill = alpha('#fe9929',0.5))
-p3 <- p2 + annotate("text", x=82.3, y=30, label= "Lowest\nConcern") + annotate("text", x=86.8, y=30, label= "Moderate\nConcern") + annotate("text", x=90.1, y=30, label= "Most\nConcern")
-p3
+pp3 <- pp2 + annotate("text", x=82.3, y=280, label= "Lowest\nConcern") + annotate("text", x=86.3, y=280, label= "Moderate\nConcern") + annotate("text", x=90.1, y=280, label= "Most\nConcern")
+pp3
 ```
 
 
@@ -214,15 +214,20 @@ summary25
 
 
 ```{r}
-ggplot(summary1,aes(n,city.space,fill=Category1))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category 1",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
+pp10 <- ggplot(summary1,aes(n,city.space,fill=Category1))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category 1",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(title="0.1",x="Number of Trees",y="Tree Inventory")+guides(fill=FALSE)
 ```
 
 ```{r}
-ggplot(summary1Plus2,aes(n,city.space,fill=Category1Plus2))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category 1 plus 2",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
+pp11 <- ggplot(summary1Plus2,aes(n,city.space,fill=Category1Plus2))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category 1 plus 2",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(title="0.1 plus 2",x="Number of Trees",y="Tree Inventory") +guides(fill=FALSE)
 ```
 
 ```{r}
-ggplot(summary25,aes(n,city.space,fill=Category25))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category 25",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(x="Number of Trees",y="Tree Inventory")
+pp12 <- ggplot(summary25,aes(n,city.space,fill=Category25))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category 25",values=c("#7fcdbb","#fe9929","#DDA0DD")) +labs(title="0.25",x="Number of Trees",y="Tree Inventory")
+```
+
+
+```{r portland-tree-count-concern, fig.height=5, fig.width=10}
+pp10 | pp11 | pp12
 ```
 
 
@@ -284,16 +289,16 @@ portland.map.cat1 + portland.map.cat1Plus2.1 + portland.map.cat25
 
 # Seattle
 
-```{r}
-p <- ggplot(seattle.combined.cat, aes(x=DN_AF1))+geom_histogram() +theme_bw() +labs(y="Number of Trees",x="Afternoon Temperature (F)")
-p2 <- p + annotate(geom="rect",ymin = -Inf, ymax = Inf, 
+```{r seattle-concern-historgram, fig.height=5, fig.width=5}
+sp <- ggplot(seattle.combined.cat, aes(x=DN_AF1))+geom_histogram() +theme_bw() +labs(y="Number of Trees",x="Afternoon Temperature (F)")
+sp2 <- sp + annotate(geom="rect",ymin = -Inf, ymax = Inf, 
               xmin = -Inf, xmax = 84.32, fill = alpha('#DDA0DD',0.5)) +
     annotate(geom="rect",ymin = -Inf, ymax = Inf, 
               xmin = 84.32, xmax = 88.5, fill = alpha('#7fcdbb',0.5)) + 
     annotate(geom="rect",ymin = -Inf, ymax = Inf, 
           xmin = 88.5, xmax = Inf, fill = alpha('#fe9929',0.5))
-p3 <- p2 + annotate("text", x=82.3, y=30, label= "Lowest\nConcern") + annotate("text", x=86.8, y=30, label= "Moderate\nConcern") + annotate("text", x=90.1, y=30, label= "Most\nConcern")
-p3
+sp3 <- sp2 + annotate("text", x=82.9, y=280, label= "Lowest\nConcern") + annotate("text", x=86.3, y=280, label= "Moderate\nConcern") + annotate("text", x=90.1, y=280, label= "Most\nConcern")
+sp3
 ```
 
 
@@ -316,16 +321,23 @@ summary25
 
 
 ```{r}
-ggplot(summary1,aes(n,city.space,fill=Category1))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929")) +labs(x="Number of Trees",y="Tree Inventory")
+sp10 <- ggplot(summary1,aes(n,city.space,fill=Category1))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929")) +labs(title="0.10",x="Number of Trees",y="Tree Inventory") +guides(fill=FALSE)
 ```
 
 ```{r}
-ggplot(summary1Plus2,aes(n,city.space,fill=Category1Plus2))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929")) +labs(x="Number of Trees",y="Tree Inventory")
+sp11 <- ggplot(summary1Plus2,aes(n,city.space,fill=Category1Plus2))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929")) +labs(title="0.1 Plus 2",x="Number of Trees",y="Tree Inventory") +guides(fill=FALSE)
 ```
 
+
+
 ```{r}
-ggplot(summary25,aes(n,city.space,fill=Category25))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929")) +labs(x="Number of Trees",y="Tree Inventory")
+sp12 <- ggplot(summary25,aes(n,city.space,fill=Category25))+geom_col(position=position_dodge(),alpha=0.7) +theme_bw() + scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929")) +labs(title="0.25",x="Number of Trees",y="Tree Inventory") 
 ```
+
+```{r seattle-tree-count-concerns, fig.height=5, fig.width=10}
+sp10 | sp11 | sp12
+```
+
 
 ## Seattle Map
 
@@ -392,8 +404,58 @@ seattle.map.cat1 + seattle.map.cat1Plus2.1 + seattle.map.cat25
 
 
 ```{r}
+seattle.map.cat1  <- seattle.map.cat1 + theme(plot.title = element_blank())
+```
+
+
+```{r seattle-inventory-concern, fig.height=5, fig.width=10}
+seattle.map.cat1 | sp3
+```
+
+
+```{r}
+portland.map.cat1  <- portland.map.cat1 + theme(plot.title = element_blank(),legend.position = "none")
+```
+
+
+```{r portland-inventory-concern, fig.height=5, fig.width=10}
+portland.map.cat1 | pp3
+```
+
+
+
+# Combined Areas
+
+
+
+```{r}
 portland.map.cat1 <- ggmap(portmap) + geom_point(data = portland.combined.cat, aes(x = lon, y = lat,fill=Category1), color = "black",pch=21, size = 3) + theme_minimal() +scale_fill_manual(name="Category",values=c("#DDA0DD","#7fcdbb","#fe9929"))+labs(title="Portland",x="Longitude",y="Latitude",fill="Conservation\nCategory") +theme(plot.title = element_text(size = 14, hjust = .5,face = "bold.italic"))
 ```
+
+
+```{r}
+seattle.map <- seattle.map + theme(legend.position = "none")
+portland.map <- portland.map +theme(axis.title.y = element_blank())
+```
+
+
+
+```{r combined-maps-seattle, fig.height=5, fig.width=10}
+(seattle.map | portland.map)
+```
+
+
+```{r}
+portland.map.cat1 <- portland.map.cat1 +theme(axis.title.y = element_blank())
+```
+
+
+
+```{r combined-maps-portland, fig.height=5, fig.width=10}
+(seattle.map.cat1 | portland.map.cat1)
+```
+
+
 
 
 ```{r}

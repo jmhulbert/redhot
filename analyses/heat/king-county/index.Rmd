@@ -296,6 +296,7 @@ p3
 
 
 
+
 ### Response 3.0: healthy / thinning
 
 ```{r}
