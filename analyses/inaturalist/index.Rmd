@@ -68,6 +68,11 @@ data.w.dead <- data
 data <- data %>% filter(field.tree.canopy.symptoms!="Tree is dead") %>% filter(field.dieback.percent<100) %>% droplevels()
 ```
 
+```{r}
+data$field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.[data$field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.==""] <- "Not sure"
+data$field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.[data$field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.=="Unsure"] <- "Not sure"
+```
+
 
 ```{r}
 hoyt.data <- data.w.dead %>% filter(str_detect(place_guess, "Hoyt") |str_detect(place_guess, "hoyt"))
@@ -93,6 +98,10 @@ data <- data %>% filter(!str_detect(place_guess, "Hoyt") & !str_detect(place_gue
 ```{r}
 data %>% group_by(Area) %>% summarize(n.obs=n())
 ```
+
+
+
+
 
 
 ## Community Scientists
@@ -134,3 +143,36 @@ ggplot(area.obs.health,aes(reclassified.tree.canopy.symptoms,n.obs,fill=reclassi
 ```
 
 
+## Other Factors
+
+
+### Signs (y/n)
+
+
+```{r}
+data %>% group_by(field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.) %>% summarize(n.obs=n())
+```
+
+
+
+
+```{r}
+obs.signs <- data %>% group_by(field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.) %>% summarize(n.obs=n())
+obs.signs
+```
+
+
+```{r fig.height=5, fig.width=10}
+ggplot(obs.signs,aes(field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.,n.obs,fill=field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.))+geom_col()+coord_flip()+guides(fill="none")+theme_bw()+labs(x="Signs or Symptoms Observed",y="Number of Observations")+geom_text(aes(label=n.obs),nudge_y=15)
+```
+
+### Factors
+
+```{r}
+obs.factors <- data %>% filter(field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.!="No") %>% group_by(field.optional...what..other.factors..were.observed.) %>% summarize(n.obs=n())
+obs.factors
+```
+
+```{r fig.height=5, fig.width=10}
+ggplot(obs.factors,aes(field.optional...what..other.factors..were.observed.,n.obs,fill=field.optional...what..other.factors..were.observed.))+geom_col()+coord_flip()+guides(fill="none")+theme_bw()+labs(x="Other Factor",y="Number of Observations")+geom_text(aes(label=n.obs),nudge_y=15)
+```

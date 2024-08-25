@@ -191,15 +191,15 @@ new.data$predicted_response <- predict(binomial.af, newdata = new.data, type = "
 ```{r}
 p1 <- ggplot(new.data, aes(x = dist.from.mean.af, y = predicted_response)) +
   geom_line() +
-  labs(x = "Distance from Mean Temperature", y = "Predicted Response") +
-  theme_minimal()
+  labs(x = "Distance from mean (F)", y = "Predicted Response") +
+  theme_minimal() 
 p1
 ```
 
 ```{r}
 # Create a data frame for predictions
 new.data.2.inf <- expand.grid(
-  dist.from.mean.af = seq(min(data$dist.from.mean.af), max(150), length.out = 1000), Area = 0)  # keeping predictor2 constant at its mean
+  dist.from.mean.af = seq(min(data$dist.from.mean.af), max(100), length.out = 1000), Area = 0)  # keeping predictor2 constant at its mean
 ```
 
 ```{r}
@@ -208,7 +208,7 @@ new.data.2.inf$predicted_response <- predict(binomial.af, newdata = new.data.2.i
 
 
 ```{r}
-p2 <- ggplot(new.data.2.inf, aes(x = dist.from.mean.af, y = predicted_response)) + geom_line() + labs(x = "Distance from mean (F)", y = "Dieback Probability") + scale_x_continuous(limits = c(80, 115)) +theme_minimal()
+p2 <- ggplot(new.data.2.inf, aes(x = dist.from.mean.af, y = predicted_response)) + geom_line() + labs(x = "Distance from mean (F)", y = "Predicted Response") + scale_x_continuous(limits = c(-5, 40)) +theme_minimal()
 
 p2
 ```
@@ -216,6 +216,31 @@ p2
 
 ```{r}
 p1 + p2
+```
+
+Probability when standardized temperature value is -2
+
+```{r}
+new_data <- data.frame(dist.from.mean.af = -2,Area=0)
+predicted_response <- predict(binomial.af, newdata = new_data, type = "response")
+print(predicted_response)
+```
+
+
+Probability when standardized temperature value is 0
+
+```{r}
+new_data <- data.frame(dist.from.mean.af = 0,Area=0)
+predicted_response <- predict(binomial.af, newdata = new_data, type = "response")
+print(predicted_response)
+```
+
+Probability when standardized temperature value is 2
+
+```{r}
+new_data <- data.frame(dist.from.mean.af = 2,Area=0)
+predicted_response <- predict(binomial.af, newdata = new_data, type = "response")
+print(predicted_response)
 ```
 
 
@@ -284,6 +309,25 @@ ggplot(new.data.2, aes(x = dist.from.mean.af, y = predicted_response)) +
   labs(x = "Distance from Mean Temperature", y = "Predicted Response") +
   theme_minimal()
 ```
+
+Probability when standardized temperature value is 0
+
+```{r}
+new_data <- data.frame(dist.from.mean.af = 0,Area=0)
+predicted_response <- predict(top.dieback.binomial.af, newdata = new_data, type = "response")
+print(predicted_response)
+```
+
+Probability when standardized temperature value is 2
+
+```{r}
+new_data <- data.frame(dist.from.mean.af = 2,Area=0)
+predicted_response <- predict(top.dieback.binomial.af, newdata = new_data, type = "response")
+print(predicted_response)
+```
+
+
+
 
 
 ## Response 3.0: healthy / thinning

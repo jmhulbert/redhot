@@ -463,6 +463,12 @@ data$field.optional...tree.size <-as.factor(data$field.optional...tree.size)
 
 
 ```{r}
+data$field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.[data$field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.==""] <- "Not sure"
+data$field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.[data$field.other.factors...are.there.signs.or.symptoms.of.insect..diseases..or.other.damage.=="Unsure"] <- "Not sure"
+```
+
+
+```{r}
 data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.[data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.=="4"] <- "4-6"
 data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.[data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.=="5"] <- "4-6"
 data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.[data$field.number.of.additional.unhealthy.trees..of.same.species..in.area..within.sight.=="2"] <- "2-3"
