@@ -464,9 +464,27 @@ ggplot(data.size.filter,aes(thinning)) +facet_wrap(~tree.size.simplified) +geom_
 binomial.af.size <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af +  tree.size.simplified +(1|Area),data=data.size.filter,family=binomial)
 ```
 
+##### Overall Effect
+
+```{r}
+# Fit the reduced model (without site location description)
+reduced_model.binomial.size <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + (1 | Area), 
+                       data = data.size.filter, 
+                       family = binomial)
+
+# Perform a likelihood ratio test
+anova(reduced_model.binomial.size, binomial.af.size, test = "Chisq")
+```
+
+##### Model Summary
+
+
+
+
 ```{r}
 summary(binomial.af.size)
 ```
+
 
 #### Response 2.1 healthy / top-dieback 
 
@@ -478,9 +496,30 @@ data.top.size <- data.size.filter %>% filter(reclassified.tree.canopy.symptoms==
 top.dieback.binomial.af.size <- glmmTMB(top.dieback ~ dist.from.mean.af + tree.size.simplified + (1|Area),data=data.top.size,family=binomial)
 ```
 
+##### Overall Effect
+
+```{r}
+# Fit the reduced model (without site location description)
+reduced_model.top.size <- glmmTMB(top.dieback ~ dist.from.mean.af + (1 | Area), 
+                       data = data.top.size, 
+                       family = binomial)
+
+# Perform a likelihood ratio test
+anova(reduced_model.top.size, top.dieback.binomial.af.size, test = "Chisq")
+```
+
+The significant p-value (0.007025) from the Chi-Square test indicates that adding tree.size.simplified to the model significantly improves the fit. The reduction in AIC (from 433.74 to 427.83) also supports the inclusion of tree size as a meaningful predictor for top dieback. Despite a slight increase in BIC, the overall improvement in model fit justifies including tree.size.simplified in the model.
+
+##### Model Summary
+
 ```{r}
 summary(top.dieback.binomial.af.size)
 ```
+
+The estimate for medium-sized trees is 0.85568, which means that, holding other variables constant, medium-sized trees have a higher log-odds of top dieback compared to large trees (the reference category).
+
+The p-value (0.00159) indicates that this effect is statistically significant at the 1% level. This suggests that medium-sized trees are more likely to experience top dieback than large trees.
+
 
 #### Response 3.1 healthy / thinning
 
@@ -491,6 +530,20 @@ data.thin.size <- data.size.filter %>% filter(reclassified.tree.canopy.symptoms=
 ```{r}
 thinning.binomial.af.size <- glmmTMB(thinning ~ dist.from.mean.af + tree.size.simplified + (1|Area),data=data.thin.size,family=binomial)
 ```
+
+##### Overall Effect
+
+```{r}
+# Fit the reduced model (without site location description)
+reduced_model.thin.size <- glmmTMB(thinning ~ dist.from.mean.af + (1 | Area), 
+                       data = data.thin.size, 
+                       family = binomial)
+
+# Perform a likelihood ratio test
+anova(reduced_model.thin.size, thinning.binomial.af.size, test = "Chisq")
+```
+
+##### Model Summary
 
 ```{r}
 summary(thinning.binomial.af.size)
@@ -536,8 +589,33 @@ ggplot(data.site.filter,aes(thinning)) +facet_wrap(~field.optional...site.locati
 #### Response 1.2 healthy / unhealthy
 
 ```{r}
+data.site.filter$field.optional...site.location.description <- as.factor(data.site.filter$field.optional...site.location.description)
+
+data.site.filter$field.optional...site.location.description <- relevel(data.site.filter$field.optional...site.location.description, ref = "Inside a forest canopy")
+```
+
+
+```{r}
 binomial.af.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + field.optional...site.location.description  + (1|Area),data=data.site.filter,family=binomial)
 ```
+
+##### Overall Effect
+
+```{r}
+# Fit the reduced model (without site location description)
+reduced_model.binomial.site <- glmmTMB(binary.tree.canopy.symptoms ~ dist.from.mean.af + (1 | Area), 
+                       data = data.site.filter, 
+                       family = binomial)
+
+# Perform a likelihood ratio test
+anova(reduced_model.binomial.site, binomial.af.site, test = "Chisq")
+```
+
+The inclusion of the site variable improves the model fit, implying that the site location descriptions have a meaningful and statistically significant impact on the binary outcome binary.tree.canopy.symptoms.
+
+
+##### Model Summary
+
 
 ```{r}
 summary(binomial.af.site)
@@ -545,13 +623,38 @@ summary(binomial.af.site)
 
 #### Response 2.2 healthy / top-dieback 
 
+
 ```{r}
 data.top.site <- data.site.filter %>% filter(reclassified.tree.canopy.symptoms=="Healthy"|reclassified.tree.canopy.symptoms=="Dead Top") %>% droplevels()
 ```
 
 ```{r}
+data.top.site$field.optional...site.location.description <- as.factor(data.top.site$field.optional...site.location.description)
+
+data.top.site$field.optional...site.location.description <- relevel(data.top.site$field.optional...site.location.description, ref = "Inside a forest canopy")
+```
+
+
+```{r}
 top.dieback.binomial.af.site <- glmmTMB(top.dieback ~ dist.from.mean.af + field.optional...site.location.description + (1|Area),data=data.top.site,family=binomial)
 ```
+
+##### Overall Effect
+
+```{r}
+# Fit the reduced model (without site location description)
+reduced_model.top.site <- glmmTMB(top.dieback ~ dist.from.mean.af + (1 | Area), 
+                       data = data.top.site, 
+                       family = binomial)
+
+# Perform a likelihood ratio test
+anova(reduced_model.top.site, top.dieback.binomial.af.site, test = "Chisq")
+```
+
+The inclusion of the site variable in the model provides a better fit, but the improvement is only marginally significant. This suggests that while site location descriptions may have an effect on top.dieback, the evidence is not strong enough to definitively conclude a significant overall effect at the 0.05 level. Further investigation or additional data might help clarify the importance of this predictor.
+
+
+##### Model Summary
 
 ```{r}
 summary(top.dieback.binomial.af.site)
@@ -564,13 +667,41 @@ data.thin.site <- data.site.filter %>% filter(reclassified.tree.canopy.symptoms=
 ```
 
 ```{r}
+data.thin.site$field.optional...site.location.description <- as.factor(data.thin.site$field.optional...site.location.description)
+
+data.thin.site$field.optional...site.location.description <- relevel(data.thin.site$field.optional...site.location.description, ref = "Inside a forest canopy")
+```
+
+```{r}
 thinning.binomial.af.site <- glmmTMB(thinning ~ dist.from.mean.af + field.optional...site.location.description + (1|Area),data=data.thin.site,family=binomial)
 ```
+
+##### Overall Effect
+
+```{r}
+# Fit the reduced model (without site location description)
+reduced_model.thin.site <- glmmTMB(thinning ~ dist.from.mean.af + (1 | Area), 
+                       data = data.thin.site, 
+                       family = binomial)
+
+# Perform a likelihood ratio test
+anova(reduced_model.thin.site, thinning.binomial.af.site, test = "Chisq")
+```
+
+The p-value of 0.01245 indicates that the inclusion of the field.optional...site.location.description variable significantly improves the model’s ability to predict thinning compared to the reduced model that only includes dist.from.mean.af.
+
+adding the site variable to the model significantly enhances its ability to predict thinning in trees. The statistically significant improvement in model fit suggests that the site location descriptions contribute valuable information about the likelihood of thinning. Therefore, both the distance from mean temp and the specific site location should be considered important factors in understanding and predicting tree thinning.
+
+
+##### Model Summary
 
 ```{r}
 summary(thinning.binomial.af.site)
 ```
 
+The Roadside location is significantly associated with a higher likelihood of thinning compared to the trees inside a forest canopy. In contrast, Forest edge and Urban yard or open park grounds do not show significant effects on thinning compared to trees inside a forest canopy.
+
+The model suggests that the distance from mean temp is a key factor influencing tree thinning, with greater distances associated with higher thinning probabilities. Additionally, trees located near roadsides are more susceptible to thinning, indicating that site location plays a role, though not all site locations are equally influential. The variability across areas, as indicated by the random effect for Area, suggests that other unmeasured factors may also be at play in different regions.
 
 # Overall Summary
 
@@ -585,8 +716,21 @@ All Areas | no/thinning | Dist from Mean AF | 855 | 0.12305 |   0.04641 |   2.65
 
 ## Co Factors 
 
-
 ### Size
+
+#### Overall Effects
+
+Response     |  Model     |     DF     |    AIC     |     BIC    |    ChiSq   |    DF      | Pr(>Chisq) | Signif.
+|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+healthy/unhealthy | reduced_model.binomial.size | 3 | 1125.3 | 1139.6 | | |
+healthy/unhealthy | binomial.af.size            | 5 | 1120.4 | 1144.3 | 8.8781 | 2 | 0.01181 | *
+no/dead-top | reduced_model.top.size            | 3 | 433.74 | 447.12 | | |                
+no/dead-top | top.dieback.binomial.af.size      | 5 | 427.83 | 450.13 | 9.9166 | 2 | 0.007025 | **
+no/thinning | reduced_model.thin.size           | 3 | 667.69 | 681.34 | | |              
+no/thinning | thinning.binomial.af.size         | 5 | 663.68 | 686.43 | 8.0083 | 2 | 0.01824 | *
+|            |            |            |            |            |            |            |            |            |
+
+#### Model Summaries
 
 | Area       | Response   | Explanatory| df.resid  | Estimate   | Std.Error  | z-val       | Pr(>z)     | Signif.    |
 |:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
@@ -605,20 +749,34 @@ All Areas | no/thinning | Tree.Size.Small | 694 | -1.28676 |   0.61263 | -2.100 
 ### Location
 
 
+#### Overall Effects
+
+Response     |  Model     |     DF     |    AIC     |     BIC    |    ChiSq   |    DF      | Pr(>Chisq) | Signif. 
+|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+healthy/unhealthy | reduced_model.binomial.site | 3 | 1149.8  | 1164.2 | | |
+healthy/unhealthy | binomial.af.site            | 6 | 1147.8  | 1176.7 | 7.9173 | 3 | 0.04775 | *
+no/dead-top | reduced_model.top.site            | 3 | 476.09  | 489.63 | | |                
+no/dead-top | top.dieback.binomial.af.site      | 6 | 474.38  | 501.45 | 7.7184 | 3 | 0.0522 | .
+no/thinning | reduced_model.thin.site           | 3 | 664.05 | 677.78 | | |              
+no/thinning | thinning.binomial.af.site         | 6 | 659.18 | 686.64 | 10.87 |  3  | 0.01245 | *
+|            |            |            |            |            |            |            |            |            |
+
+#### Model Summaries
+
 | Area       | Response   | Explanatory| df.resid  | Estimate   | Std.Error  | z-val       | Pr(>z)     | Signif.    |
 |:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
-All Areas | healthy/unhealthy | Dist from Mean AF | 905 |  0.14851 | 0.03594 |4.132 |3.6e-05 | *** |
-All Areas | healthy/unhealthy | Inside a forest canopy  | 905 | -0.04090| 0.36106|   -0.113|  0.910 ||
-All Areas | healthy/unhealthy | Roadside   | 905 | 0.09457 | 0.33588 |0.282 |0.778 ||
-All Areas | healthy/unhealthy | Urban yard or open park grounds | 905 | -0.40163| 0.32497| -1.236 | 0.216 ||
-All Areas | no/dead-top | Dist from Mean AF |667| 0.21257 |0.07773 | 2.735| 0.00624 | ** |
-All Areas | no/dead-top | Inside a forest canopy  |667| -0.45747 | 0.48784| -0.938 | 0.34837 | | 
-All Areas | no/dead-top | Roadside|667| -1.10304 | 0.48802 | -2.260 | 0.02381 | * |
-All Areas | no/dead-top | Urban yard or open park grounds |667| -1.08256  | 0.44487 | -2.433 | 0.01496 | * |
-All Areas | no/thinning | Dist from Mean AF | 712 | 0.12110 | 0.05168 | 2.343 | 0.019122 | * |
-All Areas | no/thinning | Inside a forest canopy | 712 | 0.47285 | 0.69207| 0.683 | 0.494456 ||
-All Areas | no/thinning | Roadside | 712 | 1.24642 | 0.63806| 1.953 |0.050764 |. | 
-All Areas | no/thinning | Urban yard or open park grounds | 712 | 0.55728 |0.63278| 0.881 | 0.378491 ||
+All Areas | healthy/unhealthy | Dist from Mean AF               | 905 | 0.14851 | 0.03594| 4.132  | 3.6e-05 | *** |
+All Areas | healthy/unhealthy | Forest edge                     | 905 |  0.04091| 0.36106| 0.113 |  0.9098 ||
+All Areas | healthy/unhealthy | Roadside                        | 905 | 0.13546 | 0.25177| 0.538 | 0.5905 ||
+All Areas | healthy/unhealthy | Urban yard or open park grounds | 905 | -0.36074| 0.23962| -1.505 | 0.1322 ||
+All Areas | no/dead-top       | Dist from Mean AF               | 667 | 0.21257 | 0.07773| 2.735  | 0.00624 | ** |
+All Areas | no/dead-top       | Forest edge                     | 667 | 0.45747| 0.48784| 0.938 | 0.34837 | | 
+All Areas | no/dead-top       | Roadside                        | 667 | -0.64557| 0.41695| -1.548 |  0.12155 | |
+All Areas | no/dead-top       | Urban yard or open park grounds | 667 | -0.62509| 0.36636| -1.706 | 0.08797 | |
+All Areas | no/thinning       | Dist from Mean AF               | 712 | 0.12110 | 0.05168| 2.343  | 0.019122 | * |
+All Areas | no/thinning       | Forest edge                     | 712 | -0.47285 | 0.69207| -0.683  | 0.4945 ||
+All Areas | no/thinning       | Roadside                        | 712 | 0.77358 | 0.38174| 2.026  | 0.0427 |* | 
+All Areas | no/thinning       | Urban yard or open park grounds | 712 | 0.08443 | 0.37521| 0.225  | 0.8220 ||
 |            |            |            |            |            |            |            |            |            |
 
 

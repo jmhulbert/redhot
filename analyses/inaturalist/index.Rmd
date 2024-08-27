@@ -142,7 +142,6 @@ area.obs.health
 ggplot(area.obs.health,aes(reclassified.tree.canopy.symptoms,n.obs,fill=reclassified.tree.canopy.symptoms))+facet_wrap(~Area)+geom_col()+coord_flip()+guides(fill="none")+theme_bw()+labs(x="Tree Canopy Symptoms",y="Number of Observations")+geom_text(aes(label=n.obs),nudge_y=20)
 ```
 
-
 ## Other Factors
 
 
